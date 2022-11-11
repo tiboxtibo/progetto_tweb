@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/EsServlet.iml" filepath="$PROJECT_DIR$/EsServlet.iml" />
+      <module fileurl="file://$PROJECT_DIR$/progetto_tweb.iml" filepath="$PROJECT_DIR$/progetto_tweb.iml" />
     </modules>
   </component>
 </project>

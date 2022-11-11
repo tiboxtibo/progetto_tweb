@@ -33,57 +33,7 @@ public class LoginServlet extends HttpServlet {
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        /*
-        String valore_parametro=request.getParameter("button");
-        System.out.println(valore_parametro);
 
-        if(Objects.equals(valore_parametro, "login")){
-            System.out.println(valore_parametro);
-
-            String username_utente = request.getParameter("username_utente");
-            String password = request.getParameter("password");
-
-            HttpSession s = request.getSession();
-
-            if(username_utente!=null && password!=null){
-                int ruolo = dao.login(username_utente,password);
-
-                if(ruolo==0 ){//utente
-                    s.setAttribute("username_utente",username_utente);
-                    s.setAttribute("ruolo",ruolo);
-                    message = "Login effettuato correttamente come utente";
-                }
-                else if(ruolo==1){//amministratore
-                    s.setAttribute("username_utente",username_utente);
-                    s.setAttribute("ruolo",ruolo);
-                    message = "Login effettuato correttamente come amministratore";
-                }
-                else{
-                    message = "Login NON effettuato correttamente";
-                }
-            }
-
-            response.setContentType("text/html");
-
-            // Hello
-            PrintWriter out = response.getWriter();
-            out.println("<html><body>");
-            out.println("<h1>" + message + "</h1>");
-            out.println("</body></html>");
-
-
-
-            if((int)s.getAttribute("ruolo")==1 || (int)s.getAttribute("ruolo")==0){
-                out.println("<p>"+"Benvenuto:  " + s.getAttribute("username_utente") + "</p>");
-                out.println("<p>"+"Hai effettuato l'accesso come:  " + s.getAttribute("ruolo") + "</p>");
-
-            }
-            out.println("<p> <a href=" + "index.html" + ">torna indietro</a> </p>");
-
-
-        }
-
-         */
         HttpSession s = request.getSession();
 
         response.setContentType("text/html;charset=UTF-8");
@@ -94,29 +44,28 @@ public class LoginServlet extends HttpServlet {
 
             int ruolo = dao.login(username_utente,password_utente);
 
+            response.setContentType("text/plain");
             if(ruolo==0 ){//utente
                 s.setAttribute("username_utente",username_utente);
                 s.setAttribute("ruolo",ruolo);
-                message = "Login effettuato correttamente come utente";
+                out.println("<p>"+"Benvenuto:  " + s.getAttribute("username_utente") + "</p>");
+                out.println("<p>"+"Hai effettuato l'accesso come:  " + s.getAttribute("ruolo") + "</p>");
             }
             else if(ruolo==1){//amministratore
                 s.setAttribute("username_utente",username_utente);
                 s.setAttribute("ruolo",ruolo);
-                message = "Login effettuato correttamente come amministratore";
-            }
-            else{
-                message = "Login NON effettuato correttamente";
-            }
 
-            response.setContentType("text/plain");
-            out.println(message);
-
-            if((int)s.getAttribute("ruolo")==1 || (int)s.getAttribute("ruolo")==0){
                 out.println("<p>"+"Benvenuto:  " + s.getAttribute("username_utente") + "</p>");
                 out.println("<p>"+"Hai effettuato l'accesso come:  " + s.getAttribute("ruolo") + "</p>");
-
             }
+            else{
+                s.setAttribute("username_utente","guest");
+                s.setAttribute("ruolo",2);
 
+                out.println("<p>"+"Credenziali NON valide "+"</p>");
+                out.println("<p>"+"Benvenuto:  " + s.getAttribute("username_utente") + "</p>");
+                out.println("<p>"+"Hai effettuato l'accesso come:  " + s.getAttribute("ruolo") + "</p>");
+            }
 
             out.flush();
         } finally {
