@@ -88,7 +88,7 @@
                 var cognome_docente = document.getElementById("cognome_docente").value;
                 var username_docente = document.getElementById("username_docente").value;
 
-                $.post("hello-servlet", {nome_docente: nome_docente, cognome_docente: cognome_docente,username_docente:username_docente},
+                $.post("helloServlet", {nome_docente: nome_docente, cognome_docente: cognome_docente,username_docente:username_docente},
                     function (data) {                            // callBack function
                         //alert(data);
 

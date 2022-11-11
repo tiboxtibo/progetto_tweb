@@ -13,7 +13,7 @@ import javax.servlet.annotation.*;
 
 
 
-@WebServlet(name = "helloServlet", value = "/hello-servlet")
+@WebServlet(name = "helloServlet", value = "/helloServlet")
 public class HelloServlet extends HttpServlet {
 
     DAO dao = null;
