@@ -1,11 +1,7 @@
-package com.example.esservlet;
+package com.example.progetto_tweb;
 
 import dao.DAO;
-import dao.docenti;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Objects;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;

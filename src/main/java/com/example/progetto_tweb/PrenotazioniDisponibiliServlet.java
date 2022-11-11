@@ -1,7 +1,6 @@
-package com.example.esservlet;
+package com.example.progetto_tweb;
 
 import dao.DAO;
-import dao.docenti;
 import dao.prenotazione;
 
 import java.io.*;
