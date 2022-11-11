@@ -13,7 +13,7 @@ import javax.servlet.annotation.*;
 
 @WebServlet(name = "loginServlet", value = "/loginServlet")
 public class LoginServlet extends HttpServlet {
-    private String message;
+
     DAO dao = null;
 
     public void init(ServletConfig config) throws ServletException {
