@@ -50,12 +50,12 @@ public class HelloServlet extends HttpServlet {
                     if(nome_docente!=null &&cognome_docente!=null && username_docente!=null){
                         dao.add_docenti(nome_docente, cognome_docente,username_docente);
                     }
-                    //message = "Docente correttamente aggiunto";
+
                     out.println("<p>"+"Docente correttamente aggiunto" + "</p>");
 
                 }
                 else{
-                    //message = "Non possiedi i permessi necessari -> Docente NON aggiunto";
+
                     out.println("<p>"+ "Non possiedi i permessi necessari -> Docente NON aggiunto" + "</p>");
                 }
 

@@ -11,10 +11,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 
+import com.google.gson.Gson;
+
+
 
 @WebServlet(name = "PrenotazioniDisponibiliServlet", value = "/prenotazioni-disponibili-servlet")
 public class PrenotazioniDisponibiliServlet extends HttpServlet {
-    private String message;
+
     DAO dao = null;
 
     public void init(ServletConfig config) throws ServletException {
@@ -26,7 +29,7 @@ public class PrenotazioniDisponibiliServlet extends HttpServlet {
 
         dao = (DAO) ctx.getAttribute("dao");
     }
-
+/*
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         ArrayList<prenotazione> prenotazioni = dao.view_prenotazioni_prenotabili();
         response.setContentType("text/html");
@@ -39,6 +42,22 @@ public class PrenotazioniDisponibiliServlet extends HttpServlet {
             out.println("<p>" + pren + "</p>");
         }
         out.println("</body></html>");
+    }
+
+ */
+
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        ArrayList<prenotazione> prenotazioni = dao.view_prenotazioni_prenotabili();
+        response.setContentType("application/json");
+
+        PrintWriter out = response.getWriter();
+
+        Gson gson = new Gson();
+        String s = gson.toJson(prenotazioni);
+        out.println(s);
+        //System.out.println("STRINGA JSON " + s);
+
+
     }
 
     public void destroy() {

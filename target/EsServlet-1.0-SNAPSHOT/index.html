@@ -99,6 +99,26 @@
         });
 
     </script>
+
+
+    <form method="get">
+        <input class="btn btn-lg btn-primary btn-block" id="visualizzaPrenotazioni" name="submit" type="button" value="Visualizza Prenotazioni" />
+    </form>
+    <div id="prenotazioniOutput" class="outputTextArea"></div>
+    <script type="text/javascript">
+        $(document).ready(function () { // When the DOM of this page is constructed
+            $("#visualizzaPrenotazioni").click(function () {// on click of xx button do ...
+                $.get("prenotazioni-disponibili-servlet", {}, // GET to HelloServlet (hello-servlet)!!
+                    function (data) {      // callBack function
+                        var info = JSON.stringify(data);
+                        //alert(info);
+                        console.log(data)
+                        $("#prenotazioniOutput").html(info); // Select element xx
+                        //(by ID) and insert dynamic content (data) into it
+                    });
+            });
+        });
+    </script>
 <!--
     <form action="hello-servlet" method="post" >
         <h1 class="d-flex justify-content-center">Inserisci un corso</h1>
