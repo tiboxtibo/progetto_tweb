@@ -48,7 +48,7 @@ public class HelloServlet extends HttpServlet {
                     String username_docente=request.getParameter("username_docente");
 
                     if(nome_docente!=null &&cognome_docente!=null && username_docente!=null){
-                        dao.add_docenti(nome_docente, cognome_docente,username_docente);
+                        dao.add_docente(nome_docente, cognome_docente,username_docente);
                     }
 
                     out.println("<p>"+"Docente correttamente aggiunto" + "</p>");

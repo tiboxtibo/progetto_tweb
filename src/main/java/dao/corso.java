@@ -1,10 +1,10 @@
 package dao;
 
-public class corsi {
+public class corso {
 
     private String nome_corso;
 
-    public corsi(String nome_corso) {
+    public corso(String nome_corso) {
         this.nome_corso = nome_corso;
     }
 
