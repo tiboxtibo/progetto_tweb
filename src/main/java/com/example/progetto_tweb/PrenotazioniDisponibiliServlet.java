@@ -15,7 +15,7 @@ import com.google.gson.Gson;
 
 
 
-@WebServlet(name = "PrenotazioniDisponibiliServlet", value = "/prenotazioni-disponibili-servlet")
+@WebServlet(name = "PrenotazioniDisponibiliServlet", value = "/Prenotazioni-Disponibili-Servlet")
 public class PrenotazioniDisponibiliServlet extends HttpServlet {
 
     DAO dao = null;
@@ -47,15 +47,18 @@ public class PrenotazioniDisponibiliServlet extends HttpServlet {
  */
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("ciao ciao ");
         ArrayList<prenotazione> prenotazioni = dao.view_prenotazioni_prenotabili();
         response.setContentType("application/json");
 
         PrintWriter out = response.getWriter();
 
         Gson gson = new Gson();
+
         String s = gson.toJson(prenotazioni);
         out.println(s);
-        //System.out.println("STRINGA JSON " + s);
+        System.out.println("STRINGA JSON " + s);
+
 
 
     }

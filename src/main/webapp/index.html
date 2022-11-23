@@ -7,6 +7,10 @@
     <script src="bootstrap-4.5.2-dist/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 
     <meta charset="UTF-8">
@@ -16,131 +20,102 @@
 
 
 </head>
-<body class="d-flex justify-content-center">
+<body>
 
 <br/>
-<div class="col-8 col-lg-3">
-    <h1 class="d-flex justify-content-center">HOME</h1>
+
+    <h1 >HOME</h1>
     <br/>
-    <form method="post">
 
-        <h1 class="d-flex justify-content-center">Login</h1>
-        <div>
-            <label for="username_utente" class="sr-only" >Username</label>
-            <input type="text" id="username_utente" name="username_utente" class="form-control" placeholder="Username" required autofocus>
 
-            <label for="password_utente" class="sr-only">Password</label>
-            <input type="text" id="password_utente" name="password-utente" class="form-control" placeholder="Password" required autofocus>
+<span v-if="ruolo===-1">
+    <h1 >Login</h1>
+    <div id="app">
+        <p>Username:<input v-model="username_utente" type="text"></p>
+        <p>Password:<input v-model="password_utente" type="text"></p>
 
-        </div>
-        <input class="btn btn-lg btn-primary btn-block" type="button" name="login" value="VerificaLogin" id="VerificaLogin" />
+        <button v-on:click="autentica">LOGIN</button>
 
-    </form>
+        <p>Output: {{ message }}</p>
+        <p>Ruolo:{{ ruolo }}</p>
+
+    </div>
+</span>
     <br/>
-    <div id="OutputText" class="outputTextArea"></div>
 
 
-        <script type="text/javascript">
-            $(document).ready(function () { // When the DOM of this page is constructed
-                $("#VerificaLogin").click(function () {// on click of
-                    console.log("click")
-                    var username_utente = document.getElementById("username_utente").value;//sets "city" to value
-                    var password_utente = document.getElementById("password_utente").value;
-                    // of "cityName" from DOM
-                    $.post("loginServlet", {username_utente: username_utente, password_utente: password_utente}, // POST to WeatherServlet!!
-                        function (data) {                            // callBack function
-                            //alert(data);
+    <script>
+        var app = new Vue ({
+            el: '#app',
+            data: {
+                username_utente:  '',
+                password_utente: '',
+                message:'...',
+                link : 'http://localhost:8080/EsServlet_war_exploded/LoginServlet',
+                ruolo:-1
 
-                            $("#OutputText").html(data); // Select element weatherReport
-                            //(by ID) and insert dynamic content (data) into it
-                        });
-                });
-            });
+            },
+            mounted(){
 
-        </script>
-        <br/>
+            },
+            methods:{
+                autentica:function(){
+                    var self = this;
 
 
-    <form method="post">
+                    $.post(this.link,{username_utente: this.username_utente, password_utente: this.password_utente}, function (data) {
+                        self.message=data;
 
-            <h1 class="d-flex justify-content-center">Inserisci un docente</h1>
-            <div>
-                <label for="nome_docente" class="sr-only" >Email address</label>
-                <input type="text" id="nome_docente" name="nome_docente" class="form-control" placeholder="Nome docente" required autofocus>
 
-                <label for="cognome_docente" class="sr-only">Cognome docente:</label>
-                <input type="text" id="cognome_docente" name="cognome_docente" class="form-control" placeholder="Cognome docente" required autofocus>
-
-                <label for="username_docente" class="sr-only">Username docente:</label>
-                <input type="text" id="username_docente" name="username_docente" class="form-control"  placeholder="Username docente" required autofocus><br>
-            </div>
-        <input class="btn btn-lg btn-primary btn-block" type="button" name="InserisciDocente" value="InserisciDocente" id="InserisciDocente" />
-
-        <br/>
-    </form>
-    <div id="OutputTextInserisciDocente" class="outputTextArea"></div>
-
-    <script type="text/javascript">
-        $(document).ready(function () { // When the DOM of this page is constructed
-            $("#InserisciDocente").click(function () {// on click of
-                console.log("click")
-                var nome_docente = document.getElementById("nome_docente").value;
-                var cognome_docente = document.getElementById("cognome_docente").value;
-                var username_docente = document.getElementById("username_docente").value;
-
-                $.post("helloServlet", {nome_docente: nome_docente, cognome_docente: cognome_docente,username_docente:username_docente},
-                    function (data) {                            // callBack function
-                        //alert(data);
-
-                        $("#OutputTextInserisciDocente").html(data); // Select element weatherReport
-                        //(by ID) and insert dynamic content (data) into it
                     });
-            });
-        });
 
-    </script>
-
-
-    <form method="get">
-        <input class="btn btn-lg btn-primary btn-block" id="visualizzaPrenotazioni" name="submit" type="button" value="Visualizza Prenotazioni" />
-    </form>
-    <div id="prenotazioniOutput" class="outputTextArea"></div>
-    <script type="text/javascript">
-        $(document).ready(function () { // When the DOM of this page is constructed
-            $("#visualizzaPrenotazioni").click(function () {// on click of xx button do ...
-                $.get("prenotazioni-disponibili-servlet", {}, // GET to HelloServlet (hello-servlet)!!
-                    function (data) {      // callBack function
-                        var info = JSON.stringify(data);
-                        //alert(info);
-                        console.log(data)
-                        $("#prenotazioniOutput").html(info); // Select element xx
-                        //(by ID) and insert dynamic content (data) into it
-                    });
-            });
+                    this.getRuolo()
+                },
+                getRuolo:function(){
+                    this.ruolo=2
+                }
+            }
         });
     </script>
-<!--
-    <form action="hello-servlet" method="post" >
-        <h1 class="d-flex justify-content-center">Inserisci un corso</h1>
-        <div>
-            <label for="nome_corso" class="sr-only" >Nome corso</label>
-            <input type="text" id="nome_corso" name="nome_corso" class="form-control" placeholder="Nome corso" required autofocus>
 
-         </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit" name="button" value="inserisci_corso">Inserisci corso</button>
-
-        <br/>
-        <br/>
-        <div class="alert alert-primary" role="alert">
-            <a href="prenotazioni-disponibili-servlet">Visualizza elenco prenotazioni disponibili</a>
-        </div>
+    <div id="viewPrenotazioni">
+        <span v-if="ruolo===2">
+            <di v-for="prenotazione in prenotazioni"><p>{{prenotazione.nome_corso}},{{prenotazione.username_utente}},{{prenotazione.username_docente}},{{prenotazione.giorno}},{{prenotazione.ora}},{{prenotazione.stato_prenotazione}},{{prenotazione.id_prenotazione}}</p></di>
+        </span>
+    </div>
 
 
-    </form>
--->
-</div>
-<br/>
-<br/>
+
+    <script>
+        var viewPrenotazioni = new Vue ({
+            el: '#viewPrenotazioni',
+            data: {
+                prenotazioni: [],
+                link :    'Prenotazioni-Disponibili-Servlet',
+                ruolo:1
+            },
+            mounted(){
+                this.getPrenotazioni()
+
+            },
+            methods:{
+                getPrenotazioni:function(){
+                    var self = this;
+
+                    $.get(this.link, function (data) {
+                        self.prenotazioni=data;
+
+                    });
+
+                },
+                getRuolo:function(){
+                    this.ruolo=2
+                }
+
+            }
+        });
+    </script>
+
 
 
 
