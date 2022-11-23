@@ -53,23 +53,23 @@ public class LoginServlet extends HttpServlet {
                 s.setAttribute("ruolo",ruolo);
 
                 if(ruolo==0 ){//utente
-                    message="Accesso effettuato come Utente";
+                    message="0";
 
                 }
                 else if(ruolo==1){//amministratore
-                    message="Accesso effettuato come Amministratore";
+                    message="1";
 
                 }
                 else if(ruolo==2){//ospite
-                    message="Accesso effettuato come Guest";
+                    message="2";
 
                 }
                 else{
-                    message="Credenziali Errate! Riprova!";
+                    message="-1";
                 }
 
             }else{
-                message="Credenziali Errate! Riprova!";
+                message="-1";
             }
 
             response.setContentType("text/plain");
