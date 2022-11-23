@@ -24,8 +24,8 @@
 
 <br/>
 
-    <h1 >HOME</h1>
-    <br/>
+<h1 >HOME</h1>
+<br/>
 
 
 <span v-if="ruolo===-1">
@@ -41,80 +41,80 @@
 
     </div>
 </span>
-    <br/>
+<br/>
 
 
-    <script>
-        var app = new Vue ({
-            el: '#app',
-            data: {
-                username_utente:  '',
-                password_utente: '',
-                message:'...',
-                link : 'http://localhost:8080/EsServlet_war_exploded/LoginServlet',
-                ruolo:-1
+<script>
+    var app = new Vue ({
+        el: '#app',
+        data: {
+            username_utente:  '',
+            password_utente: '',
+            message:'...',
+            link : 'http://localhost:8080/EsServlet_war_exploded/LoginServlet',
+            ruolo:-1
 
+        },
+        mounted(){
+
+        },
+        methods:{
+            autentica:function(){
+                var self = this;
+
+
+                $.post(this.link,{username_utente: this.username_utente, password_utente: this.password_utente}, function (data) {
+                    self.message=data;
+
+
+                });
+
+                this.getRuolo()
             },
-            mounted(){
-
-            },
-            methods:{
-                autentica:function(){
-                    var self = this;
-
-
-                    $.post(this.link,{username_utente: this.username_utente, password_utente: this.password_utente}, function (data) {
-                        self.message=data;
-
-
-                    });
-
-                    this.getRuolo()
-                },
-                getRuolo:function(){
-                    this.ruolo=2
-                }
+            getRuolo:function(){
+                this.ruolo=2
             }
-        });
-    </script>
+        }
+    });
+</script>
 
-    <div id="viewPrenotazioni">
+<div id="viewPrenotazioni">
         <span v-if="ruolo===2">
             <di v-for="prenotazione in prenotazioni"><p>{{prenotazione.nome_corso}},{{prenotazione.username_utente}},{{prenotazione.username_docente}},{{prenotazione.giorno}},{{prenotazione.ora}},{{prenotazione.stato_prenotazione}},{{prenotazione.id_prenotazione}}</p></di>
         </span>
-    </div>
+</div>
 
 
 
-    <script>
-        var viewPrenotazioni = new Vue ({
-            el: '#viewPrenotazioni',
-            data: {
-                prenotazioni: [],
-                link :    'Prenotazioni-Disponibili-Servlet',
-                ruolo:1
+<script>
+    var viewPrenotazioni = new Vue ({
+        el: '#viewPrenotazioni',
+        data: {
+            prenotazioni: [],
+            link :    'Prenotazioni-Disponibili-Servlet',
+            ruolo:1
+        },
+        mounted(){
+            this.getPrenotazioni()
+
+        },
+        methods:{
+            getPrenotazioni:function(){
+                var self = this;
+
+                $.get(this.link, function (data) {
+                    self.prenotazioni=data;
+
+                });
+
             },
-            mounted(){
-                this.getPrenotazioni()
-
-            },
-            methods:{
-                getPrenotazioni:function(){
-                    var self = this;
-
-                    $.get(this.link, function (data) {
-                        self.prenotazioni=data;
-
-                    });
-
-                },
-                getRuolo:function(){
-                    this.ruolo=2
-                }
-
+            getRuolo:function(){
+                this.ruolo=2
             }
-        });
-    </script>
+
+        }
+    });
+</script>
 
 
 
