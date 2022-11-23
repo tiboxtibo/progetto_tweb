@@ -22,10 +22,7 @@
 </head>
 <body class="d-flex justify-content-center">
 
-
-
-
-        <div id="app" class="col-8 col-lg-3">
+<div id="app" class="col-8 col-lg-3">
         <h3 class="d-flex justify-content-center" > Login </h3>
 
         <input type="text" v-model="username_utente" id="username_utente" name="username_utente" class="form-control" placeholder="Username" required autofocus>
@@ -40,16 +37,15 @@
 
         <form action="SignUpServlet" method="post"/>
         <input class="btn btn-lg btn-secondary btn-block" type="submit" name="action" value="Registrazione Utente">
-        </form>
+         </form>
 
 
-            <p>Benvenuto {{username_utente}}, hai effettuato l'accesso come {{ruolo}}</p>
-
+        <p v-if="ruolo>=0">Benvenuto {{username_utente}}, hai effettuato l'accesso come {{ruolo}}</p>
 
     </div>
 
 
-    <script>
+<script>
     var app = new Vue ({
         el: '#app',
         data: {
@@ -62,7 +58,7 @@
 
         },
         mounted(){
-
+            ruolo=Integer.parseInt(data);
         },
         methods:{
             autentica:function(){
@@ -72,6 +68,7 @@
 
                     self.message=data;
                     //print(self.message);
+
 
                 });
 
@@ -90,18 +87,17 @@
 
 </script>
 
-
-
-        <div id="viewPrenotazioni" class="col-8 col-lg-3">
+<div v-if="ruolo>=0" id="viewPrenotazioni" class="col-8 col-lg-3">
         <di v-for="prenotazione in prenotazioni"><p>{{prenotazione.nome_corso}},{{prenotazione.username_utente}},{{prenotazione.username_docente}},{{prenotazione.giorno}},{{prenotazione.ora}},{{prenotazione.stato_prenotazione}},{{prenotazione.id_prenotazione}}</p></di>
     </div>
-   
-    <script>
+
+<script>
         var viewPrenotazioni = new Vue ({
             el: '#viewPrenotazioni',
             data: {
                 prenotazioni: [],
-                link :    'Prenotazioni-Disponibili-Servlet'
+                link :    'Prenotazioni-Disponibili-Servlet',
+                ruolo:-1
             },
             mounted(){
                 this.getPrenotazioni()
