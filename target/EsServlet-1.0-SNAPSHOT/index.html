@@ -58,7 +58,7 @@
 
         },
         mounted(){
-            ruolo=Integer.parseInt(data);
+
         },
         methods:{
             autentica:function(){
@@ -67,8 +67,6 @@
                 $.post(this.link,{username_utente: this.username_utente, password_utente: this.password_utente}, function (data) {
 
                     self.message=data;
-                    //print(self.message);
-
 
                 });
 

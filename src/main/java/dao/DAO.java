@@ -32,9 +32,9 @@ public class DAO {
         ArrayList<docente> out = new ArrayList<>();
         try {
             conn1 = DriverManager.getConnection(url1, user, password);
-
+            String ruolo = "0";
             Statement st = conn1.createStatement();
-            st.executeUpdate("INSERT INTO `utente`(`username_utente`,`password_utente`) VALUES ('" + username_utente + "','" + password_utente + "')");
+            st.executeUpdate("INSERT INTO `utente`(`username_utente`,`password`,`ruolo`) VALUES ('" + username_utente + "','" + password_utente + "','\" + ruolo + \"')");
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
