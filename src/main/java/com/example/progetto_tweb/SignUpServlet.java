@@ -28,7 +28,14 @@ public class SignUpServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        request.setCharacterEncoding("UTF-8"); // per essere robusti rispetto a caratteri speciali (', etc)
+        ServletContext ctx = getServletContext();
+        String action = request.getParameter("action");
+        RequestDispatcher rd = ctx.getRequestDispatcher("/index.html");
+        if (action!=null) {
+            rd = ctx.getRequestDispatcher("/signUp.html");
+            rd.forward(request, response);
+        }
     }
 
     @Override
@@ -50,17 +57,10 @@ public class SignUpServlet extends HttpServlet {
 
             dao.add_utente(username_utente, password_utente);
 
-            out.println("<html><body>");
-            out.println("<h3> Dati aggiunti </h3>");
-            out.println("<a href= index.html = get >Torna alla HomePage</a>");
-            out.println("<a href= hello-servlet methods= get >Visualizza le prenotazioni</a>");
-            out.println("</body></html>");
+            out.println("<html><head>");
+            out.println("<meta http-equiv = \"refresh\" content = \"0 ; url = index.html\"/>");
+            out.println("</head></html>");
 
-        } else {
-            out.println("<html><body>");
-            out.println("<h3> Dati sbagliati </h3>");
-            out.println("<a href= index.html = get >Torna alla HomePage</a>");
-            out.println("</body></html>");
         }
     }
 

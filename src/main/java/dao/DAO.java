@@ -34,7 +34,7 @@ public class DAO {
             conn1 = DriverManager.getConnection(url1, user, password);
 
             Statement st = conn1.createStatement();
-            st.executeUpdate("INSERT INTO `utente`(`username_utente`,`password_utente`) VALUES ('" + username_utente + "','" + password_utente + "')");
+            st.executeUpdate("INSERT INTO `utente`(`username_utente`,`password`, `ruolo`) VALUES ('" + username_utente + "','" + password_utente + "' ,'" + 0 + "')");
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
