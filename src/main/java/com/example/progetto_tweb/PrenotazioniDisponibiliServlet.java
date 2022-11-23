@@ -29,22 +29,6 @@ public class PrenotazioniDisponibiliServlet extends HttpServlet {
 
         dao = (DAO) ctx.getAttribute("dao");
     }
-/*
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        ArrayList<prenotazione> prenotazioni = dao.view_prenotazioni_prenotabili();
-        response.setContentType("text/html");
-
-        // Hello
-        PrintWriter out = response.getWriter();
-        out.println("<html><body>");
-        out.println("<h1>" + message + "</h1>");
-        for (prenotazione pren: prenotazioni) {
-            out.println("<p>" + pren + "</p>");
-        }
-        out.println("</body></html>");
-    }
-
- */
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("ciao ciao ");
@@ -58,8 +42,6 @@ public class PrenotazioniDisponibiliServlet extends HttpServlet {
         String s = gson.toJson(prenotazioni);
         out.println(s);
         System.out.println("STRINGA JSON " + s);
-
-
 
     }
 

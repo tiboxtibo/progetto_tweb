@@ -20,24 +20,24 @@
 
 
 </head>
-<body>
+<body class="d-flex justify-content-center">
 
 <br/>
 
-<h1 >HOME</h1>
 <br/>
 
-
-
-    <h1 >Login</h1>
     <div id="app" class="col-8 col-lg-3">
-        <p>Username:<input v-model="username_utente" type="text"></p>
-        <p>Password:<input v-model="password_utente" type="text"></p>
+        <h3 class="d-flex justify-content-center" > Login </h3>
 
-        <button v-on:click="autentica">LOGIN</button>
+        <input type="text" v-model="username_utente" id="username_utente" name="username_utente" class="form-control" placeholder="Username" required autofocus>
+        <input type="text" v-model="password_utente" id="password_utente" name="password-utente" class="form-control" placeholder="Password" required autofocus>
 
-        <p>Output: {{ message }}</p>
-        <p>Ruolo:{{ ruolo }}</p>
+        <button v-on:click="autentica" class="btn btn-lg btn-primary btn-block">LOGIN</button>
+        <br/>
+        <a v-on:click="autenticaOspite" class="link-primary" >Accedi come ospite</a>
+
+        <p>{{ message }}</p>
+
 
     </div>
 
@@ -52,7 +52,7 @@
             password_utente: '',
             message:'...',
             link : 'http://localhost:8080/EsServlet_war_exploded/LoginServlet',
-            ruolo:-1
+
 
         },
         mounted(){
@@ -62,17 +62,21 @@
             autentica:function(){
                 var self = this;
 
-
                 $.post(this.link,{username_utente: this.username_utente, password_utente: this.password_utente}, function (data) {
                     self.message=data;
 
 
                 });
 
-                this.getRuolo()
             },
-            getRuolo:function(){
-                this.ruolo=2
+            autenticaOspite:function(){
+                var self = this;
+
+                $.post(this.link,{username_utente: "guest", password_utente: "guest"}, function (data) {
+                    self.message=data;
+
+                });
+
             }
         }
     });

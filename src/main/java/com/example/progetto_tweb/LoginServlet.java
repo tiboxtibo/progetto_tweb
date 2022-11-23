@@ -40,9 +40,6 @@ public class LoginServlet extends HttpServlet {
         ServletContext ctx = getServletContext();
         RequestDispatcher rd = ctx.getRequestDispatcher("/index.html");
 
-
-
-
         try {
             String username_utente = request.getParameter("username_utente");
             String password_utente = request.getParameter("password_utente");
@@ -70,11 +67,12 @@ public class LoginServlet extends HttpServlet {
                 else{
                     message="Credenziali Errate! Riprova!";
                 }
+
+            }else{
+                message="Credenziali Errate! Riprova!";
             }
 
             response.setContentType("text/plain");
-
-
 
             Gson gson = new Gson();
 
@@ -82,37 +80,14 @@ public class LoginServlet extends HttpServlet {
             out.println(ss);
             out.flush();
 
-            processRequest(request, response);
 
-
-        } catch (ServletException e) {
-            e.printStackTrace();
         } finally {
             out.close();
         }
 
     }
 
-    private void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        System.out.println("111111");
-        request.setCharacterEncoding("UTF-8");
-        ServletContext ctx = getServletContext();
-        HttpSession s = request.getSession();
-        int ruolo = (int) s.getAttribute("ruolo");
 
-        RequestDispatcher rd = ctx.getRequestDispatcher("/index.html");
-
-        if(ruolo==1 || ruolo==2 || ruolo==0){
-            System.out.println("222222");
-            System.out.println(ruolo);
-            rd = ctx.getRequestDispatcher("/vueApplication.html");
-            rd.forward(request,response);
-
-        }
-
-
-    }
 
 
 
