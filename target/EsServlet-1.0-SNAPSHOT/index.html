@@ -20,27 +20,32 @@
 
 
 </head>
-<body>
+<body class="d-flex justify-content-center">
 
 <br/>
 
-<h1 >HOME</h1>
 <br/>
 
+    <div id="app" class="col-8 col-lg-3">
+        <h3 class="d-flex justify-content-center" > Login </h3>
 
-<span v-if="ruolo===-1">
-    <h1 >Login</h1>
-    <div id="app">
-        <p>Username:<input v-model="username_utente" type="text"></p>
-        <p>Password:<input v-model="password_utente" type="text"></p>
+        <input type="text" v-model="username_utente" id="username_utente" name="username_utente" class="form-control" placeholder="Username" required autofocus>
+        <input type="text" v-model="password_utente" id="password_utente" name="password-utente" class="form-control" placeholder="Password" required autofocus>
 
-        <button v-on:click="autentica">LOGIN</button>
+        <button v-on:click="autentica" class="btn btn-lg btn-primary btn-block">LOGIN</button>
+        <br/>
+        <a v-on:click="autenticaOspite" class="link-primary" >Accedi come ospite</a>
 
-        <p>Output: {{ message }}</p>
-        <p>Ruolo:{{ ruolo }}</p>
+        <p>{{ message }}</p>
+
+
+        <form action="SignUpServlet" method="post"/>
+            <input class="btn btn-lg btn-secondary btn-block" type="submit" name="action" value="Registrazione Utente">
+
+        </form>
 
     </div>
-</span>
+
 <br/>
 
 
@@ -52,7 +57,7 @@
             password_utente: '',
             message:'...',
             link : 'http://localhost:8080/EsServlet_war_exploded/LoginServlet',
-            ruolo:-1
+
 
         },
         mounted(){
@@ -62,17 +67,21 @@
             autentica:function(){
                 var self = this;
 
-
                 $.post(this.link,{username_utente: this.username_utente, password_utente: this.password_utente}, function (data) {
                     self.message=data;
 
 
                 });
 
-                this.getRuolo()
             },
-            getRuolo:function(){
-                this.ruolo=2
+            autenticaOspite:function(){
+                var self = this;
+
+                $.post(this.link,{username_utente: "guest", password_utente: "guest"}, function (data) {
+                    self.message=data;
+
+                });
+
             }
         }
     });
@@ -91,8 +100,7 @@
         el: '#viewPrenotazioni',
         data: {
             prenotazioni: [],
-            link :    'Prenotazioni-Disponibili-Servlet',
-            ruolo:1
+            link :    'Prenotazioni-Disponibili-Servlet'
         },
         mounted(){
             this.getPrenotazioni()
@@ -107,9 +115,6 @@
 
                 });
 
-            },
-            getRuolo:function(){
-                this.ruolo=2
             }
 
         }
