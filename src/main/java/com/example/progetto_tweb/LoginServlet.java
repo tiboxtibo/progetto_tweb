@@ -51,38 +51,29 @@ public class LoginServlet extends HttpServlet {
 
             int ruolo = dao.login(username_utente,password_utente);
 
+            if(ruolo>=0){
+                s.setAttribute("username_utente",username_utente);
+                s.setAttribute("ruolo",ruolo);
+
+                if(ruolo==0 ){//utente
+                    message="Accesso effettuato come Utente";
+
+                }
+                else if(ruolo==1){//amministratore
+                    message="Accesso effettuato come Amministratore";
+
+                }
+                else if(ruolo==2){//ospite
+                    message="Accesso effettuato come Guest";
+
+                }
+                else{
+                    message="Credenziali Errate! Riprova!";
+                }
+            }
+
             response.setContentType("text/plain");
-            if(ruolo==0 ){//utente
-                s.setAttribute("username_utente",username_utente);
-                s.setAttribute("ruolo",ruolo);
 
-                message="Accesso effettuato come Utente";
-
-                //out.println("Benvenuto:  " + s.getAttribute("username_utente"));
-                //out.println("Hai effettuato l'accesso come:  " + s.getAttribute("ruolo") );
-            }
-            else if(ruolo==1){//amministratore
-                s.setAttribute("username_utente",username_utente);
-                s.setAttribute("ruolo",ruolo);
-
-                message="Accesso effettuato come Amministratore";
-
-                //out.println("Benvenuto:  " + s.getAttribute("username_utente") );
-                //out.println("Hai effettuato l'accesso come:  " + s.getAttribute("ruolo"));
-            }
-            else if(ruolo==2){//ospite
-                s.setAttribute("username_utente","guest");
-                s.setAttribute("ruolo",2);
-
-                message="Accesso effettuato come Guest";
-
-                //out.println("Credenziali NON valide ");
-                //out.println("Benvenuto:  " + s.getAttribute("username_utente"));
-                //out.println("Hai effettuato l'accesso come:  " + s.getAttribute("ruolo") );
-            }
-            else{
-                message="Credenziali Errate! Riprova!";
-            }
 
 
             Gson gson = new Gson();
