@@ -70,7 +70,7 @@ public class LoginServlet extends HttpServlet {
                 //out.println("Benvenuto:  " + s.getAttribute("username_utente") );
                 //out.println("Hai effettuato l'accesso come:  " + s.getAttribute("ruolo"));
             }
-            else if(ruolo==2){
+            else if(ruolo==2){//ospite
                 s.setAttribute("username_utente","guest");
                 s.setAttribute("ruolo",2);
 
@@ -83,7 +83,6 @@ public class LoginServlet extends HttpServlet {
             else{
                 message="Credenziali Errate! Riprova!";
             }
-
 
 
             Gson gson = new Gson();
