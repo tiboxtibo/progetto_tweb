@@ -1,6 +1,6 @@
 package dao;
 
-public class docenti {
+public class docente {
     String nome_docente;
     String cognome_docente;
     String username_docente;
@@ -29,7 +29,7 @@ public class docenti {
         this.username_docente = username_docente;
     }
 
-    public docenti(String nome_docente, String cognome_docente, String username_docente) {
+    public docente(String nome_docente, String cognome_docente, String username_docente) {
         this.nome_docente = nome_docente;
         this.cognome_docente = cognome_docente;
         this.username_docente = username_docente;

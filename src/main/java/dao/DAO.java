@@ -27,14 +27,14 @@ public class DAO {
         }
     }
 
-    public void add_corsi(String nome_corso) {
+    public void add_utente(String username_utente, String password_utente) {
         Connection conn1 = null;
-        ArrayList<corsi> out = new ArrayList<>();
+        ArrayList<docente> out = new ArrayList<>();
         try {
             conn1 = DriverManager.getConnection(url1, user, password);
 
             Statement st = conn1.createStatement();
-            st.executeUpdate("INSERT INTO `corsi`(`nome_corso`) VALUES ('" + nome_corso + "')");
+            st.executeUpdate("INSERT INTO `utente`(`username_utente`,`password_utente`) VALUES ('" + username_utente + "','" + password_utente + "')");
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -50,14 +50,14 @@ public class DAO {
 
     }
 
-    public void del_corsi(String nome_corso) {
+    public void add_corso(String nome_corso) {
         Connection conn1 = null;
-        ArrayList<corsi> out = new ArrayList<>();
+        ArrayList<corso> out = new ArrayList<>();
         try {
             conn1 = DriverManager.getConnection(url1, user, password);
 
             Statement st = conn1.createStatement();
-            st.executeUpdate("DELETE FROM `corsi` WHERE  nome_corso = ('" + nome_corso + "')");
+            st.executeUpdate("INSERT INTO `corso`(`nome_corso`) VALUES ('" + nome_corso + "')");
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -73,17 +73,40 @@ public class DAO {
 
     }
 
-    public ArrayList<corsi> view_corsi() {
+    public void del_corso(String nome_corso) {
         Connection conn1 = null;
-        ArrayList<corsi> out = new ArrayList<>();
+        ArrayList<corso> out = new ArrayList<>();
         try {
             conn1 = DriverManager.getConnection(url1, user, password);
 
             Statement st = conn1.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM corsi ");
+            st.executeUpdate("DELETE FROM `corso` WHERE  nome_corso = ('" + nome_corso + "')");
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            if (conn1 != null) {
+                try {
+                    conn1.close();
+                } catch (SQLException e2) {
+                    System.out.println(e2.getMessage());
+                }
+            }
+        }
+
+    }
+
+    public ArrayList<corso> view_corso() {
+        Connection conn1 = null;
+        ArrayList<corso> out = new ArrayList<>();
+        try {
+            conn1 = DriverManager.getConnection(url1, user, password);
+
+            Statement st = conn1.createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM corso ");
 
             while (rs.next()) {
-                corsi c = new corsi(rs.getString("nome_corso"));
+                corso c = new corso(rs.getString("nome_corso"));
                 out.add(c);
             }
         } catch (SQLException e) {
@@ -100,14 +123,14 @@ public class DAO {
         return out;
     }
 
-    public void add_docenti(String nome_docente, String cognome_docente, String username_docente) {
+    public void add_docente(String nome_docente, String cognome_docente, String username_docente) {
         Connection conn1 = null;
-        ArrayList<docenti> out = new ArrayList<>();
+        ArrayList<docente> out = new ArrayList<>();
         try {
             conn1 = DriverManager.getConnection(url1, user, password);
 
             Statement st = conn1.createStatement();
-            st.executeUpdate("INSERT INTO `docenti`(`nome_docente`,`cognome_docente`,`username_docente`) VALUES ('" + nome_docente + "','" + cognome_docente + "','" + username_docente + "')");
+            st.executeUpdate("INSERT INTO `docente`(`nome_docente`,`cognome_docente`,`username_docente`) VALUES ('" + nome_docente + "','" + cognome_docente + "','" + username_docente + "')");
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -123,14 +146,14 @@ public class DAO {
 
     }
 
-    public void del_docenti(String username_docente) {
+    public void del_docente(String username_docente) {
         Connection conn1 = null;
-        ArrayList<docenti> out = new ArrayList<>();
+        ArrayList<docente> out = new ArrayList<>();
         try {
             conn1 = DriverManager.getConnection(url1, user, password);
 
             Statement st = conn1.createStatement();
-            st.executeUpdate("DELETE FROM docenti WHERE username_docente = ('" + username_docente + "')");
+            st.executeUpdate("DELETE FROM docente WHERE username_docente = ('" + username_docente + "')");
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -146,17 +169,17 @@ public class DAO {
 
     }
 
-    public ArrayList<docenti> view_docenti() {
+    public ArrayList<docente> view_docente() {
         Connection conn1 = null;
-        ArrayList<docenti> out = new ArrayList<>();
+        ArrayList<docente> out = new ArrayList<>();
         try {
             conn1 = DriverManager.getConnection(url1, user, password);
 
             Statement st = conn1.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM docenti ");
+            ResultSet rs = st.executeQuery("SELECT * FROM docente ");
 
             while (rs.next()) {
-                docenti d = new docenti(rs.getString("nome_docente"), rs.getString("cognome_docente"), rs.getString("username_docente"));
+                docente d = new docente(rs.getString("nome_docente"), rs.getString("cognome_docente"), rs.getString("username_docente"));
                 out.add(d);
             }
         } catch (SQLException e) {
