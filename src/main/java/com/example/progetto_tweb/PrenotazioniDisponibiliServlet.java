@@ -35,6 +35,7 @@ public class PrenotazioniDisponibiliServlet extends HttpServlet {
         ArrayList<prenotazione> prenotazioni = dao.view_prenotazioni_prenotabili();
         response.setContentType("application/json");
 
+
         PrintWriter out = response.getWriter();
 
         Gson gson = new Gson();

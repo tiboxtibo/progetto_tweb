@@ -306,8 +306,7 @@ public class DAO {
         return out;
     }
 
-
-    public void add_prenotazione(String nome_corso, String username_utente, String username_docente, String giorno, int ora) {
+    public boolean add_prenotazione(String nome_corso, String username_utente, String username_docente, String giorno, int ora) {
         Connection conn1 = null;
         ArrayList<prenotazione> out = new ArrayList<>();
         try {
@@ -315,11 +314,18 @@ public class DAO {
 
             int stato_prenotazione=1;
 
+            if(username_utente.equals("guest")){
+                return false;
+            }
+
             Statement st = conn1.createStatement();
             st.executeUpdate("INSERT INTO `prenotazione`(`nome_corso`,`username_utente`,`username_docente`,`giorno`,`ora`,`stato_prenotazione`) VALUES ('" + nome_corso + "','" + username_utente + "','" + username_docente + "','" + giorno + "','" + ora + "','" + stato_prenotazione + "')");
 
+            return true;
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+
         } finally {
             if (conn1 != null) {
                 try {
@@ -329,7 +335,7 @@ public class DAO {
                 }
             }
         }
-
+        return false;
     }
 
     public ArrayList<prenotazione> view_prenotazioni() {

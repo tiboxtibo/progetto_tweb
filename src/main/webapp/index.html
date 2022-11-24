@@ -18,7 +18,7 @@
 </head>
 <body class="d-flex justify-content-center">
 
-<div id="app" >
+<div id="app">
     <header v-if="ruolo>=0">
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
 
@@ -38,8 +38,30 @@
     </header>
 
     <div v-if="ruolo>=0" >
-        <h2>Elenco prenotazioni</h2>
-        <di v-for="prenotazione in prenotazioni"><p>{{prenotazione.nome_corso}},{{prenotazione.username_utente}},{{prenotazione.username_docente}},{{prenotazione.giorno}},{{prenotazione.ora}},{{prenotazione.stato_prenotazione}},{{prenotazione.id_prenotazione}}</p></di>
+        </br>
+        </br>
+        </br>
+        </br>
+        <h2>Elenco prenotazioni </h2>
+        <p>{{message1}}</p>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-sm">
+
+                    <div v-for="prenotazione in prenotazioni">
+
+                        <button type="button" class="btn btn-success btn-lg btn-icon btn-me" v-on:click="nome_corso=prenotazione.nome_corso; username_docente=prenotazione.username_docente; ora=prenotazione.ora; giorno=prenotazione.giorno;prenota();">
+                             {{count}} Corso: {{prenotazione.nome_corso}}, Docente:{{prenotazione.username_docente}}, Giorno:{{prenotazione.giorno}}, Ora:{{prenotazione.ora}}
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
     </div>
 
 
@@ -72,12 +94,20 @@
         data: {
             username_utente:  '',
             password_utente: '',
-            message:'...',
-            linkAutentica : 'http://localhost:8080/EsServlet_war_exploded/LoginServlet',
+            message:' ',
+            message1:' ',
             ruolo:-1,
             prenotazioni: [],
+            prenotazione: [],
+            nome_corso: '',
+            ora:'',
+            giorno: '',
+            username_docente: '',
+            count:0,
+            linkAutentica : 'http://localhost:8080/EsServlet_war_exploded/LoginServlet',
             linkPrenotazioni :'Prenotazioni-Disponibili-Servlet',
-            linkLogout: 'LogoutServlet'
+            linkLogout: 'LogoutServlet',
+            linkPrenota: 'PrenotaServlet'
         },
         mounted(){
             this.getPrenotazioni()
@@ -97,6 +127,7 @@
                         self.message="Dati inseriti INCORRETTI, riprova!";
                     }
                     self.ruolo=Number(data);
+
 
                 });
 
@@ -127,6 +158,14 @@
                     self.message="Logout effettuato con successo";
                     self.ruolo= -1;
 
+                });
+
+            },
+            prenota:function (){
+                var self = this;
+
+                $.post(this.linkPrenota,{nome_corso: this.nome_corso,username_utente: this.username_utente,username_docente: this.username_docente,giorno: this.giorno,ora: this.ora}, function (data) {
+                    self.message1=data;
                 });
 
             }
