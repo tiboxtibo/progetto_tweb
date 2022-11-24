@@ -74,10 +74,9 @@ public class LoginServlet extends HttpServlet {
 
             response.setContentType("text/plain");
 
-            Gson gson = new Gson();
-
-            String ss = gson.toJson(message);
-            out.println(ss);
+            //Gson gson = new Gson();
+            //String ss = gson.toJson(message);
+            out.println(message);
             out.flush();
 
 

@@ -23,6 +23,7 @@
 <body class="d-flex justify-content-center">
 
 <div id="app" class="col-8 col-lg-3">
+    <div v-if="ruolo<0">
         <h3 class="d-flex justify-content-center" > Login </h3>
 
         <input type="text" v-model="username_utente" id="username_utente" name="username_utente" class="form-control" placeholder="Username" required autofocus>
@@ -36,37 +37,53 @@
 
 
         <form action="SignUpServlet" method="get"/>
-        <input class="btn btn-lg btn-secondary btn-block" type="submit" name="action" value="Registrazione Utente">
-         </form>
-
-
-        <p v-if="ruolo>=0">Benvenuto {{username_utente}}, hai effettuato l'accesso come {{ruolo}}</p>
-
+            <input class="btn btn-lg btn-secondary btn-block" type="submit" name="action" value="Registrazione Utente">
+        </form>
     </div>
+
+    <h3 v-if="ruolo==0">Benvenuto {{username_utente}}, hai effettuato l'accesso come UTENTE</h3>
+    <h3 v-if="ruolo==1">Benvenuto {{username_utente}}, hai effettuato l'accesso come AMMINISTRATORE</h3>
+    <h3 v-if="ruolo==2">Benvenuto {{username_utente}}, hai effettuato l'accesso come OSPITE</h3>
+
+    <div v-if="ruolo>=0" >
+        <di v-for="prenotazione in prenotazioni"><p>{{prenotazione.nome_corso}},{{prenotazione.username_utente}},{{prenotazione.username_docente}},{{prenotazione.giorno}},{{prenotazione.ora}},{{prenotazione.stato_prenotazione}},{{prenotazione.id_prenotazione}}</p></di>
+    </div>
+</div>
+
+
 
 
 <script>
+
     var app = new Vue ({
         el: '#app',
         data: {
             username_utente:  '',
             password_utente: '',
             message:'...',
-            link : 'http://localhost:8080/EsServlet_war_exploded/LoginServlet',
-            ruolo:-1
-
-
+            linkAutentica : 'http://localhost:8080/EsServlet_war_exploded/LoginServlet',
+            ruolo:-1,
+            prenotazioni: [],
+            linkPrenotazioni :    'Prenotazioni-Disponibili-Servlet',
         },
         mounted(){
-
+            this.getPrenotazioni()
         },
         methods:{
             autentica:function(){
                 var self = this;
 
-                $.post(this.link,{username_utente: this.username_utente, password_utente: this.password_utente}, function (data) {
-
-                    self.message=data;
+                $.post(this.linkAutentica,{username_utente: this.username_utente, password_utente: this.password_utente}, function (data) {
+                    if(data==0){
+                        self.message="Benvenuto, hai effettuato l'accesso come UTENTE";
+                    }
+                    if(data==1){
+                        self.message="Benvenuto, hai effettuato l'accesso come AMMINISTRATORE";
+                    }
+                    if(data==-1){
+                        self.message="Dati inseriti INCORRETTI, riprova!";
+                    }
+                    self.ruolo=Number(data);
 
                 });
 
@@ -74,8 +91,18 @@
             autenticaOspite:function(){
                 var self = this;
 
-                $.post(this.link,{username_utente: "guest", password_utente: "guest"}, function (data) {
-                    self.message=data;
+                $.post(this.linkAutentica,{username_utente: "guest", password_utente: "guest"}, function (data) {
+                    self.message="Benvenuto, hai effettuato l'accesso come OSPITE";
+                    self.ruolo= 2;
+
+                });
+
+            },
+            getPrenotazioni:function(){
+                var self = this;
+
+                $.get(this. linkPrenotazioni, function (data) {
+                    self.prenotazioni=data;
 
                 });
 
@@ -83,37 +110,7 @@
         }
     });
 
-</script>
 
-<div v-if="ruolo>=0" id="viewPrenotazioni" class="col-8 col-lg-3">
-        <di v-for="prenotazione in prenotazioni"><p>{{prenotazione.nome_corso}},{{prenotazione.username_utente}},{{prenotazione.username_docente}},{{prenotazione.giorno}},{{prenotazione.ora}},{{prenotazione.stato_prenotazione}},{{prenotazione.id_prenotazione}}</p></di>
-    </div>
-
-<script>
-        var viewPrenotazioni = new Vue ({
-            el: '#viewPrenotazioni',
-            data: {
-                prenotazioni: [],
-                link :    'Prenotazioni-Disponibili-Servlet',
-                ruolo:-1
-            },
-            mounted(){
-                this.getPrenotazioni()
-
-            },
-            methods:{
-                getPrenotazioni:function(){
-                    var self = this;
-
-                    $.get(this.link, function (data) {
-                        self.prenotazioni=data;
-
-                    });
-
-                }
-
-            }
-        });
     </script>
 
 
