@@ -31,7 +31,7 @@ public class PrenotazioniDisponibiliServlet extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("ciao ciao ");
+
         ArrayList<prenotazione> prenotazioni = dao.view_prenotazioni_prenotabili();
         response.setContentType("application/json");
 
@@ -41,7 +41,7 @@ public class PrenotazioniDisponibiliServlet extends HttpServlet {
 
         String s = gson.toJson(prenotazioni);
         out.println(s);
-        System.out.println("STRINGA JSON " + s);
+        //System.out.println("STRINGA JSON " + s);
 
     }
 
