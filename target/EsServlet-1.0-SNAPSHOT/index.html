@@ -167,6 +167,7 @@
                 $.post(this.linkPrenota,{nome_corso: this.nome_corso,username_utente: this.username_utente,username_docente: this.username_docente,giorno: this.giorno,ora: this.ora}, function (data) {
                     self.message1=data;
                 });
+                this.getPrenotazioni();
 
             }
         }
