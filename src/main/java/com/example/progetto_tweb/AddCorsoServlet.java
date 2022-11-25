@@ -45,7 +45,7 @@ public class AddCorsoServlet extends HttpServlet {
 
             if (nome_corso != null && !nome_corso.equals("")) {
 
-                if (dao.add_corso(nome_corso);) {
+                if (dao.add_corso(nome_corso)) {
                     System.out.println();
                     message = "Valori Inseriti Correttamente";
                 } else

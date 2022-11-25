@@ -54,7 +54,7 @@ public class DelCorsoServlet extends HttpServlet {
 
             if (nome_corso != null && !nome_corso.equals("")) {
 
-                if (dao.del_corso(nome_corso);) {
+                if (dao.del_corso(nome_corso)) {
                     System.out.println();
                     message = ("La materia: " + nome_corso + " è stata eliminata");
                 } else
