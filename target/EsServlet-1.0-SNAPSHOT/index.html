@@ -31,6 +31,7 @@
 
             <button v-if="ruolo==0 || ruolo==1"  v-on:click="setHome" class="btn btn-outline-success me-2">Home</button>
             <button v-if="ruolo==1"  v-on:click="setPaginaAmministratore" class="btn btn-outline-success me-2">Pagina Amministratore</button>
+            <button v-if="ruolo==1"  v-on:click="setPaginaAmministratoreListaPrenotazioni" class="btn btn-outline-success me-2">Lista Prenotazioni Utenti</button>
             <button v-if="ruolo==0"  v-on:click="setPaginaPersonale" class="btn btn-outline-success me-2">Pagina Personale Utente</button>
 
             <button v-on:click="logout" class="btn btn-outline-danger my-2">LOGOUT</button>
@@ -54,6 +55,32 @@
                         <div v-for="prenotazione in prenotazioni">
 
                             <button type="button" class="btn-lg btn btn-outline-success " v-on:click="nome_corso=prenotazione.nome_corso; username_docente=prenotazione.username_docente; ora=prenotazione.ora; giorno=prenotazione.giorno;prenota();">
+                                Corso: {{prenotazione.nome_corso}}, Docente:{{prenotazione.username_docente}}, Giorno:{{prenotazione.giorno}}, Ora:{{prenotazione.ora}}
+                            </button>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+        <!--Visualizza Prenotazioni prenotabili e prenota per amministratore -->
+        <div v-if="ruolo==1" >
+
+            <h2>Elenco prenotazioni </h2>
+            <p>{{message1}}</p>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm">
+
+                        <div v-for="prenotazione in prenotazioni">
+
+                            <button type="button" class="btn-lg btn btn-outline-success " v-on:click="nome_corso=prenotazione.nome_corso; username_docente=prenotazione.username_docente; ora=prenotazione.ora; giorno=prenotazione.giorno;prenota();" disabled>
                                 Corso: {{prenotazione.nome_corso}}, Docente:{{prenotazione.username_docente}}, Giorno:{{prenotazione.giorno}}, Ora:{{prenotazione.ora}}
                             </button>
 
@@ -93,6 +120,11 @@
 
         </div>
 
+
+
+    </div>
+
+    <div v-if="varAmministratoreListaPrenotazioni">
         <!--Visualizza Prenotazioni prenotate di tutti gli utenti per amministratore -->
         <div v-if="ruolo==1 " >
 
@@ -115,7 +147,6 @@
             </div>
 
         </div>
-
     </div>
 
     <div v-if="varPaginaAmministratore">
@@ -257,7 +288,6 @@
     </div>
 
 
-
     <!--LOGIN -->
     <div v-if="ruolo<0"  >
         <h3 class="d-flex justify-content-center" > Login </h3>
@@ -288,6 +318,7 @@
             varHome:false,
             varPaginaAmministratore:false,
             varPaginaPersonale:false,
+            varAmministratoreListaPrenotazioni:false,
             username_utente:  '',
             cusername_utente:  '',
             password_utente: '',
@@ -319,16 +350,16 @@
             cognomeDocente:  '',
             usernameDocente:  '',
             docOutput: "",
-            linkAddDoc :    'AddDocenteServlet',
-            linkDelDoc :    'DelDocenteServlet',
+            linkAddDoc :'AddDocenteServlet',
+            linkDelDoc :'DelDocenteServlet',
             docente: [],
-            linkGetDoc: 'DelDocenteServlet',
+            linkGetDoc:'DelDocenteServlet',
             nomeCorso:"",
             corOutput: "",
-            linkAddCor :    'AddCorsoServlet',
-            linkDelCor :    'DelCorsoServlet',
+            linkAddCor :'AddCorsoServlet',
+            linkDelCor :'DelCorsoServlet',
             corso: [],
-            linkGetCor: 'DelCorsoServlet',
+            linkGetCor:'DelCorsoServlet',
             usernameDocente1: "",
             nomeCorso1: "",
             corDocOutput: "",
@@ -419,6 +450,7 @@
                 this.varHome=false;
                 this.varPaginaAmministratore=false;
                 this.varPaginaPersonale=false;
+                this.varAmministratoreListaPrenotazioni=false;
 
             },
             prenota:function (){
@@ -458,11 +490,19 @@
                 this.varHome=true;
                 this.varPaginaAmministratore=false;
                 this.varPaginaPersonale=false;
+                this.varAmministratoreListaPrenotazioni=false;
             },
             setPaginaAmministratore:function(){
                 this.varHome=false;
                 this.varPaginaAmministratore=true;
                 this.varPaginaPersonale=false;
+                this.varAmministratoreListaPrenotazioni=false;
+            },
+            setPaginaAmministratoreListaPrenotazioni:function(){
+                this.varHome=false;
+                this.varPaginaAmministratore=false;
+                this.varPaginaPersonale=false;
+                this.varAmministratoreListaPrenotazioni=true;
             },
             setPaginaPersonale:function(){
                 this.varHome=false;
