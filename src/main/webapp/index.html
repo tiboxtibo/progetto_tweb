@@ -37,14 +37,15 @@
 
         </nav>
     </header>
-
+    </br>
+    </br>
+    </br>
+    </br>
     <div v-if="varHome">
+
         <!--Visualizza Prenotazioni prenotabili e prenota per utente -->
         <div v-if="ruolo==0" >
-            </br>
-            </br>
-            </br>
-            </br>
+
             <h2>Elenco prenotazioni </h2>
             <p>{{message1}}</p>
 
@@ -70,10 +71,7 @@
 
         <!--Visualizza Prenotazioni prenotabili e prenota per guest -->
         <div v-if="ruolo==2" >
-            </br>
-            </br>
-            </br>
-            </br>
+
             <h2>Elenco prenotazioni </h2>
             <p>{{message1}}</p>
 
@@ -99,20 +97,17 @@
 
         <!--Visualizza Prenotazioni prenotate di tutti gli utenti per amministratore -->
         <div v-if="ruolo==1 " >
-            </br>
-            </br>
-            </br>
-            </br>
+
             <h2>Registro prenotazioni</h2>
 
             <div class="container">
                 <div v-for="lprenotazione in lprenotazioni">
 
                     <button v-if="lprenotazione.stato_prenotazione==1" type="button" class="btn-lg btn btn-outline-success " disabled >
-                        Corso: {{lprenotazione.nome_corso}}, Docente:{{lprenotazione.username_docente}}, Giorno:{{lprenotazione.giorno}}, Ora:{{lprenotazione.ora}}, Stato:{{lprenotazione.stato_prenotazione}}
+                        Utente:{{lprenotazione.username_utente}}, Corso: {{lprenotazione.nome_corso}}, Docente:{{lprenotazione.username_docente}}, Giorno:{{lprenotazione.giorno}}, Ora:{{lprenotazione.ora}}, Stato:{{lprenotazione.stato_prenotazione}}
                     </button>
                     <button v-if="lprenotazione.stato_prenotazione==-1" type="button" class=" btn-lg btn btn-outline-danger" disabled >
-                        Corso: {{lprenotazione.nome_corso}}, Docente:{{lprenotazione.username_docente}}, Giorno:{{lprenotazione.giorno}}, Ora:{{lprenotazione.ora}}, Stato:{{lprenotazione.stato_prenotazione}}
+                        Utente:{{lprenotazione.username_utente}}, Corso: {{lprenotazione.nome_corso}}, Docente:{{lprenotazione.username_docente}}, Giorno:{{lprenotazione.giorno}}, Ora:{{lprenotazione.ora}}, Stato:{{lprenotazione.stato_prenotazione}}
                     </button>
 
 
@@ -125,10 +120,25 @@
     </div>
 
     <div v-if="varPaginaAmministratore">
-
+        <p>Pagina amministratore</p>
     </div>
 
     <div v-if="varPaginaPersonale">
+        <h2>Pagina personale</h2>
+
+        <div class="container">
+            <div v-for="uprenotazione in uprenotazioni">
+
+                <button v-if="uprenotazione.stato_prenotazione==1" type="button" class="btn-lg btn btn-outline-success " >
+                    Corso: {{uprenotazione.nome_corso}}, Docente:{{uprenotazione.username_docente}}, Giorno:{{uprenotazione.giorno}}, Ora:{{uprenotazione.ora}}, Stato:{{uprenotazione.stato_prenotazione}}
+                </button>
+                <button v-if="uprenotazione.stato_prenotazione==-1" type="button" class=" btn-lg btn btn-outline-danger" disabled >
+                    Corso: {{uprenotazione.nome_corso}}, Docente:{{uprenotazione.username_docente}}, Giorno:{{uprenotazione.giorno}}, Ora:{{uprenotazione.ora}}, Stato:{{uprenotazione.stato_prenotazione}}
+                </button>
+
+            </div>
+
+        </div>
 
     </div>
 
@@ -161,7 +171,7 @@
     var app = new Vue ({
         el: '#app',
         data: {
-            varHome:true,
+            varHome:false,
             varPaginaAmministratore:false,
             varPaginaPersonale:false,
             username_utente:  '',
@@ -173,6 +183,8 @@
             prenotazione: [],
             lprenotazioni: [],
             lprenotazione: [],
+            uprenotazioni: [],
+            uprenotazione: [],
             nome_corso: '',
             ora:'',
             giorno: '',
@@ -181,7 +193,8 @@
             linkPrenotazioniDisponibili :'Prenotazioni-Disponibili-Servlet',
             linkPrenotazioni:'ListaPrenotazioniServlet',
             linkLogout: 'LogoutServlet',
-            linkPrenota: 'PrenotaServlet'
+            linkPrenota: 'PrenotaServlet',
+            linkPrenotazioniUtente:'ListaPrenotazioniPersonaleServlet'
         },
         mounted(){
             this.getPrenotazioniDisponibili()
@@ -194,14 +207,19 @@
                 $.post(this.linkAutentica,{username_utente: this.username_utente, password_utente: this.password_utente}, function (data) {
                     if(data==0){
                         self.message="Benvenuto, hai effettuato l'accesso come UTENTE";
+                        self.getListaPrenotazioniUtente();
+                        self.varHome=true;
                     }
                     if(data==1){
                         self.message="Benvenuto, hai effettuato l'accesso come AMMINISTRATORE";
+                        self.varHome=true;
                     }
                     if(data==-1){
                         self.message="Dati inseriti INCORRETTI, riprova!";
                     }
                     self.ruolo=Number(data);
+
+
 
 
                 });
@@ -215,6 +233,7 @@
                     self.ruolo=Number(data);
 
                 });
+                this.varHome=true;
 
             },
             getPrenotazioniDisponibili:function(){
@@ -235,6 +254,15 @@
                 });
 
             },
+            getListaPrenotazioniUtente:function(){
+                var self = this;
+
+                $.get(this. linkPrenotazioniUtente,{username_utente: this.username_utente}, function (data) {
+                    self.uprenotazioni=data;
+
+                });
+
+            },
             logout:function(){
                 var self = this;
 
@@ -244,6 +272,9 @@
                     self.username_utente= "";
 
                 });
+                this.varHome=false;
+                this.varPaginaAmministratore=false;
+                this.varPaginaPersonale=false;
 
             },
             prenota:function (){

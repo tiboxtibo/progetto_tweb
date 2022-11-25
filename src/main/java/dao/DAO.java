@@ -365,6 +365,33 @@ public class DAO {
         return out;
     }
 
+    public ArrayList<prenotazione> view_prenotazioni_utente( String username_utente) {
+        Connection conn1 = null;
+        ArrayList<prenotazione> out = new ArrayList<>();
+        try {
+            conn1 = DriverManager.getConnection(url1, user, password);
+
+            Statement st = conn1.createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM prenotazione WHERE username_utente = ('" + username_utente + "') ");
+
+            while (rs.next()) {
+                prenotazione p = new prenotazione(rs.getString("nome_corso"), rs.getString("username_utente"), rs.getString("username_docente"), rs.getString("giorno"), rs.getInt("ora"), rs.getInt("stato_prenotazione"), rs.getInt("id_prenotazione"));
+                out.add(p);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            if (conn1 != null) {
+                try {
+                    conn1.close();
+                } catch (SQLException e2) {
+                    System.out.println(e2.getMessage());
+                }
+            }
+        }
+        return out;
+    }
+
     public void del_prenotazione(String nome_corso, String username_utente, String username_docente, String giorno, int ora) {
         Connection conn1 = null;
         ArrayList<prenotazione> out = new ArrayList<>();
