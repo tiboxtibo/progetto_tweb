@@ -38,9 +38,7 @@
         </nav>
     </header>
     </br>
-    </br>
-    </br>
-    </br>
+
     <div v-if="varHome">
 
         <!--Visualizza Prenotazioni prenotabili e prenota per utente -->
@@ -125,11 +123,12 @@
 
     <div v-if="varPaginaPersonale">
         <h2>Pagina personale</h2>
+        <p>{{message2}}</p>
 
         <div class="container">
             <div v-for="uprenotazione in uprenotazioni">
 
-                <button v-if="uprenotazione.stato_prenotazione==1" type="button" class="btn-lg btn btn-outline-success " >
+                <button v-if="uprenotazione.stato_prenotazione==1" type="button" class="btn-lg btn btn-outline-success " v-on:click="nome_corso=uprenotazione.nome_corso; username_docente=uprenotazione.username_docente; ora=uprenotazione.ora; giorno=uprenotazione.giorno;delPrenotazione();">
                     Corso: {{uprenotazione.nome_corso}}, Docente:{{uprenotazione.username_docente}}, Giorno:{{uprenotazione.giorno}}, Ora:{{uprenotazione.ora}}, Stato:{{uprenotazione.stato_prenotazione}}
                 </button>
                 <button v-if="uprenotazione.stato_prenotazione==-1" type="button" class=" btn-lg btn btn-outline-danger" disabled >
@@ -178,6 +177,7 @@
             password_utente: '',
             message:' ',
             message1:' ',
+            message2:'',
             ruolo:-1,
             prenotazioni: [],
             prenotazione: [],
@@ -194,12 +194,12 @@
             linkPrenotazioni:'ListaPrenotazioniServlet',
             linkLogout: 'LogoutServlet',
             linkPrenota: 'PrenotaServlet',
-            linkPrenotazioniUtente:'ListaPrenotazioniPersonaleServlet'
+            linkPrenotazioniUtente:'ListaPrenotazioniPersonaleServlet',
+            linkDelPrenotazione:'EliminaPrenotazioneServlet'
         },
         mounted(){
             this.getPrenotazioniDisponibili()
             this.getListaPrenotazioni()
-            this.getListaPrenotazioniUtente()
         },
         methods:{
             autentica:function(){
@@ -284,7 +284,20 @@
                 $.post(this.linkPrenota,{nome_corso: this.nome_corso,username_utente: this.username_utente,username_docente: this.username_docente,giorno: this.giorno,ora: this.ora}, function (data) {
                     self.message1=data;
                 });
-                this.getPrenotazioniDisponibili();
+                this.getListaPrenotazioniUtente();
+                this.getPrenotazioniDisponibili()
+                this.getListaPrenotazioni()
+
+            },
+            delPrenotazione:function (){
+                var self = this;
+
+                $.post(this.linkDelPrenotazione,{nome_corso: this.nome_corso,username_utente: this.username_utente,username_docente: this.username_docente,giorno: this.giorno,ora: this.ora}, function (data) {
+                    self.message2=data;
+                });
+                this.getListaPrenotazioniUtente();
+                this.getPrenotazioniDisponibili()
+                this.getListaPrenotazioni()
 
             },
             setHome:function(){
