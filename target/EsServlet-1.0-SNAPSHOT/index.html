@@ -9,20 +9,143 @@
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
-
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 
     <meta charset="UTF-8">
     <meta http-equiv="Cache-Control" content="no-store" />
-    <title>HTML - Hello World</title>
-
-
+    <title>Progetto IUM-tweb</title>
 
 </head>
+<!--<body class="d-flex justify-content-center">-->
 <body class="d-flex justify-content-center">
 
-<div id="app" class="col-8 col-lg-3">
+<div id="app">
+    <header v-if="ruolo>=0">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+
+            <div class="alert alert-secondary">
+                <h5 v-if="ruolo==0">{{username_utente}} [UTENTE]</h5>
+                <h5 v-if="ruolo==1">{{username_utente}} [AMMINISTRATORE]</h5>
+                <h5 v-if="ruolo==2" class="nav-item">{{username_utente}} [OSPITE]</h5>
+            </div>
+
+            <button v-if="ruolo==0 || ruolo==1"  v-on:click="setHome" class="btn btn-outline-success me-2">Home</button>
+            <button v-if="ruolo==1"  v-on:click="setPaginaAmministratore" class="btn btn-outline-success me-2">Pagina Amministratore</button>
+            <button v-if="ruolo==0"  v-on:click="setPaginaPersonale" class="btn btn-outline-success me-2">Pagina Personale Utente</button>
+
+            <button v-on:click="logout" class="btn btn-outline-danger my-2">LOGOUT</button>
+
+        </nav>
+    </header>
+    </br>
+
+    <div v-if="varHome">
+
+        <!--Visualizza Prenotazioni prenotabili e prenota per utente -->
+        <div v-if="ruolo==0" >
+
+            <h2>Elenco prenotazioni </h2>
+            <p>{{message1}}</p>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm">
+
+                        <div v-for="prenotazione in prenotazioni">
+
+                            <button type="button" class="btn-lg btn btn-outline-success " v-on:click="nome_corso=prenotazione.nome_corso; username_docente=prenotazione.username_docente; ora=prenotazione.ora; giorno=prenotazione.giorno;prenota();">
+                                Corso: {{prenotazione.nome_corso}}, Docente:{{prenotazione.username_docente}}, Giorno:{{prenotazione.giorno}}, Ora:{{prenotazione.ora}}
+                            </button>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+        <!--Visualizza Prenotazioni prenotabili e prenota per guest -->
+        <div v-if="ruolo==2" >
+
+            <h2>Elenco prenotazioni </h2>
+            <p>{{message1}}</p>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm">
+
+                        <div v-for="prenotazione in prenotazioni">
+
+                            <button type="button" class="btn-lg btn btn-outline-success " disabled>
+                                Corso: {{prenotazione.nome_corso}}, Docente:{{prenotazione.username_docente}}, Giorno:{{prenotazione.giorno}}, Ora:{{prenotazione.ora}}
+                            </button>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+        <!--Visualizza Prenotazioni prenotate di tutti gli utenti per amministratore -->
+        <div v-if="ruolo==1 " >
+
+            <h2>Registro prenotazioni</h2>
+            <p>{{message3}}</p>
+
+            <div class="container">
+                <div v-for="lprenotazione in lprenotazioni">
+
+                    <button v-if="lprenotazione.stato_prenotazione==1" type="button" class="btn-lg btn btn-outline-success " v-on:click="cusername_utente=lprenotazione.username_utente; nome_corso=lprenotazione.nome_corso; username_docente=lprenotazione.username_docente; ora=lprenotazione.ora; giorno=lprenotazione.giorno;delPrenotazioneAmm();" >
+                        Utente:{{lprenotazione.username_utente}}, Corso: {{lprenotazione.nome_corso}}, Docente:{{lprenotazione.username_docente}}, Giorno:{{lprenotazione.giorno}}, Ora:{{lprenotazione.ora}}, Stato:{{lprenotazione.stato_prenotazione}}
+                    </button>
+                    <button v-if="lprenotazione.stato_prenotazione==-1" type="button" class=" btn-lg btn btn-outline-danger" disabled >
+                        Utente:{{lprenotazione.username_utente}}, Corso: {{lprenotazione.nome_corso}}, Docente:{{lprenotazione.username_docente}}, Giorno:{{lprenotazione.giorno}}, Ora:{{lprenotazione.ora}}, Stato:{{lprenotazione.stato_prenotazione}}
+                    </button>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div v-if="varPaginaAmministratore">
+        <p>Pagina amministratore</p>
+    </div>
+
+    <div v-if="varPaginaPersonale">
+        <h2>Pagina personale</h2>
+        <p>{{message2}}</p>
+
+        <div class="container">
+            <div v-for="uprenotazione in uprenotazioni">
+
+                <button v-if="uprenotazione.stato_prenotazione==1" type="button" class="btn-lg btn btn-outline-success " v-on:click="nome_corso=uprenotazione.nome_corso; username_docente=uprenotazione.username_docente; ora=uprenotazione.ora; giorno=uprenotazione.giorno;delPrenotazione();">
+                    Corso: {{uprenotazione.nome_corso}}, Docente:{{uprenotazione.username_docente}}, Giorno:{{uprenotazione.giorno}}, Ora:{{uprenotazione.ora}}, Stato:{{uprenotazione.stato_prenotazione}}
+                </button>
+                <button v-if="uprenotazione.stato_prenotazione==-1" type="button" class=" btn-lg btn btn-outline-danger" disabled >
+                    Corso: {{uprenotazione.nome_corso}}, Docente:{{uprenotazione.username_docente}}, Giorno:{{uprenotazione.giorno}}, Ora:{{uprenotazione.ora}}, Stato:{{uprenotazione.stato_prenotazione}}
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!--LOGIN -->
+    <div v-if="ruolo<0"  >
         <h3 class="d-flex justify-content-center" > Login </h3>
 
         <input type="text" v-model="username_utente" id="username_utente" name="username_utente" class="form-control" placeholder="Username" required autofocus>
@@ -37,36 +160,72 @@
 
         <form action="SignUpServlet" method="get"/>
         <input class="btn btn-lg btn-secondary btn-block" type="submit" name="action" value="Registrazione Utente">
-         </form>
-
-
-        <p v-if="ruolo>=0">Benvenuto {{username_utente}}, hai effettuato l'accesso come {{ruolo}}</p>
-
+        </form>
     </div>
+
+</div>
 
 
 <script>
+
     var app = new Vue ({
         el: '#app',
         data: {
+            varHome:false,
+            varPaginaAmministratore:false,
+            varPaginaPersonale:false,
             username_utente:  '',
+            cusername_utente:  '',
             password_utente: '',
-            message:'...',
-            link : 'http://localhost:8080/EsServlet_war_exploded/LoginServlet',
-            ruolo:-1
-
-
+            message:' ',
+            message1:' ',
+            message2:'',
+            message3:'',
+            ruolo:-1,
+            prenotazioni: [],
+            prenotazione: [],
+            lprenotazioni: [],
+            lprenotazione: [],
+            uprenotazioni: [],
+            uprenotazione: [],
+            nome_corso: '',
+            ora:'',
+            giorno: '',
+            username_docente: '',
+            linkAutentica : 'LoginServlet',
+            linkPrenotazioniDisponibili :'Prenotazioni-Disponibili-Servlet',
+            linkPrenotazioni:'ListaPrenotazioniServlet',
+            linkLogout: 'LogoutServlet',
+            linkPrenota: 'PrenotaServlet',
+            linkPrenotazioniUtente:'ListaPrenotazioniPersonaleServlet',
+            linkDelPrenotazione:'EliminaPrenotazioneServlet',
+            linkDelPrenotazioneAmm:'EliminaPrenotazioneAmmServlet'
         },
         mounted(){
-
+            this.getPrenotazioniDisponibili()
+            this.getListaPrenotazioni()
         },
         methods:{
             autentica:function(){
                 var self = this;
 
-                $.post(this.link,{username_utente: this.username_utente, password_utente: this.password_utente}, function (data) {
+                $.post(this.linkAutentica,{username_utente: this.username_utente, password_utente: this.password_utente}, function (data) {
+                    if(data==0){
+                        self.message="Benvenuto, hai effettuato l'accesso come UTENTE";
+                        self.getListaPrenotazioniUtente();
+                        self.varHome=true;
+                    }
+                    if(data==1){
+                        self.message="Benvenuto, hai effettuato l'accesso come AMMINISTRATORE";
+                        self.varHome=true;
+                    }
+                    if(data==-1){
+                        self.message="Dati inseriti INCORRETTI, riprova!";
+                    }
+                    self.ruolo=Number(data);
 
-                    self.message=data;
+
+
 
                 });
 
@@ -74,46 +233,107 @@
             autenticaOspite:function(){
                 var self = this;
 
-                $.post(this.link,{username_utente: "guest", password_utente: "guest"}, function (data) {
-                    self.message=data;
+                $.post(this.linkAutentica,{username_utente: "guest", password_utente: "guest"}, function (data) {
+                    self.message="Benvenuto, hai effettuato l'accesso come OSPITE";
+                    self.ruolo=Number(data);
+
+                });
+                this.varHome=true;
+
+            },
+            getPrenotazioniDisponibili:function(){
+                var self = this;
+
+                $.get(this. linkPrenotazioniDisponibili, function (data) {
+                    self.prenotazioni=data;
 
                 });
 
-            }
+            },
+            getListaPrenotazioni:function(){
+                var self = this;
+
+                $.get(this. linkPrenotazioni, function (data) {
+                    self.lprenotazioni=data;
+
+                });
+
+            },
+            getListaPrenotazioniUtente:function(){
+                var self = this;
+
+                $.get(this. linkPrenotazioniUtente,{username_utente: this.username_utente}, function (data) {
+                    self.uprenotazioni=data;
+
+                });
+
+            },
+            logout:function(){
+                var self = this;
+
+                $.post(this.linkLogout, function (data) {
+                    self.message="Logout effettuato con successo";
+                    self.ruolo= -1;
+                    self.username_utente= "";
+
+                });
+                this.varHome=false;
+                this.varPaginaAmministratore=false;
+                this.varPaginaPersonale=false;
+
+            },
+            prenota:function (){
+                var self = this;
+
+                $.post(this.linkPrenota,{nome_corso: this.nome_corso,username_utente: this.username_utente,username_docente: this.username_docente,giorno: this.giorno,ora: this.ora}, function (data) {
+                    self.message1=data;
+                });
+                this.getListaPrenotazioniUtente();
+                this.getPrenotazioniDisponibili()
+                this.getListaPrenotazioni()
+
+            },
+            delPrenotazione:function (){
+                var self = this;
+
+                $.post(this.linkDelPrenotazione,{nome_corso: this.nome_corso,username_utente: this.username_utente,username_docente: this.username_docente,giorno: this.giorno,ora: this.ora}, function (data) {
+                    self.message2=data;
+                });
+                this.getListaPrenotazioniUtente();
+                this.getPrenotazioniDisponibili()
+                this.getListaPrenotazioni()
+
+            },
+            delPrenotazioneAmm:function (){
+                var self = this;
+
+                $.post(this.linkDelPrenotazioneAmm,{nome_corso: this.nome_corso,cusername_utente: this.cusername_utente,username_docente: this.username_docente,giorno: this.giorno,ora: this.ora}, function (data) {
+                    self.message3=data;
+                });
+                this.getListaPrenotazioniUtente();
+                this.getPrenotazioniDisponibili();
+                this.getListaPrenotazioni();
+
+            },
+            setHome:function(){
+                this.varHome=true;
+                this.varPaginaAmministratore=false;
+                this.varPaginaPersonale=false;
+            },
+            setPaginaAmministratore:function(){
+                this.varHome=false;
+                this.varPaginaAmministratore=true;
+                this.varPaginaPersonale=false;
+            },
+            setPaginaPersonale:function(){
+                this.varHome=false;
+                this.varPaginaAmministratore=false;
+                this.varPaginaPersonale=true;
+            },
         }
     });
 
-</script>
 
-<div v-if="ruolo>=0" id="viewPrenotazioni" class="col-8 col-lg-3">
-        <di v-for="prenotazione in prenotazioni"><p>{{prenotazione.nome_corso}},{{prenotazione.username_utente}},{{prenotazione.username_docente}},{{prenotazione.giorno}},{{prenotazione.ora}},{{prenotazione.stato_prenotazione}},{{prenotazione.id_prenotazione}}</p></di>
-    </div>
-
-<script>
-        var viewPrenotazioni = new Vue ({
-            el: '#viewPrenotazioni',
-            data: {
-                prenotazioni: [],
-                link :    'Prenotazioni-Disponibili-Servlet',
-                ruolo:-1
-            },
-            mounted(){
-                this.getPrenotazioni()
-
-            },
-            methods:{
-                getPrenotazioni:function(){
-                    var self = this;
-
-                    $.get(this.link, function (data) {
-                        self.prenotazioni=data;
-
-                    });
-
-                }
-
-            }
-        });
     </script>
 
 

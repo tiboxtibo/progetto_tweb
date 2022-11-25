@@ -1,23 +1,18 @@
 package com.example.progetto_tweb;
 
+import com.google.gson.Gson;
 import dao.DAO;
 import dao.prenotazione;
 
-import java.io.*;
-import java.util.ArrayList;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
+import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 
-import com.google.gson.Gson;
-
-
-
-@WebServlet(name = "PrenotazioniDisponibiliServlet", value = "/Prenotazioni-Disponibili-Servlet")
-public class PrenotazioniDisponibiliServlet extends HttpServlet {
-
+@WebServlet(name = "ListaPrenotazioniPersonaleServlet", value = "/ListaPrenotazioniPersonaleServlet")
+public class ListaPrenotazioniPersonaleServlet extends HttpServlet {
     DAO dao = null;
 
     public void init(ServletConfig config) throws ServletException {
@@ -31,8 +26,13 @@ public class PrenotazioniDisponibiliServlet extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession s = request.getSession();
 
-        ArrayList<prenotazione> prenotazioni = dao.view_prenotazioni_prenotabili();
+        String username_utente = request.getParameter("username_utente");
+
+        //System.out.println(username_utente);
+
+        ArrayList<prenotazione> prenotazioni = dao.view_prenotazioni_utente(username_utente);
         response.setContentType("application/json");
 
 
@@ -40,8 +40,8 @@ public class PrenotazioniDisponibiliServlet extends HttpServlet {
 
         Gson gson = new Gson();
 
-        String s = gson.toJson(prenotazioni);
-        out.println(s);
+        String ss = gson.toJson(prenotazioni);
+        out.println(ss);
         //System.out.println("STRINGA JSON " + s);
 
     }

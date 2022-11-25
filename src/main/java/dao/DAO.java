@@ -306,8 +306,7 @@ public class DAO {
         return out;
     }
 
-
-    public void add_prenotazione(String nome_corso, String username_utente, String username_docente, String giorno, int ora) {
+    public boolean add_prenotazione(String nome_corso, String username_utente, String username_docente, String giorno, int ora) {
         Connection conn1 = null;
         ArrayList<prenotazione> out = new ArrayList<>();
         try {
@@ -315,11 +314,18 @@ public class DAO {
 
             int stato_prenotazione=1;
 
+            if(username_utente.equals("guest")){
+                return false;
+            }
+
             Statement st = conn1.createStatement();
             st.executeUpdate("INSERT INTO `prenotazione`(`nome_corso`,`username_utente`,`username_docente`,`giorno`,`ora`,`stato_prenotazione`) VALUES ('" + nome_corso + "','" + username_utente + "','" + username_docente + "','" + giorno + "','" + ora + "','" + stato_prenotazione + "')");
 
+            return true;
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+
         } finally {
             if (conn1 != null) {
                 try {
@@ -329,7 +335,7 @@ public class DAO {
                 }
             }
         }
-
+        return false;
     }
 
     public ArrayList<prenotazione> view_prenotazioni() {
@@ -359,17 +365,43 @@ public class DAO {
         return out;
     }
 
-    public void del_prenotazione(String nome_corso, String username_utente, String username_docente, String giorno, int ora) {
+    public ArrayList<prenotazione> view_prenotazioni_utente( String username_utente) {
         Connection conn1 = null;
         ArrayList<prenotazione> out = new ArrayList<>();
         try {
             conn1 = DriverManager.getConnection(url1, user, password);
 
-            int stato_prenotazione=1;
+            Statement st = conn1.createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM prenotazione WHERE username_utente = ('" + username_utente + "') ");
+
+            while (rs.next()) {
+                prenotazione p = new prenotazione(rs.getString("nome_corso"), rs.getString("username_utente"), rs.getString("username_docente"), rs.getString("giorno"), rs.getInt("ora"), rs.getInt("stato_prenotazione"), rs.getInt("id_prenotazione"));
+                out.add(p);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            if (conn1 != null) {
+                try {
+                    conn1.close();
+                } catch (SQLException e2) {
+                    System.out.println(e2.getMessage());
+                }
+            }
+        }
+        return out;
+    }
+
+    public boolean del_prenotazione(String nome_corso, String username_utente, String username_docente, String giorno, int ora) {
+        Connection conn1 = null;
+        ArrayList<prenotazione> out = new ArrayList<>();
+        try {
+            conn1 = DriverManager.getConnection(url1, user, password);
 
             Statement st = conn1.createStatement();
             st.executeUpdate("UPDATE prenotazione SET stato_prenotazione=-1 WHERE nome_corso = ('" + nome_corso + "') and username_utente = ('" + username_utente + "') and  username_docente = ('" + username_docente + "') and giorno = ('" + giorno + "') and ora = ('" + ora+ "')");
 
+            return true;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         } finally {
@@ -382,6 +414,7 @@ public class DAO {
             }
         }
 
+        return false;
     }
 
     public ArrayList<prenotazione> view_prenotazioni_prenotabili() {
