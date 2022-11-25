@@ -49,7 +49,7 @@ public class PrenotaPrenotazioneServlet extends HttpServlet {
                 message="Lezione Correttamente prenotata";
             }
             else{
-                message="Lezione NON prenotata! Utente già occupato!";
+                message="Lezione NON prenotata!";
             }
             response.setContentType("text/plain");
 
