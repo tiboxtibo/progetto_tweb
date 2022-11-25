@@ -399,14 +399,39 @@ public class DAO {
         return out;
     }
 
-    public boolean del_prenotazione(String nome_corso, String username_utente, String username_docente, String giorno, int ora) {
+    public boolean del_prenotazione(String nome_corso, String username_utente, String username_docente, String giorno, int ora, String id_prenotazione) {
         Connection conn1 = null;
         ArrayList<prenotazione> out = new ArrayList<>();
         try {
             conn1 = DriverManager.getConnection(url1, user, password);
 
             Statement st = conn1.createStatement();
-            st.executeUpdate("UPDATE prenotazione SET stato_prenotazione=-1 WHERE nome_corso = ('" + nome_corso + "') and username_utente = ('" + username_utente + "') and  username_docente = ('" + username_docente + "') and giorno = ('" + giorno + "') and ora = ('" + ora+ "')");
+            st.executeUpdate("UPDATE prenotazione SET stato_prenotazione=-1 WHERE nome_corso = ('" + nome_corso + "') and username_utente = ('" + username_utente + "') and  username_docente = ('" + username_docente + "') and giorno = ('" + giorno + "') and ora = ('" + ora+ "')and id_prenotazione = ('" + id_prenotazione+ "')");
+
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            if (conn1 != null) {
+                try {
+                    conn1.close();
+                } catch (SQLException e2) {
+                    System.out.println(e2.getMessage());
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public boolean prenota_prenotazione(String nome_corso, String username_utente, String username_docente, String giorno, int ora, String id_prenotazione) {
+        Connection conn1 = null;
+        ArrayList<prenotazione> out = new ArrayList<>();
+        try {
+            conn1 = DriverManager.getConnection(url1, user, password);
+
+            Statement st = conn1.createStatement();
+            st.executeUpdate("UPDATE prenotazione SET stato_prenotazione=0 WHERE nome_corso = ('" + nome_corso + "') and username_utente = ('" + username_utente + "') and  username_docente = ('" + username_docente + "') and giorno = ('" + giorno + "') and ora = ('" + ora+ "') and id_prenotazione = ('" + id_prenotazione+ "')");
 
             return true;
         } catch (SQLException e) {

@@ -40,10 +40,11 @@ public class EliminaPrenotazioneAmmServlet extends HttpServlet {
             String username_utente = request.getParameter("cusername_utente");//varia per l'username da elimina prenotazione Servlet
             String giorno = request.getParameter("giorno");
             int ora = Integer.parseInt(request.getParameter("ora"));
+            String id_prenotazione = request.getParameter("id_prenotazione");
 
 
             //System.out.println(nome_corso + username_docente + username_utente + giorno + ora);
-            if(dao.del_prenotazione(nome_corso,username_utente,username_docente, giorno, ora)){
+            if(dao.del_prenotazione(nome_corso,username_utente,username_docente, giorno, ora,id_prenotazione)){
                 message="Lezione Correttamente cancellata";
             }
             else{

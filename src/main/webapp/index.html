@@ -30,8 +30,8 @@
             </div>
 
             <button v-if="ruolo==0 || ruolo==1"  v-on:click="setHome" class="btn btn-outline-success me-2">Home</button>
-            <button v-if="ruolo==1"  v-on:click="setPaginaAmministratore" class="btn btn-outline-success me-2">Pagina Amministratore</button>
             <button v-if="ruolo==1"  v-on:click="setPaginaAmministratoreListaPrenotazioni" class="btn btn-outline-success me-2">Lista Prenotazioni Utenti</button>
+            <button v-if="ruolo==1"  v-on:click="setPaginaAmministratore" class="btn btn-outline-success me-2">Pagina Amministratore</button>
             <button v-if="ruolo==0"  v-on:click="setPaginaPersonale" class="btn btn-outline-success me-2">Pagina Personale Utente</button>
 
             <button v-on:click="logout" class="btn btn-outline-danger my-2">LOGOUT</button>
@@ -54,7 +54,7 @@
 
                         <div v-for="prenotazione in prenotazioni">
 
-                            <button type="button" class="btn-lg btn btn-outline-success " v-on:click="nome_corso=prenotazione.nome_corso; username_docente=prenotazione.username_docente; ora=prenotazione.ora; giorno=prenotazione.giorno;prenota();">
+                            <button type="button" class="btn-lg btn btn-outline-success " v-on:click="nome_corso=prenotazione.nome_corso; username_docente=prenotazione.username_docente; ora=prenotazione.ora; giorno=prenotazione.giorno; id_prenotazione=prenotazione.id_prenotazione;prenota();">
                                 Corso: {{prenotazione.nome_corso}}, Docente:{{prenotazione.username_docente}}, Giorno:{{prenotazione.giorno}}, Ora:{{prenotazione.ora}}
                             </button>
 
@@ -80,7 +80,7 @@
 
                         <div v-for="prenotazione in prenotazioni">
 
-                            <button type="button" class="btn-lg btn btn-outline-success " v-on:click="nome_corso=prenotazione.nome_corso; username_docente=prenotazione.username_docente; ora=prenotazione.ora; giorno=prenotazione.giorno;prenota();" disabled>
+                            <button type="button" class="btn-lg btn btn-outline-success " v-on:click="nome_corso=prenotazione.nome_corso; username_docente=prenotazione.username_docente; ora=prenotazione.ora; giorno=prenotazione.giorno; id_prenotazione=prenotazione.id_prenotazione;prenota();" disabled>
                                 Corso: {{prenotazione.nome_corso}}, Docente:{{prenotazione.username_docente}}, Giorno:{{prenotazione.giorno}}, Ora:{{prenotazione.ora}}
                             </button>
 
@@ -132,12 +132,17 @@
             <div class="container">
                 <div v-for="lprenotazione in lprenotazioni">
 
-                    <button v-if="lprenotazione.stato_prenotazione==1" type="button" class="btn-lg btn btn-outline-success " v-on:click="cusername_utente=lprenotazione.username_utente; nome_corso=lprenotazione.nome_corso; username_docente=lprenotazione.username_docente; ora=lprenotazione.ora; giorno=lprenotazione.giorno;delPrenotazioneAmm();" >
+                    <button v-if="lprenotazione.stato_prenotazione==1" type="button" class="btn-lg btn btn-outline-success " v-on:click="cusername_utente=lprenotazione.username_utente; nome_corso=lprenotazione.nome_corso; username_docente=lprenotazione.username_docente; ora=lprenotazione.ora; giorno=lprenotazione.giorno; id_prenotazione=lprenotazione.id_prenotazione;delPrenotazioneAmm();" >
                         Utente:{{lprenotazione.username_utente}}, Corso: {{lprenotazione.nome_corso}}, Docente:{{lprenotazione.username_docente}}, Giorno:{{lprenotazione.giorno}}, Ora:{{lprenotazione.ora}}, Stato:{{lprenotazione.stato_prenotazione}}
                     </button>
                     <button v-if="lprenotazione.stato_prenotazione==-1" type="button" class=" btn-lg btn btn-outline-danger" disabled >
                         Utente:{{lprenotazione.username_utente}}, Corso: {{lprenotazione.nome_corso}}, Docente:{{lprenotazione.username_docente}}, Giorno:{{lprenotazione.giorno}}, Ora:{{lprenotazione.ora}}, Stato:{{lprenotazione.stato_prenotazione}}
                     </button>
+                    <button  v-if="lprenotazione.stato_prenotazione==0" type="button"  class="btn btn-outline-warning" disabled >
+                        Corso: {{lprenotazione.nome_corso}}, Docente:{{lprenotazione.username_docente}}, Giorno:{{lprenotazione.giorno}}, Ora:{{lprenotazione.ora}}, Stato:{{lprenotazione.stato_prenotazione}}
+                    </button>
+
+
 
 
                 </div>
@@ -271,13 +276,28 @@
 
         <div class="container">
             <div v-for="uprenotazione in uprenotazioni">
+                <div v-if="uprenotazione.stato_prenotazione==1">
+                    <button type="button" class="btn-lg btn btn-outline-success " v-on:click="nome_corso=uprenotazione.nome_corso; username_docente=uprenotazione.username_docente; ora=uprenotazione.ora; giorno=uprenotazione.giorno;id_prenotazione=uprenotazione.id_prenotazione; delPrenotazione();">
+                        Corso: {{uprenotazione.nome_corso}}, Docente:{{uprenotazione.username_docente}}, Giorno:{{uprenotazione.giorno}}, Ora:{{uprenotazione.ora}}, Stato:{{uprenotazione.stato_prenotazione}}
+                    </button>
+                    <button type="button" class="btn btn-outline-warning" v-on:click="nome_corso=uprenotazione.nome_corso; username_docente=uprenotazione.username_docente; ora=uprenotazione.ora; giorno=uprenotazione.giorno; id_prenotazione=uprenotazione.id_prenotazione; prenotaPrenotazione();" >
+                        Lezione effettuata
+                    </button>
+                </div>
 
-                <button v-if="uprenotazione.stato_prenotazione==1" type="button" class="btn-lg btn btn-outline-success " v-on:click="nome_corso=uprenotazione.nome_corso; username_docente=uprenotazione.username_docente; ora=uprenotazione.ora; giorno=uprenotazione.giorno;delPrenotazione();">
-                    Corso: {{uprenotazione.nome_corso}}, Docente:{{uprenotazione.username_docente}}, Giorno:{{uprenotazione.giorno}}, Ora:{{uprenotazione.ora}}, Stato:{{uprenotazione.stato_prenotazione}}
-                </button>
-                <button v-if="uprenotazione.stato_prenotazione==-1" type="button" class=" btn-lg btn btn-outline-danger" disabled >
-                    Corso: {{uprenotazione.nome_corso}}, Docente:{{uprenotazione.username_docente}}, Giorno:{{uprenotazione.giorno}}, Ora:{{uprenotazione.ora}}, Stato:{{uprenotazione.stato_prenotazione}}
-                </button>
+                <div v-if="uprenotazione.stato_prenotazione==-1">
+                    <button  type="button" class=" btn-lg btn btn-outline-danger" disabled >
+                        Corso: {{uprenotazione.nome_corso}}, Docente:{{uprenotazione.username_docente}}, Giorno:{{uprenotazione.giorno}}, Ora:{{uprenotazione.ora}}, Stato:{{uprenotazione.stato_prenotazione}}
+                    </button>
+                </div>
+
+                <div v-if="uprenotazione.stato_prenotazione==0">
+                    <button  type="button"  class="btn btn-outline-warning" disabled >
+                        Corso: {{uprenotazione.nome_corso}}, Docente:{{uprenotazione.username_docente}}, Giorno:{{uprenotazione.giorno}}, Ora:{{uprenotazione.ora}}, Stato:{{uprenotazione.stato_prenotazione}}
+                    </button>
+                </div>
+
+
 
             </div>
 
@@ -320,6 +340,7 @@
             username_utente:  '',
             cusername_utente:  '',
             password_utente: '',
+            id_prenotazione: '',
             message:' ',
             message1:' ',
             message2:'',
@@ -343,6 +364,7 @@
             linkPrenotazioniUtente:'ListaPrenotazioniPersonaleServlet',
             linkDelPrenotazione:'EliminaPrenotazioneServlet',
             linkDelPrenotazioneAmm:'EliminaPrenotazioneAmmServlet',
+            linkPrenotaPrenotazione:'PrenotaPrenotazioneServlet',
 
             nomeDocente:"",
             cognomeDocente:  '',
@@ -454,30 +476,41 @@
             prenota:function (){
                 var self = this;
 
-                $.post(this.linkPrenota,{nome_corso: this.nome_corso,username_utente: this.username_utente,username_docente: this.username_docente,giorno: this.giorno,ora: this.ora}, function (data) {
+                $.post(this.linkPrenota,{nome_corso: this.nome_corso,username_utente: this.username_utente,username_docente: this.username_docente,giorno: this.giorno,ora: this.ora,id_prenotazione: this.id_prenotazione}, function (data) {
                     self.message1=data;
                 });
                 this.getListaPrenotazioniUtente();
-                this.getPrenotazioniDisponibili()
-                this.getListaPrenotazioni()
+                this.getPrenotazioniDisponibili();
+                this.getListaPrenotazioni();
 
             },
             delPrenotazione:function (){
                 var self = this;
 
-                $.post(this.linkDelPrenotazione,{nome_corso: this.nome_corso,username_utente: this.username_utente,username_docente: this.username_docente,giorno: this.giorno,ora: this.ora}, function (data) {
+                $.post(this.linkDelPrenotazione,{nome_corso: this.nome_corso,username_utente: this.username_utente,username_docente: this.username_docente,giorno: this.giorno,ora: this.ora,id_prenotazione: this.id_prenotazione}, function (data) {
                     self.message2=data;
                 });
                 this.getListaPrenotazioniUtente();
-                this.getPrenotazioniDisponibili()
-                this.getListaPrenotazioni()
+                this.getPrenotazioniDisponibili();
+                this.getListaPrenotazioni();
 
             },
             delPrenotazioneAmm:function (){
                 var self = this;
 
-                $.post(this.linkDelPrenotazioneAmm,{nome_corso: this.nome_corso,cusername_utente: this.cusername_utente,username_docente: this.username_docente,giorno: this.giorno,ora: this.ora}, function (data) {
+                $.post(this.linkDelPrenotazioneAmm,{nome_corso: this.nome_corso,cusername_utente: this.cusername_utente,username_docente: this.username_docente,giorno: this.giorno,ora: this.ora,id_prenotazione: this.id_prenotazione}, function (data) {
                     self.message3=data;
+                });
+                this.getListaPrenotazioniUtente();
+                this.getPrenotazioniDisponibili();
+                this.getListaPrenotazioni();
+
+            },
+            prenotaPrenotazione:function (){
+                var self = this;
+
+                $.post(this.linkPrenotaPrenotazione,{nome_corso: this.nome_corso,username_utente: this.username_utente,username_docente: this.username_docente,giorno: this.giorno,ora: this.ora,id_prenotazione: this.id_prenotazione}, function (data) {
+                    self.message2=data;
                 });
                 this.getListaPrenotazioniUtente();
                 this.getPrenotazioniDisponibili();

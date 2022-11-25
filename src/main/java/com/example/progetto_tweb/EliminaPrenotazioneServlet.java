@@ -40,10 +40,11 @@ public class EliminaPrenotazioneServlet extends HttpServlet {
             String username_utente = (String) s.getAttribute("username_utente");
             String giorno = request.getParameter("giorno");
             int ora = Integer.parseInt(request.getParameter("ora"));
+            String id_prenotazione = request.getParameter("id_prenotazione");
 
 
             //System.out.println(nome_corso + username_docente + username_utente + giorno + ora);
-            if(dao.del_prenotazione(nome_corso,username_utente,username_docente, giorno, ora)){
+            if(dao.del_prenotazione(nome_corso,username_utente,username_docente, giorno, ora,id_prenotazione)){
                 message="Lezione Correttamente cancellata";
             }
             else{
