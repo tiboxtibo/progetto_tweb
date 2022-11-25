@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!-- Sezione Admin-->
+<div id="adminPage" class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+
+    <!-- Colonna Docente -->
+    <div id="docente" class="col">
+        <div class="card mb-4 rounded-3 shadow-sm">
+            <div class="card-header py-3 text-bg-primary">
+                <h4 class="my-0 fw-normal">Docente</h4>
+            </div>
+            <div class="card-body">
+                <!-- Sezione Inserisci/Elimina Docente -->
+                <div id="addDocente">
+
+                    <label for="dname" class="sr-only">Nome</label>
+                    <input v-model="nomeDocente" type="text" name="nome_docente" id="dname" class="form-control" placeholder="Nome" required autofocus>
+
+                    <label for="dsur" class="sr-only">Password</label>
+                    <input v-model="cognomeDocente" type="text" id="dsur" name="cognome_docente" class="form-control" placeholder="Cognome" required autofocus>
+
+                    <label for="dusr" class="sr-only">Username</label>
+                    <input v-model="usernameDocente" type="text" id="dusr" name="username_docente" class="form-control" placeholder="Username" required autofocus>
+
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <input v-on:click="addDocente" id="addDocBtn" class="w-100 btn btn-lg btn-primary" name="addDoc" type="button" value="Aggiungi"/>
+                        <input v-on:click="delDocente" id="delDocBtn" class="w-100 btn btn-lg btn-primary" name="addDoc" type="button" value="Elimina"/>
+                    </div>
+
+                    <p>{{ docOutput }}</p>
+
+                </div>
+                <!-- Fine sezione Inserisci/Elimina Docente -->
+
+                <!-- Sezione Visualizza Docente -->
+                <div id="getDocente">
+                    <div v-for="docente in docente"><p>{{docente.username_docente}}</p></div>
+                </div>
+                <!-- Fine Sezione Visualizza Docente -->
+            </div>
+
+        </div>
+    </div>
+    <!-- Fine Colonna Docente -->
+
+    <!-- Colonna Corso -->
+    <div id="corso" class="col">
+        <div class="card mb-4 rounded-3 shadow-sm">
+            <div class="card-header py-3 text-bg-primary">
+                <h4 class="my-0 fw-normal">Corso</h4>
+            </div>
+            <div class="card-body">
+                <!-- Sezione Inserisci/Elimina Corso -->
+                <div id="addCorso">
+
+                    <label for="cname" class="sr-only">Materia</label>
+                    <input v-model="nomeCorso" type="text" name="nome_corso" id="cname" class="form-control" placeholder="Materia" required autofocus>
+
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <input v-on:click="addCorso" id="addCorBtn" class="w-100 btn btn-lg btn-primary" name="addDoc" type="button" value="Aggiungi"/>
+                        <input v-on:click="delCorso" id="delCorBtn" class="w-100 btn btn-lg btn-primary" name="addDoc" type="button" value="Elimina"/>
+                    </div>
+
+                    <p>{{ corOutput }}</p>
+
+                </div>
+                <!-- Fine sezione Inserisci/Elimina Corso -->
+
+                <!-- Sezione Visualizza Corso -->
+                <div id="getCorso">
+                    <div v-for="corso in corso"><p>{{corso.nome_corso}}</p></div>
+                </div>
+                <!-- Fine Sezione Visualizza Corso -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Colonna CorsoDocente -->
+    <div id="corsoDocente" class="col">
+        <div class="card mb-4 rounded-3 shadow-sm">
+            <div class="card-header py-3 text-bg-primary">
+                <h4 class="my-0 fw-normal">CorsoDocente</h4>
+            </div>
+            <div class="card-body">
+                <!-- Sezione Inserisci/Elimina CorsoDocente -->
+                <div id="addCorsoDocente">
+
+                    <label class="sr-only">Username</label>
+                    <input v-model="usernameDocente1" type="text" name="username_docente" class="form-control" placeholder="Username" required autofocus>
+
+                    <label class="sr-only">Materia</label>
+                    <input v-model="nomeCorso1" type="text" name="cognome_docente" class="form-control" placeholder="Materia" required autofocus>
+
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <input v-on:click="addCorsoDocente" id="addCorDocBtn" class="w-100 btn btn-lg btn-primary" name="addDoc" type="button" value="Aggiungi"/>
+                        <input v-on:click="delCorsoDocente" id="delCorDocBtn" class="w-100 btn btn-lg btn-primary" name="addDoc" type="button" value="Elimina"/>
+                    </div>
+
+                    <p>{{ corDocOutput }}</p>
+
+                </div>
+                <!-- Fine sezione Inserisci/Elimina CorsoDocente -->
+
+                <!-- Sezione Visualizza CorsoDocente -->
+                <div id="getCorsoDocente">
+                    <div  v-for="corsoDocente in corsoDocente"><p>{{corsoDocente.username_docente}} {{corsoDocente.nome_corso}}</p></div>
+                </div>
+                <!-- Fine Sezione Visualizza CorsoDocente -->
+            </div>
+
+        </div>
+    </div>
+    <!-- Fine Colonna CorsoDocente -->
+
+
+</div>
+
+<script>
+    var app = new Vue ({
+        el: '#adminPage',
+        data: {
+            nomeDocente:"",
+            cognomeDocente:  '',
+            usernameDocente:  '',
+            docOutput: "",
+            linkAddDoc :    '/prova1Servlet_war_exploded/AddDocenteServlet',
+            linkDelDoc :    '/prova1Servlet_war_exploded/DelDocenteServlet',
+            docente: [],
+            linkGetDoc: '/prova1Servlet_war_exploded/DelDocenteServlet',
+            nomeCorso:"",
+            corOutput: "",
+            linkAddCor :    '/prova1Servlet_war_exploded/AddCorsoServlet',
+            linkDelCor :    '/prova1Servlet_war_exploded/DelCorsoServlet',
+            corso: [],
+            linkGetCor: '/prova1Servlet_war_exploded/DelCorsoServlet',
+            usernameDocente1: "",
+            nomeCorso1: "",
+            corDocOutput: "",
+            corsoDocente: [],
+            linkAddCorDoc: '/prova1Servlet_war_exploded/AddCorsoDocenteServlet',
+            linkDelCorDoc: '/prova1Servlet_war_exploded/DelCorsoDocenteServlet',
+
+        },
+        mounted(){
+            this.getCorso()
+            this.getDocente()
+            this.getCorsoDocente()
+        },
+        methods:{
+            addDocente:function(){
+                var self = this;
+
+                $.post(this.linkAddDoc, {nomeDocente: this.nomeDocente, cognomeDocente: this.cognomeDocente, usernameDocente: this.usernameDocente}, function (data) {
+                    self.docOutput = data;
+                    self.getDocente();
+                });
+
+            },
+            delDocente:function(){
+                var self = this;
+
+                $.post(this.linkDelDoc, {usernameDocente: this.usernameDocente}, function (data) {
+                    self.docOutput = data;
+                    self.getDocente();
+                });
+
+            },
+            getDocente: function(){
+                var self = this;
+
+                $.get(this.linkGetDoc, function(data) {
+                    self.docente = data;
+                });
+            },
+            addCorso:function(){
+                var self = this;
+
+                $.post(this.linkAddCor, {nomeCorso: this.nomeCorso}, function (data) {
+                    self.corOutput = data;
+                    self.getCorso();
+                });
+
+            },
+            delCorso:function(){
+                var self = this;
+
+                $.post(this.linkDelCor, {nomeCorso: this.nomeCorso}, function (data) {
+                    self.corOutput = data;
+                    self.getCorso();
+                });
+
+            },
+            getCorso: function(){
+                var self = this;
+
+                $.get(this.linkGetCor, function(data) {
+                    self.corso = data;
+                });
+            },
+            addCorsoDocente:function(){
+                var self = this;
+
+                $.post(this.linkAddCorDoc, {usernameDocente1: this.usernameDocente1, nomeCorso1: this.nomeCorso1}, function (data) {
+                    self.corDocOutput = data;
+                    self.getCorsoDocente();
+                });
+
+            },
+            delCorsoDocente:function(){
+                var self = this;
+
+                $.post(this.linkDelCorDoc, {usernameDocente1: this.usernameDocente1, nomeCorso1: this.nomeCorso1}, function (data) {
+                    self.corDocOutput = data;
+                    self.getCorsoDocente();
+                });
+
+            },
+            getCorsoDocente: function(){
+                var self = this;
+
+                $.get(this.linkDelCorDoc, function(data) {
+                    self.corsoDocente = data;
+                });
+            }
+        }
+    });
+</script>
+<!-- Fine Sezione Admin -->
+</body>
+</html>
