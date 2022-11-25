@@ -97,11 +97,12 @@
         <div v-if="ruolo==1 " >
 
             <h2>Registro prenotazioni</h2>
+            <p>{{message3}}</p>
 
             <div class="container">
                 <div v-for="lprenotazione in lprenotazioni">
 
-                    <button v-if="lprenotazione.stato_prenotazione==1" type="button" class="btn-lg btn btn-outline-success " disabled >
+                    <button v-if="lprenotazione.stato_prenotazione==1" type="button" class="btn-lg btn btn-outline-success " v-on:click="cusername_utente=lprenotazione.username_utente; nome_corso=lprenotazione.nome_corso; username_docente=lprenotazione.username_docente; ora=lprenotazione.ora; giorno=lprenotazione.giorno;delPrenotazioneAmm();" >
                         Utente:{{lprenotazione.username_utente}}, Corso: {{lprenotazione.nome_corso}}, Docente:{{lprenotazione.username_docente}}, Giorno:{{lprenotazione.giorno}}, Ora:{{lprenotazione.ora}}, Stato:{{lprenotazione.stato_prenotazione}}
                     </button>
                     <button v-if="lprenotazione.stato_prenotazione==-1" type="button" class=" btn-lg btn btn-outline-danger" disabled >
@@ -174,10 +175,12 @@
             varPaginaAmministratore:false,
             varPaginaPersonale:false,
             username_utente:  '',
+            cusername_utente:  '',
             password_utente: '',
             message:' ',
             message1:' ',
             message2:'',
+            message3:'',
             ruolo:-1,
             prenotazioni: [],
             prenotazione: [],
@@ -195,7 +198,8 @@
             linkLogout: 'LogoutServlet',
             linkPrenota: 'PrenotaServlet',
             linkPrenotazioniUtente:'ListaPrenotazioniPersonaleServlet',
-            linkDelPrenotazione:'EliminaPrenotazioneServlet'
+            linkDelPrenotazione:'EliminaPrenotazioneServlet',
+            linkDelPrenotazioneAmm:'EliminaPrenotazioneAmmServlet'
         },
         mounted(){
             this.getPrenotazioniDisponibili()
@@ -298,6 +302,17 @@
                 this.getListaPrenotazioniUtente();
                 this.getPrenotazioniDisponibili()
                 this.getListaPrenotazioni()
+
+            },
+            delPrenotazioneAmm:function (){
+                var self = this;
+
+                $.post(this.linkDelPrenotazioneAmm,{nome_corso: this.nome_corso,cusername_utente: this.cusername_utente,username_docente: this.username_docente,giorno: this.giorno,ora: this.ora}, function (data) {
+                    self.message3=data;
+                });
+                this.getListaPrenotazioniUtente();
+                this.getPrenotazioniDisponibili();
+                this.getListaPrenotazioni();
 
             },
             setHome:function(){
