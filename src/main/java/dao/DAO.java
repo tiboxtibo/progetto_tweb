@@ -50,7 +50,7 @@ public class DAO {
 
     }
 
-    public void add_corso(String nome_corso) {
+    public boolean add_corso(String nome_corso) {
         Connection conn1 = null;
         ArrayList<corso> out = new ArrayList<>();
         try {
@@ -58,6 +58,7 @@ public class DAO {
 
             Statement st = conn1.createStatement();
             st.executeUpdate("INSERT INTO `corso`(`nome_corso`) VALUES ('" + nome_corso + "')");
+            return true;
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -71,9 +72,10 @@ public class DAO {
             }
         }
 
+        return false;
     }
 
-    public void del_corso(String nome_corso) {
+    public boolean del_corso(String nome_corso) {
         Connection conn1 = null;
         ArrayList<corso> out = new ArrayList<>();
         try {
@@ -81,7 +83,7 @@ public class DAO {
 
             Statement st = conn1.createStatement();
             st.executeUpdate("DELETE FROM `corso` WHERE  nome_corso = ('" + nome_corso + "')");
-
+            return true;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         } finally {
@@ -94,6 +96,7 @@ public class DAO {
             }
         }
 
+        return false;
     }
 
     public ArrayList<corso> view_corso() {
@@ -123,7 +126,7 @@ public class DAO {
         return out;
     }
 
-    public void add_docente(String nome_docente, String cognome_docente, String username_docente) {
+    public boolean add_docente(String nome_docente, String cognome_docente, String username_docente) {
         Connection conn1 = null;
         ArrayList<docente> out = new ArrayList<>();
         try {
@@ -131,7 +134,7 @@ public class DAO {
 
             Statement st = conn1.createStatement();
             st.executeUpdate("INSERT INTO `docente`(`nome_docente`,`cognome_docente`,`username_docente`) VALUES ('" + nome_docente + "','" + cognome_docente + "','" + username_docente + "')");
-
+            return true;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         } finally {
@@ -144,9 +147,10 @@ public class DAO {
             }
         }
 
+        return false;
     }
 
-    public void del_docente(String username_docente) {
+    public boolean del_docente(String username_docente) {
         Connection conn1 = null;
         ArrayList<docente> out = new ArrayList<>();
         try {
@@ -154,7 +158,7 @@ public class DAO {
 
             Statement st = conn1.createStatement();
             st.executeUpdate("DELETE FROM docente WHERE username_docente = ('" + username_docente + "')");
-
+            return true;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         } finally {
@@ -167,6 +171,7 @@ public class DAO {
             }
         }
 
+        return false;
     }
 
     public ArrayList<docente> view_docente() {
@@ -196,7 +201,7 @@ public class DAO {
         return out;
     }
 
-    public void add_corso_docente(String username_docente, String nome_corso) {
+    public boolean add_corso_docente(String username_docente, String nome_corso) {
         Connection conn1 = null;
         ArrayList<corso_docente> out = new ArrayList<>();
         try {
@@ -204,7 +209,7 @@ public class DAO {
 
             Statement st = conn1.createStatement();
             st.executeUpdate("INSERT INTO `corso_docente`(`username_docente`,`nome_corso`) VALUES ('" + username_docente + "','" + nome_corso + "')");
-
+            return true;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         } finally {
@@ -216,9 +221,10 @@ public class DAO {
                 }
             }
         }
+        return false;
     }
 
-    public void del_corso_docente(String username_docente, String nome_corso) {
+    public boolean del_corso_docente(String username_docente, String nome_corso) {
         Connection conn1 = null;
         ArrayList<corso_docente> out = new ArrayList<>();
         try {
@@ -226,7 +232,7 @@ public class DAO {
 
             Statement st = conn1.createStatement();
             st.executeUpdate("DELETE FROM corso_docente WHERE username_docente = ('" + username_docente + "') and  nome_corso = ('" + nome_corso + "')");
-
+            return true;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         } finally {
@@ -238,6 +244,7 @@ public class DAO {
                 }
             }
         }
+        return false;
     }
 
     public ArrayList<corso_docente> view_corso_docente() {

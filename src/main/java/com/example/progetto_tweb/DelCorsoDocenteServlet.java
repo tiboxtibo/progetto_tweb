@@ -55,7 +55,7 @@ public class DelCorsoDocenteServlet extends HttpServlet {
             if (nome_corso != null && !nome_corso.equals("") &&
                 username_docente != null && !username_docente.equals("")) {
 
-                if (dao.del_corso_docente(username_docente, nome_corso);) {
+                if (dao.del_corso_docente(username_docente, nome_corso)) {
                     System.out.println();
                     message = ("Il docente: " + username_docente + " è stato eliminato");
                 } else

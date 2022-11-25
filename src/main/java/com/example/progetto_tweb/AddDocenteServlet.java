@@ -49,7 +49,7 @@ public class AddDocenteServlet extends HttpServlet {
                     cognome_docente != null && !cognome_docente.equals("") &&
                     username_docente != null && !username_docente.equals("")) {
 
-                    if (dao.add_docente(nome_docente, cognome_docente, username_docente);) {
+                    if (dao.add_docente(nome_docente, cognome_docente, username_docente)) {
                         System.out.println();
                         message = "Valori Inseriti Correttamente";
                     } else
