@@ -16,28 +16,27 @@
     <title>Progetto IUM-tweb</title>
 
 </head>
+<!--<body class="d-flex justify-content-center">-->
 <body class="d-flex justify-content-center">
 
 <div id="app">
     <header v-if="ruolo>=0">
-        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
             <div class="alert alert-secondary">
-                <h5 v-if="ruolo==0">Benvenuto {{username_utente}}, hai effettuato l'accesso come UTENTE</h5>
-                <h5 v-if="ruolo==1">Benvenuto {{username_utente}}, hai effettuato l'accesso come AMMINISTRATORE</h5>
-                <h5 v-if="ruolo==2" class="nav-item">Benvenuto {{username_utente}}, hai effettuato l'accesso come OSPITE</h5>
-
+                <h5 v-if="ruolo==0">{{username_utente}} [UTENTE]</h5>
+                <h5 v-if="ruolo==1">{{username_utente}} [AMMINISTRATORE]</h5>
+                <h5 v-if="ruolo==2" class="nav-item">{{username_utente}} [OSPITE]</h5>
             </div>
 
-            <button v-on:click="logout" class="btn btn-outline-danger my-2 my-sm-0 ">LOGOUT</button>
+            <button v-if="ruolo==1"  v-on:click="" class="btn btn-outline-success me-2">Pagina Amministratore</button>
+            <button v-on:click="logout" class="btn btn-outline-danger my-2">LOGOUT</button>
 
         </nav>
     </header>
 
-    <div v-if="ruolo>=0" >
+    <!--Visualizza Prenotazioni prenotabili e prenota per utente -->
+    <div v-if="ruolo==0" >
         </br>
         </br>
         </br>
@@ -51,9 +50,10 @@
 
                     <div v-for="prenotazione in prenotazioni">
 
-                        <button type="button" class="btn btn-success btn-lg btn-icon btn-me" v-on:click="nome_corso=prenotazione.nome_corso; username_docente=prenotazione.username_docente; ora=prenotazione.ora; giorno=prenotazione.giorno;prenota();">
-                             {{count}} Corso: {{prenotazione.nome_corso}}, Docente:{{prenotazione.username_docente}}, Giorno:{{prenotazione.giorno}}, Ora:{{prenotazione.ora}}
+                        <button type="button" class="btn-lg btn btn-outline-success " v-on:click="nome_corso=prenotazione.nome_corso; username_docente=prenotazione.username_docente; ora=prenotazione.ora; giorno=prenotazione.giorno;prenota();">
+                             Corso: {{prenotazione.nome_corso}}, Docente:{{prenotazione.username_docente}}, Giorno:{{prenotazione.giorno}}, Ora:{{prenotazione.ora}}
                         </button>
+
 
                     </div>
                 </div>
@@ -64,9 +64,62 @@
 
     </div>
 
+    <!--Visualizza Prenotazioni prenotabili e prenota per guest -->
+    <div v-if="ruolo==2" >
+        </br>
+        </br>
+        </br>
+        </br>
+        <h2>Elenco prenotazioni </h2>
+        <p>{{message1}}</p>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-sm">
+
+                    <div v-for="prenotazione in prenotazioni">
+
+                        <button type="button" class="btn-lg btn btn-outline-success " disabled>
+                            Corso: {{prenotazione.nome_corso}}, Docente:{{prenotazione.username_docente}}, Giorno:{{prenotazione.giorno}}, Ora:{{prenotazione.ora}}
+                        </button>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+    <!--Visualizza Prenotazioni prenotate di tutti gli utenti per amministratore -->
+    <div v-if="ruolo==1 " >
+        </br>
+        </br>
+        </br>
+        </br>
+        <h2>Registro prenotazioni</h2>
+
+        <div class="container">
+            <div v-for="lprenotazione in lprenotazioni">
+
+                <button v-if="lprenotazione.stato_prenotazione==1" type="button" class="btn-lg btn btn-outline-success " disabled >
+                    Corso: {{lprenotazione.nome_corso}}, Docente:{{lprenotazione.username_docente}}, Giorno:{{lprenotazione.giorno}}, Ora:{{lprenotazione.ora}}, Stato:{{lprenotazione.stato_prenotazione}}
+                </button>
+                <button v-if="lprenotazione.stato_prenotazione==-1" type="button" class=" btn-lg btn btn-outline-danger" disabled >
+                    Corso: {{lprenotazione.nome_corso}}, Docente:{{lprenotazione.username_docente}}, Giorno:{{lprenotazione.giorno}}, Ora:{{lprenotazione.ora}}, Stato:{{lprenotazione.stato_prenotazione}}
+                </button>
+
+
+            </div>
+
+        </div>
+
+    </div>
 
     <!--LOGIN -->
-    <div v-if="ruolo<0" >
+    <div v-if="ruolo<0"  >
         <h3 class="d-flex justify-content-center" > Login </h3>
 
         <input type="text" v-model="username_utente" id="username_utente" name="username_utente" class="form-control" placeholder="Username" required autofocus>
@@ -99,18 +152,21 @@
             ruolo:-1,
             prenotazioni: [],
             prenotazione: [],
+            lprenotazioni: [],
+            lprenotazione: [],
             nome_corso: '',
             ora:'',
             giorno: '',
             username_docente: '',
-            count:0,
-            linkAutentica : 'http://localhost:8080/EsServlet_war_exploded/LoginServlet',
-            linkPrenotazioni :'Prenotazioni-Disponibili-Servlet',
+            linkAutentica : 'LoginServlet',
+            linkPrenotazioniDisponibili :'Prenotazioni-Disponibili-Servlet',
+            linkPrenotazioni:'ListaPrenotazioniServlet',
             linkLogout: 'LogoutServlet',
             linkPrenota: 'PrenotaServlet'
         },
         mounted(){
-            this.getPrenotazioni()
+            this.getPrenotazioniDisponibili()
+            this.getListaPrenotazioni()
         },
         methods:{
             autentica:function(){
@@ -142,11 +198,20 @@
                 });
 
             },
-            getPrenotazioni:function(){
+            getPrenotazioniDisponibili:function(){
+                var self = this;
+
+                $.get(this. linkPrenotazioniDisponibili, function (data) {
+                    self.prenotazioni=data;
+
+                });
+
+            },
+            getListaPrenotazioni:function(){
                 var self = this;
 
                 $.get(this. linkPrenotazioni, function (data) {
-                    self.prenotazioni=data;
+                    self.lprenotazioni=data;
 
                 });
 
@@ -157,6 +222,7 @@
                 $.post(this.linkLogout, function (data) {
                     self.message="Logout effettuato con successo";
                     self.ruolo= -1;
+                    self.username_utente= "";
 
                 });
 
@@ -167,7 +233,7 @@
                 $.post(this.linkPrenota,{nome_corso: this.nome_corso,username_utente: this.username_utente,username_docente: this.username_docente,giorno: this.giorno,ora: this.ora}, function (data) {
                     self.message1=data;
                 });
-                this.getPrenotazioni();
+                this.getPrenotazioniDisponibili();
 
             }
         }
