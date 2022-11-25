@@ -325,10 +325,38 @@ public class DAO {
                 return false;
             }
 
-            Statement st = conn1.createStatement();
-            st.executeUpdate("INSERT INTO `prenotazione`(`nome_corso`,`username_utente`,`username_docente`,`giorno`,`ora`,`stato_prenotazione`) VALUES ('" + nome_corso + "','" + username_utente + "','" + username_docente + "','" + giorno + "','" + ora + "','" + stato_prenotazione + "')");
+            Statement st2 = conn1.createStatement();
+            ResultSet pren = st2.executeQuery("SELECT * FROM prenotazione WHERE username_utente = ('" + username_utente + "') and stato_prenotazione = 1 ");
 
-            return true;
+            ArrayList<String> data3 = new ArrayList<>();
+
+            //metto in un array list i giorni e le ore in cui l'utente è occupato
+            while (pren.next()) {
+                String giorno2 = pren.getString("giorno");
+                int ora2 = pren.getInt("ora");
+
+                data d = new data(giorno2,ora2);
+
+                String data00 = d.toString();
+
+                data3.add(data00);
+
+            }
+            data dd = new data(giorno,ora);
+            String data01 = dd.toString();
+            System.out.println(data3);
+
+            //se l'utente è gia occupato in quell'ora
+            if(data3.contains(data01)){
+                return false;
+            }
+            else{
+                Statement st = conn1.createStatement();
+                st.executeUpdate("INSERT INTO `prenotazione`(`nome_corso`,`username_utente`,`username_docente`,`giorno`,`ora`,`stato_prenotazione`) VALUES ('" + nome_corso + "','" + username_utente + "','" + username_docente + "','" + giorno + "','" + ora + "','" + stato_prenotazione + "')");
+                return true;
+            }
+
+
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
