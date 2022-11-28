@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <!-- Google Font Open Sans Regular400 SemiBold600 Bold700 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
+    <!-- Css Style -->
+    <link rel="stylesheet" href="signUp.css">
+    <!-- Mobile Device view -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Meta Required -->
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="https://www.unito.it/sites/default/files/favicon_6.ico" type="image/vnd.microsoft.icon">
+    <title>Prenotazioni Unito | SignUp</title>
+</head>
+<body>
+    <!-- Nav Section -->
+    <div class="nav_container" role="banner" aria-label="nav banner">
+        <div class="wrapper">
+            <nav>
+                <div class="logo" role="banner" aria-label="Logo Cliccabile per accedere alla pagina Login">
+                    <a href="https://www.unito.it/" role="img" aria-label="Logo Cliccabile per accedere alla pagina Login">
+                        <p role="link" tabindex="0">
+                            <img src="assets/Logo.svg" alt="Logo of the Unito University " role="img">
+                        </p>
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <!-- End Nav Section -->
+
+    <!-- Header Section -->
+    <div class="header_container" role="main" aria-label="main banner">
+        <div class="wrapper">
+            <header>
+                <div class="background_img" aria-label="background picture">
+                    <img src="assets/img_bg.svg" alt="Un professore che spiega a due studentesse, illustrazione vettoriale">
+                </div>
+
+                <form action="SignUpServlet" method="post" class="login_form">
+                    <h1 class="title">Benvenuto</h1>
+                    <div class="login_field_form">
+                        <div>
+                            <label for="username" class="sr-only">Username:</label>
+                        </div>
+                        <div>
+                            <input type="text" id="username" name="username" placeholder="Username" required autofocus>
+                        </div>
+                        <div>
+                            <label for="password" class="sr-only">Password:</label>
+                        </div>
+                        <div>
+                            <input type="text" id="password" name="password" placeholder="Password" required autofocus>
+                        </div>
+                        <div>
+                            <a href="https://www.unito.it/">
+                                <button type="submit" name="SignUpBtn" value="SignUp">Registrati</button>
+                            </a>
+                        </div>
+                        <div class="text_field">
+                            <div class="text_element" role="article">
+                                <a class="signIn_text" role="article">Sei gia un nostro utente?</a>
+                            </div>
+                            <div class="text_element" tabindex="-1">
+                                <a href="https://www.unito.it/" class="signIn_link">
+                                    <p role="link" tabindex="0">
+                                        Accedi!
+                                    </p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </header>
+        </div>
+    </div>
+    <!-- End Header Section -->
+
+</body>
+</html>
