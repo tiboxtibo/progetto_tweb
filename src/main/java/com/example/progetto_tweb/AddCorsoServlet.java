@@ -41,7 +41,7 @@ public class AddCorsoServlet extends HttpServlet {
 
         try {
             String nome_corso = request.getParameter("nomeCorso");
-            System.out.println("Nome corso: " + nome_corso);
+            //System.out.println("Nome corso: " + nome_corso);
 
             if (nome_corso != null && !nome_corso.equals("")) {
 
@@ -54,7 +54,7 @@ public class AddCorsoServlet extends HttpServlet {
             } else
                 message = "Dati Sbagliati, Riprova";
 
-            System.out.println(message);
+            //System.out.println(message);
             out.println(new Gson().toJson(message));
             out.flush();
         } finally {

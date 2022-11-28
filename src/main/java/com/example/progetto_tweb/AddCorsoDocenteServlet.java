@@ -42,7 +42,7 @@ public class AddCorsoDocenteServlet extends HttpServlet {
         try {
             String username_docente = request.getParameter("usernameDocente1");
             String nome_corso = request.getParameter("nomeCorso1");
-            System.out.println("Username Docente: " + username_docente + "Nome Corso: " + nome_corso);
+            //System.out.println("Username Docente: " + username_docente + "Nome Corso: " + nome_corso);
 
                 if (nome_corso != null && !nome_corso.equals("") &&
                     username_docente != null && !username_docente.equals("")) {
@@ -56,7 +56,7 @@ public class AddCorsoDocenteServlet extends HttpServlet {
                 } else
                     message = "Dati Sbagliati, Riprova";
 
-            System.out.println(message);
+            //System.out.println(message);
             out.println(new Gson().toJson(message));
             out.flush();
         } finally {

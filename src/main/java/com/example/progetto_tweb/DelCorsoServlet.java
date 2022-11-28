@@ -32,7 +32,7 @@ public class DelCorsoServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
-        System.out.println("===========ciao=================");
+        //System.out.println("===========ciao=================");
         Gson gson = new Gson(); // traduttore da e verso formato JSON
 
         ArrayList<corso> viewCorso = dao.view_corso();
@@ -50,7 +50,7 @@ public class DelCorsoServlet extends HttpServlet {
 
         try {
             String nome_corso = request.getParameter("nomeCorso");
-            System.out.println("Nome Corso: " + nome_corso);
+            //System.out.println("Nome Corso: " + nome_corso);
 
             if (nome_corso != null && !nome_corso.equals("")) {
 
@@ -63,7 +63,7 @@ public class DelCorsoServlet extends HttpServlet {
             } else
                 message = "Dati Sbagliati, Riprova";
 
-            System.out.println(message);
+            //System.out.println(message);
             out.println(new Gson().toJson(message));
             out.flush();
         } finally {

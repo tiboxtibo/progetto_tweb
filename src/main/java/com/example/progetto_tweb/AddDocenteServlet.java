@@ -43,7 +43,7 @@ public class AddDocenteServlet extends HttpServlet {
                 String nome_docente = request.getParameter("nomeDocente");
                 String cognome_docente = request.getParameter("cognomeDocente");
                 String username_docente = request.getParameter("usernameDocente");
-            System.out.println("Nome docente: " + nome_docente + " Cognome Docente: " + cognome_docente + "Username Docente: " + username_docente);
+            //System.out.println("Nome docente: " + nome_docente + " Cognome Docente: " + cognome_docente + "Username Docente: " + username_docente);
 
                 if (nome_docente != null && !nome_docente.equals("") &&
                     cognome_docente != null && !cognome_docente.equals("") &&
@@ -58,7 +58,7 @@ public class AddDocenteServlet extends HttpServlet {
                 } else
                     message = "Dati Sbagliati, Riprova";
 
-            System.out.println(message);
+            //System.out.println(message);
             out.println(new Gson().toJson(message));
             out.flush();
         } finally {
