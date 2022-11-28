@@ -50,8 +50,8 @@ public class SignUpServlet extends HttpServlet {
         ServletContext ctx = getServletContext();
         RequestDispatcher rd = ctx.getRequestDispatcher("/index.html");
 
-        String username_utente = request.getParameter("usrNew");
-        String password_utente = request.getParameter("pswNew");
+        String username_utente = request.getParameter("username");
+        String password_utente = request.getParameter("password");
 
         if (username_utente != null && password_utente != null) {
 
