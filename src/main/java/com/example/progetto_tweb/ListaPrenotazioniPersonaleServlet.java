@@ -29,8 +29,9 @@ public class ListaPrenotazioniPersonaleServlet extends HttpServlet {
         HttpSession s = request.getSession();
 
         String username_utente = request.getParameter("username_utente");
+        //System.out.println(s.getAttribute("username_utente"));
 
-        //System.out.println(username_utente);
+        System.out.println(username_utente);
 
         ArrayList<prenotazione> prenotazioni = dao.view_prenotazioni_utente(username_utente);
         response.setContentType("application/json");
@@ -42,7 +43,7 @@ public class ListaPrenotazioniPersonaleServlet extends HttpServlet {
 
         String ss = gson.toJson(prenotazioni);
         out.println(ss);
-        //System.out.println("STRINGA JSON " + s);
+        System.out.println("STRINGA JSON " + s);
 
     }
 

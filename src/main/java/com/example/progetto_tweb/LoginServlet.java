@@ -52,6 +52,7 @@ public class LoginServlet extends HttpServlet {
                 s.setAttribute("username_utente",username_utente);
                 s.setAttribute("ruolo",ruolo);
 
+
                 if(ruolo==0 ){//utente
                     message="0";
 
