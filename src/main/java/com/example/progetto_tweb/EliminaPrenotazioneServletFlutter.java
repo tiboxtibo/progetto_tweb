@@ -9,8 +9,8 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet(name = "EliminaPrenotazioneServlet", value = "/EliminaPrenotazioneServlet")
-public class EliminaPrenotazioneServlet extends HttpServlet {
+@WebServlet(name = "EliminaPrenotazioneServletFlutter", value = "/EliminaPrenotazioneServletFlutter")
+public class EliminaPrenotazioneServletFlutter extends HttpServlet {
     DAO dao = null;
 
     public void init(ServletConfig config) throws ServletException {
@@ -37,13 +37,13 @@ public class EliminaPrenotazioneServlet extends HttpServlet {
         try {
             String nome_corso = request.getParameter("nome_corso");
             String username_docente = request.getParameter("username_docente");
-            String username_utente = (String) s.getAttribute("username_utente");
+            String username_utente = request.getParameter("username_utente");
             String giorno = request.getParameter("giorno");
             int ora = Integer.parseInt(request.getParameter("ora"));
             String id_prenotazione = request.getParameter("id_prenotazione");
 
 
-            //System.out.println(nome_corso + username_docente + username_utente + giorno + ora + id_prenotazione);
+            System.out.println(nome_corso + username_docente + username_utente + giorno + ora + id_prenotazione);
             if(dao.del_prenotazione(nome_corso,username_utente,username_docente, giorno, ora,id_prenotazione)){
                 message="Lezione Correttamente cancellata";
             }
