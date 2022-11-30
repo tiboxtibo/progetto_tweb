@@ -12,13 +12,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 
-
-@WebServlet(name = "PrenotaServlet", value = "/PrenotaServlet")
-public class PrenotaServlet extends HttpServlet {
-
+@WebServlet(name = "LoginServletFlutter", value = "/LoginServletFlutter")
+public class LoginServletFlutter extends HttpServlet {
     DAO dao = null;
 
     public void init(ServletConfig config) throws ServletException {
+
 
         super.init(config);
 
@@ -39,34 +38,44 @@ public class PrenotaServlet extends HttpServlet {
         ServletContext ctx = getServletContext();
         RequestDispatcher rd = ctx.getRequestDispatcher("/index.html");
 
-
         try {
-            String nome_corso = request.getParameter("nome_corso");
-            String username_docente = request.getParameter("username_docente");
-            String username_utente = (String) s.getAttribute("username_utente");
-            String giorno = request.getParameter("giorno");
-            int ora = Integer.parseInt(request.getParameter("ora"));
+            String username_utente = request.getParameter("username_utente");
+            String password_utente = request.getParameter("password_utente");
 
-            if(s.getAttribute("username_utente")==null){
-                message="Sessione Scaduta! Effettuare nuovamente il login";
-            }
-            else{
-                System.out.println(nome_corso + username_docente + username_utente + giorno + ora);
+            //System.out.println(username_utente);
 
-                if(dao.add_prenotazione(nome_corso,username_utente,username_docente, giorno, ora)){
-                    message="Lezione Correttamente prenotata";
+            int ruolo = dao.login(username_utente,password_utente);
+
+            if(ruolo>=0){
+                s.setAttribute("username_utente",username_utente);
+                s.setAttribute("ruolo",ruolo);
+
+
+                if(ruolo==0 ){//utente
+                    message="0";
+
+                }
+                else if(ruolo==1){//amministratore
+                    message="1";
+
+                }
+                else if(ruolo==2){//ospite
+                    message="2";
+
                 }
                 else{
-                    message="Lezione NON prenotata! Utente già occupato!";
+                    message="-1";
                 }
-            }
 
+            }else{
+                message="-1";
+            }
 
             response.setContentType("text/plain");
 
-            Gson gson = new Gson();
-            String ss = gson.toJson(message);
-            out.println(ss);
+            //Gson gson = new Gson();
+            //String ss = gson.toJson(message);
+            out.println(message);
             out.flush();
 
 
@@ -75,6 +84,10 @@ public class PrenotaServlet extends HttpServlet {
         }
 
     }
+
+
+
+
 
     public void destroy() {
     }

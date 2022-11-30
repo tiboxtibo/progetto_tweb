@@ -36,21 +36,27 @@ public class PrenotaPrenotazioneServlet extends HttpServlet {
         RequestDispatcher rd = ctx.getRequestDispatcher("/index.html");
 
         try {
-            String nome_corso = request.getParameter("nome_corso");
-            String username_docente = request.getParameter("username_docente");
-            String username_utente = (String) s.getAttribute("username_utente");
-            String giorno = request.getParameter("giorno");
-            int ora = Integer.parseInt(request.getParameter("ora"));
-            String id_prenotazione = request.getParameter("id_prenotazione");
-
-
-            //System.out.println(nome_corso + username_docente + username_utente + giorno + ora);
-            if(dao.prenota_prenotazione(nome_corso,username_utente,username_docente, giorno, ora,id_prenotazione)){
-                message="Lezione Correttamente prenotata";
+            if(s.getAttribute("username_utente")==null){
+                message="Sessione Scaduta! Effettuare nuovamente il login";
             }
             else{
-                message="Lezione NON prenotata!";
+                String nome_corso = request.getParameter("nome_corso");
+                String username_docente = request.getParameter("username_docente");
+                String username_utente = (String) s.getAttribute("username_utente");
+                String giorno = request.getParameter("giorno");
+                int ora = Integer.parseInt(request.getParameter("ora"));
+                String id_prenotazione = request.getParameter("id_prenotazione");
+
+
+                //System.out.println(nome_corso + username_docente + username_utente + giorno + ora);
+                if(dao.prenota_prenotazione(nome_corso,username_utente,username_docente, giorno, ora,id_prenotazione)){
+                    message="Lezione Correttamente prenotata";
+                }
+                else{
+                    message="Lezione NON prenotata!";
+                }
             }
+
             response.setContentType("text/plain");
 
             Gson gson = new Gson();
