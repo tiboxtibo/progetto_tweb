@@ -27,212 +27,228 @@ public class UtenteServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String userOperation = request.getParameter("userOperation");
-        //System.out.println(userOperation);
 
-        if(Objects.equals(userOperation, "getPrenotazioniDisponibili")){
+        String dispositivo = request.getParameter("dispositivo");
+        //System.out.println(dispositivo);
 
-            ArrayList<prenotazione> prenotazioni = dao.view_prenotazioni_prenotabili();
+        if(Objects.equals(dispositivo, "browser")){
+            String userOperation = request.getParameter("userOperation");
+            //System.out.println(userOperation);
 
-            System.out.println(prenotazioni);
-            response.setContentType("application/json");
+            if(Objects.equals(userOperation, "getPrenotazioniDisponibili")){
+
+                ArrayList<prenotazione> prenotazioni = dao.view_prenotazioni_prenotabili();
+
+                System.out.println(prenotazioni);
+                response.setContentType("application/json");
 
 
-            PrintWriter out = response.getWriter();
+                PrintWriter out = response.getWriter();
 
-            Gson gson = new Gson();
+                Gson gson = new Gson();
 
-            String s = gson.toJson(prenotazioni);
-            out.println(s);
-            //System.out.println("STRINGA JSON " + s);
+                String s = gson.toJson(prenotazioni);
+                out.println(s);
+                //System.out.println("STRINGA JSON " + s);
+            }
+            if(Objects.equals(userOperation, "getListaPrenotazioni")){
+
+                ArrayList<prenotazione> prenotazioni = dao.view_prenotazioni();
+                response.setContentType("application/json");
+
+
+                PrintWriter out = response.getWriter();
+
+                Gson gson = new Gson();
+
+                String s = gson.toJson(prenotazioni);
+                out.println(s);
+                //System.out.println("STRINGA JSON " + s);
+            }
+            if(Objects.equals(userOperation, "getListaPrenotazioniUtente")){
+
+                HttpSession s = request.getSession();
+
+                String username_utente = request.getParameter("username_utente");
+                //System.out.println(s.getAttribute("username_utente"));
+
+                //System.out.println(username_utente);
+
+                ArrayList<prenotazione> prenotazioni = dao.view_prenotazioni_utente(username_utente);
+                response.setContentType("application/json");
+
+
+                PrintWriter out = response.getWriter();
+
+                Gson gson = new Gson();
+
+                String ss = gson.toJson(prenotazioni);
+                out.println(ss);
+                //System.out.println("STRINGA JSON " + s);
+            }
         }
-        if(Objects.equals(userOperation, "getListaPrenotazioni")){
-
-            ArrayList<prenotazione> prenotazioni = dao.view_prenotazioni();
-            response.setContentType("application/json");
 
 
-            PrintWriter out = response.getWriter();
-
-            Gson gson = new Gson();
-
-            String s = gson.toJson(prenotazioni);
-            out.println(s);
-            //System.out.println("STRINGA JSON " + s);
-        }
-        if(Objects.equals(userOperation, "getListaPrenotazioniUtente")){
-
-            HttpSession s = request.getSession();
-
-            String username_utente = request.getParameter("username_utente");
-            //System.out.println(s.getAttribute("username_utente"));
-
-            //System.out.println(username_utente);
-
-            ArrayList<prenotazione> prenotazioni = dao.view_prenotazioni_utente(username_utente);
-            response.setContentType("application/json");
-
-
-            PrintWriter out = response.getWriter();
-
-            Gson gson = new Gson();
-
-            String ss = gson.toJson(prenotazioni);
-            out.println(ss);
-            //System.out.println("STRINGA JSON " + s);
-        }
 
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String userOperation = request.getParameter("userOperation");
-        System.out.println(userOperation);
 
-        if(Objects.equals(userOperation, "prenota")){
-            String message="";
+        String dispositivo = request.getParameter("dispositivo");
+        //System.out.println(dispositivo);
 
-            HttpSession s = request.getSession();
-            System.out.println(s.getId());
+        if(Objects.equals(dispositivo, "browser")){
+            String userOperation = request.getParameter("userOperation");
+            System.out.println(userOperation);
 
-            response.setContentType("text/html;charset=UTF-8");
-            PrintWriter out = response.getWriter();
+            if(Objects.equals(userOperation, "prenota")){
+                String message="";
 
+                HttpSession s = request.getSession();
+                System.out.println(s.getId());
 
-            ServletContext ctx = getServletContext();
-            RequestDispatcher rd = ctx.getRequestDispatcher("/index.html");
-
-
-            try {
-                String nome_corso = request.getParameter("nome_corso");
-                String username_docente = request.getParameter("username_docente");
-                String username_utente = (String) s.getAttribute("username_utente");
-                String giorno = request.getParameter("giorno");
-                int ora = Integer.parseInt(request.getParameter("ora"));
-
-                if(s.getAttribute("username_utente")==null){
-                    message="Sessione Scaduta! Effettuare nuovamente il login";
-                }
-                else{
-                    System.out.println(nome_corso + username_docente + username_utente + giorno + ora);
-
-                    if(dao.add_prenotazione(nome_corso,username_utente,username_docente, giorno, ora)){
-                        message="Lezione Correttamente prenotata";
-                    }
-                    else{
-                        message="Lezione NON prenotata! Utente già occupato!";
-                    }
-                }
+                response.setContentType("text/html;charset=UTF-8");
+                PrintWriter out = response.getWriter();
 
 
-                response.setContentType("text/plain");
-
-                Gson gson = new Gson();
-                String ss = gson.toJson(message);
-                out.println(ss);
-                out.flush();
+                ServletContext ctx = getServletContext();
+                RequestDispatcher rd = ctx.getRequestDispatcher("/index.html");
 
 
-            } finally {
-                out.close();
-            }
-
-        }
-        if(Objects.equals(userOperation, "delPrenotazione")){
-            String message="";
-
-            HttpSession s = request.getSession();
-
-            response.setContentType("text/html;charset=UTF-8");
-            PrintWriter out = response.getWriter();
-
-
-            ServletContext ctx = getServletContext();
-            RequestDispatcher rd = ctx.getRequestDispatcher("/index.html");
-
-
-
-            try {
-                if(s.getAttribute("username_utente")==null){
-                    message="Sessione Scaduta! Effettuare nuovamente il login";
-                }
-                else{
+                try {
                     String nome_corso = request.getParameter("nome_corso");
                     String username_docente = request.getParameter("username_docente");
                     String username_utente = (String) s.getAttribute("username_utente");
                     String giorno = request.getParameter("giorno");
                     int ora = Integer.parseInt(request.getParameter("ora"));
-                    String id_prenotazione = request.getParameter("id_prenotazione");
 
-
-                    //System.out.println(nome_corso + username_docente + username_utente + giorno + ora + id_prenotazione);
-                    if(dao.del_prenotazione(nome_corso,username_utente,username_docente, giorno, ora,id_prenotazione)){
-                        message="Lezione Correttamente cancellata";
+                    if(s.getAttribute("username_utente")==null){
+                        message="Sessione Scaduta! Effettuare nuovamente il login";
                     }
                     else{
-                        message="Lezione NON cancellata! ";
+                        System.out.println(nome_corso + username_docente + username_utente + giorno + ora);
+
+                        if(dao.add_prenotazione(nome_corso,username_utente,username_docente, giorno, ora)){
+                            message="Lezione Correttamente prenotata";
+                        }
+                        else{
+                            message="Lezione NON prenotata! Utente già occupato!";
+                        }
                     }
+
+
+                    response.setContentType("text/plain");
+
+                    Gson gson = new Gson();
+                    String ss = gson.toJson(message);
+                    out.println(ss);
+                    out.flush();
+
+
+                } finally {
+                    out.close();
                 }
 
-                response.setContentType("text/plain");
-
-                Gson gson = new Gson();
-                String ss = gson.toJson(message);
-                out.println(ss);
-                out.flush();
-
-
-            } finally {
-                out.close();
             }
+            if(Objects.equals(userOperation, "delPrenotazione")){
+                String message="";
 
-        }
-        if(Objects.equals(userOperation, "prenotaPrenotazione")){
-            String message="";
+                HttpSession s = request.getSession();
 
-            HttpSession s = request.getSession();
-
-            response.setContentType("text/html;charset=UTF-8");
-            PrintWriter out = response.getWriter();
+                response.setContentType("text/html;charset=UTF-8");
+                PrintWriter out = response.getWriter();
 
 
-            ServletContext ctx = getServletContext();
-            RequestDispatcher rd = ctx.getRequestDispatcher("/index.html");
-
-            try {
-                if(s.getAttribute("username_utente")==null){
-                    message="Sessione Scaduta! Effettuare nuovamente il login";
-                }
-                else{
-                    String nome_corso = request.getParameter("nome_corso");
-                    String username_docente = request.getParameter("username_docente");
-                    String username_utente = (String) s.getAttribute("username_utente");
-                    String giorno = request.getParameter("giorno");
-                    int ora = Integer.parseInt(request.getParameter("ora"));
-                    String id_prenotazione = request.getParameter("id_prenotazione");
+                ServletContext ctx = getServletContext();
+                RequestDispatcher rd = ctx.getRequestDispatcher("/index.html");
 
 
-                    //System.out.println(nome_corso + username_docente + username_utente + giorno + ora);
-                    if(dao.prenota_prenotazione(nome_corso,username_utente,username_docente, giorno, ora,id_prenotazione)){
-                        message="Lezione Correttamente prenotata";
+
+                try {
+                    if(s.getAttribute("username_utente")==null){
+                        message="Sessione Scaduta! Effettuare nuovamente il login";
                     }
                     else{
-                        message="Lezione NON prenotata!";
+                        String nome_corso = request.getParameter("nome_corso");
+                        String username_docente = request.getParameter("username_docente");
+                        String username_utente = (String) s.getAttribute("username_utente");
+                        String giorno = request.getParameter("giorno");
+                        int ora = Integer.parseInt(request.getParameter("ora"));
+                        String id_prenotazione = request.getParameter("id_prenotazione");
+
+
+                        //System.out.println(nome_corso + username_docente + username_utente + giorno + ora + id_prenotazione);
+                        if(dao.del_prenotazione(nome_corso,username_utente,username_docente, giorno, ora,id_prenotazione)){
+                            message="Lezione Correttamente cancellata";
+                        }
+                        else{
+                            message="Lezione NON cancellata! ";
+                        }
                     }
+
+                    response.setContentType("text/plain");
+
+                    Gson gson = new Gson();
+                    String ss = gson.toJson(message);
+                    out.println(ss);
+                    out.flush();
+
+
+                } finally {
+                    out.close();
                 }
 
-                response.setContentType("text/plain");
+            }
+            if(Objects.equals(userOperation, "prenotaPrenotazione")){
+                String message="";
 
-                Gson gson = new Gson();
-                String ss = gson.toJson(message);
-                out.println(ss);
-                out.flush();
+                HttpSession s = request.getSession();
+
+                response.setContentType("text/html;charset=UTF-8");
+                PrintWriter out = response.getWriter();
 
 
-            } finally {
-                out.close();
+                ServletContext ctx = getServletContext();
+                RequestDispatcher rd = ctx.getRequestDispatcher("/index.html");
+
+                try {
+                    if(s.getAttribute("username_utente")==null){
+                        message="Sessione Scaduta! Effettuare nuovamente il login";
+                    }
+                    else{
+                        String nome_corso = request.getParameter("nome_corso");
+                        String username_docente = request.getParameter("username_docente");
+                        String username_utente = (String) s.getAttribute("username_utente");
+                        String giorno = request.getParameter("giorno");
+                        int ora = Integer.parseInt(request.getParameter("ora"));
+                        String id_prenotazione = request.getParameter("id_prenotazione");
+
+
+                        //System.out.println(nome_corso + username_docente + username_utente + giorno + ora);
+                        if(dao.prenota_prenotazione(nome_corso,username_utente,username_docente, giorno, ora,id_prenotazione)){
+                            message="Lezione Correttamente prenotata";
+                        }
+                        else{
+                            message="Lezione NON prenotata!";
+                        }
+                    }
+
+                    response.setContentType("text/plain");
+
+                    Gson gson = new Gson();
+                    String ss = gson.toJson(message);
+                    out.println(ss);
+                    out.flush();
+
+
+                } finally {
+                    out.close();
+                }
             }
         }
+
+
 
 
 

@@ -5,6 +5,7 @@ import dao.DAO;
 
 
 import java.io.*;
+import java.util.Objects;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -27,34 +28,40 @@ public class LogoutServlet extends HttpServlet {
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String message="";
+        String dispositivo = request.getParameter("dispositivo");
+        //System.out.println(dispositivo);
 
-        HttpSession s = request.getSession();
+        if(Objects.equals(dispositivo, "browser")){
+            String message="";
 
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
+            HttpSession s = request.getSession();
 
-
-        ServletContext ctx = getServletContext();
-        RequestDispatcher rd = ctx.getRequestDispatcher("/index.html");
-
-        try {
-            s.setAttribute("username_utente","");
-            s.setAttribute("ruolo",-1);
-
-            response.setContentType("text/plain");
-
-            message = "-1";
-
-            //Gson gson = new Gson();
-            //String ss = gson.toJson(message);
-            out.println(message);
-            out.flush();
+            response.setContentType("text/html;charset=UTF-8");
+            PrintWriter out = response.getWriter();
 
 
-        } finally {
-            out.close();
+            ServletContext ctx = getServletContext();
+            RequestDispatcher rd = ctx.getRequestDispatcher("/index.html");
+
+            try {
+                s.setAttribute("username_utente","");
+                s.setAttribute("ruolo",-1);
+
+                response.setContentType("text/plain");
+
+                message = "-1";
+
+                //Gson gson = new Gson();
+                //String ss = gson.toJson(message);
+                out.println(message);
+                out.flush();
+
+
+            } finally {
+                out.close();
+            }
         }
+
 
     }
 
