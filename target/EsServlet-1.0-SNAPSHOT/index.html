@@ -330,6 +330,7 @@
     var app = new Vue ({
         el: '#app',
         data: {
+            adminOperation:'',
             varHome:false,
             varPaginaAmministratore:false,
             varPaginaPersonale:false,
@@ -362,27 +363,20 @@
             linkDelPrenotazione:'EliminaPrenotazioneServlet',
             linkDelPrenotazioneAmm:'EliminaPrenotazioneAmmServlet',
             linkPrenotaPrenotazione:'PrenotaPrenotazioneServlet',
+            linkAdmin:'AdminServlet',
 
             nomeDocente:"",
             cognomeDocente:  '',
             usernameDocente:  '',
             docOutput: "",
-            linkAddDoc :'AddDocenteServlet',
-            linkDelDoc :'DelDocenteServlet',
             docente: [],
-            linkGetDoc:'DelDocenteServlet',
             nomeCorso:"",
             corOutput: "",
-            linkAddCor :'AddCorsoServlet',
-            linkDelCor :'DelCorsoServlet',
             corso: [],
-            linkGetCor:'DelCorsoServlet',
             usernameDocente1: "",
             nomeCorso1: "",
             corDocOutput: "",
             corsoDocente: [],
-            linkAddCorDoc: 'AddCorsoDocenteServlet',
-            linkDelCorDoc: 'DelCorsoDocenteServlet',
 
         },
         mounted(){
@@ -540,7 +534,7 @@
             addDocente:function(){
                 var self = this;
 
-                $.post(this.linkAddDoc, {nomeDocente: this.nomeDocente, cognomeDocente: this.cognomeDocente, usernameDocente: this.usernameDocente}, function (data) {
+                $.post(this.linkAdmin, {nomeDocente: this.nomeDocente, cognomeDocente: this.cognomeDocente, usernameDocente: this.usernameDocente,adminOperation : "addDocente"}, function (data) {
                     self.docOutput = data;
                     self.getDocente();
                 });
@@ -549,7 +543,7 @@
             delDocente:function(){
                 var self = this;
 
-                $.post(this.linkDelDoc, {usernameDocente: this.usernameDocente}, function (data) {
+                $.post(this.linkAdmin, {usernameDocente: this.usernameDocente,adminOperation : "delDocente"}, function (data) {
                     self.docOutput = data;
                     self.getDocente();
                 });
@@ -558,14 +552,14 @@
             getDocente: function(){
                 var self = this;
 
-                $.get(this.linkGetDoc, function(data) {
+                $.get(this.linkAdmin,{adminOperation : "getDocente"}, function(data) {
                     self.docente = data;
                 });
             },
             addCorso:function(){
                 var self = this;
 
-                $.post(this.linkAddCor, {nomeCorso: this.nomeCorso}, function (data) {
+                $.post(this.linkAdmin, {nomeCorso: this.nomeCorso,adminOperation : "addCorso"}, function (data) {
                     self.corOutput = data;
                     self.getCorso();
                 });
@@ -574,7 +568,7 @@
             delCorso:function(){
                 var self = this;
 
-                $.post(this.linkDelCor, {nomeCorso: this.nomeCorso}, function (data) {
+                $.post(this.linkAdmin, {nomeCorso: this.nomeCorso,adminOperation : "delCorso"}, function (data) {
                     self.corOutput = data;
                     self.getCorso();
                 });
@@ -583,14 +577,14 @@
             getCorso: function(){
                 var self = this;
 
-                $.get(this.linkGetCor, function(data) {
+                $.get(this.linkAdmin,{adminOperation : "getCorso"},function(data) {
                     self.corso = data;
                 });
             },
             addCorsoDocente:function(){
                 var self = this;
 
-                $.post(this.linkAddCorDoc, {usernameDocente1: this.usernameDocente1, nomeCorso1: this.nomeCorso1}, function (data) {
+                $.post(this.linkAdmin, {usernameDocente1: this.usernameDocente1, nomeCorso1: this.nomeCorso1,adminOperation : "addCorsoDocente"}, function (data) {
                     self.corDocOutput = data;
                     self.getCorsoDocente();
                     self.getPrenotazioniDisponibili();
@@ -600,7 +594,7 @@
             delCorsoDocente:function(){
                 var self = this;
 
-                $.post(this.linkDelCorDoc, {usernameDocente1: this.usernameDocente1, nomeCorso1: this.nomeCorso1}, function (data) {
+                $.post(this.linkAdmin, {usernameDocente1: this.usernameDocente1, nomeCorso1: this.nomeCorso1,adminOperation : "delCorsoDocente"}, function (data) {
                     self.corDocOutput = data;
                     self.getCorsoDocente();
                     self.getPrenotazioniDisponibili();
@@ -610,7 +604,7 @@
             getCorsoDocente: function(){
                 var self = this;
 
-                $.get(this.linkDelCorDoc, function(data) {
+                $.get(this.linkAdmin,{adminOperation : "getCorsoDocente"},function(data) {
                     self.corsoDocente = data;
 
                 });
