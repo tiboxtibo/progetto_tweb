@@ -243,6 +243,21 @@ header label {
     margin-bottom: 10px;
 }
 
+.prenotationBtn:hover {
+    background-color: #E06575;
+}
+
+.textBtn {
+    font-family: "Open Sans", sans-serif;
+    font-size: 24px;
+    text-decoration: none;
+    color: var(--grey);
+}
+.textBtn:hover{
+    color: var(--grey);
+    text-decoration: none;
+}
+
 
 
 :root {

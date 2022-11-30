@@ -83,8 +83,10 @@
 
                 <div v-for="prenotazione in prenotazioni">
 
-                    <button type="button" class="prenotationBtn" v-on:click="nome_corso=prenotazione.nome_corso; username_docente=prenotazione.username_docente; ora=prenotazione.ora; giorno=prenotazione.giorno; id_prenotazione=prenotazione.id_prenotazione;prenota();">
-                        Corso: {{prenotazione.nome_corso}}, Docente:{{prenotazione.username_docente}}, Giorno:{{prenotazione.giorno}}, Ora:{{prenotazione.ora}}
+                    <button class="prenotationBtn" type="button" v-on:click="nome_corso=prenotazione.nome_corso; username_docente=prenotazione.username_docente; ora=prenotazione.ora; giorno=prenotazione.giorno; id_prenotazione=prenotazione.id_prenotazione;prenota();">
+                        <a class="textBtn">
+                            Corso: {{prenotazione.nome_corso}}, Docente:{{prenotazione.username_docente}}, Giorno:{{prenotazione.giorno}}, Ora:{{prenotazione.ora}}
+                        </a>
                     </button>
 
 
