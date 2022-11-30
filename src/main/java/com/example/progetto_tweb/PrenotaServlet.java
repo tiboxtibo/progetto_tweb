@@ -31,6 +31,7 @@ public class PrenotaServlet extends HttpServlet {
         String message="";
 
         HttpSession s = request.getSession();
+        System.out.println(s.getId());
 
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
