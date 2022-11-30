@@ -13,110 +13,120 @@
 
     <meta charset="UTF-8">
     <meta http-equiv="Cache-Control" content="no-store" />
+    <!-- Css Style -->
+    <link rel="stylesheet" href="singlePagestyle.css">
+
+    <link rel="shortcut icon" href="https://www.unito.it/sites/default/files/favicon_6.ico" type="image/vnd.microsoft.icon">
     <title>Progetto IUM-tweb</title>
 
 </head>
 <!--<body class="d-flex justify-content-center">-->
-<body class="d-flex justify-content-center">
+<body>
 
 <div id="app">
-    <header v-if="ruolo>=0">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
 
-            <div class="alert alert-secondary">
-                <h5 v-if="ruolo==0">{{username_utente}} [UTENTE]</h5>
-                <h5 v-if="ruolo==1">{{username_utente}} [AMMINISTRATORE]</h5>
-                <h5 v-if="ruolo==2" class="nav-item">[OSPITE]</h5>
-            </div>
-
-            <button v-if="ruolo==0 || ruolo==1"  v-on:click="setHome" class="btn btn-outline-success me-2">Home</button>
-            <button v-if="ruolo==1"  v-on:click="setPaginaAmministratoreListaPrenotazioni" class="btn btn-outline-success me-2">Lista Prenotazioni Utenti</button>
-            <button v-if="ruolo==1"  v-on:click="setPaginaAmministratore" class="btn btn-outline-success me-2">Pagina Amministratore</button>
-            <button v-if="ruolo==0"  v-on:click="setPaginaPersonale" class="btn btn-outline-success me-2">Pagina Personale Utente</button>
-
-            <button v-on:click="logout" class="btn btn-outline-danger my-2">LOGOUT</button>
-
-        </nav>
-    </header>
-    </br>
-
-    <div v-if="varHome">
-
-        <!--Visualizza Prenotazioni prenotabili e prenota per utente -->
-        <div v-if="ruolo==0" >
-
-            <h2>Elenco prenotazioni </h2>
-            <p>{{message1}}</p>
-
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm">
-
-                        <div v-for="prenotazione in prenotazioni">
-
-                            <button type="button" class="btn-lg btn btn-outline-success " v-on:click="nome_corso=prenotazione.nome_corso; username_docente=prenotazione.username_docente; ora=prenotazione.ora; giorno=prenotazione.giorno; id_prenotazione=prenotazione.id_prenotazione;prenota();">
-                                Corso: {{prenotazione.nome_corso}}, Docente:{{prenotazione.username_docente}}, Giorno:{{prenotazione.giorno}}, Ora:{{prenotazione.ora}}
-                            </button>
-
-
-                        </div>
-                    </div>
+    <!-- Sezione Nav -->
+    <div v-if="ruolo>=0" class="nav_container">
+        <div class="wrapper">
+            <nav>
+                <div class="nav_text">
+                    <h5 v-if="ruolo==0">Benvenuto {{username_utente}}</h5>
+                    <h5 v-if="ruolo==1">Benvenuto {{username_utente}}</h5>
+                    <h5 v-if="ruolo==2" class="nav-item">Ruolo: Guest</h5>
                 </div>
-            </div>
 
+                <ul v-if="ruolo==0">
+                    <li>
+                        <a v-on:click="setHome" role="button">Home</a>
+                    </li>
+                    <li>
+                        <a v-on:click="setPaginaPersonale" role="button">User page</a>
+                    </li>
+                    <li>
+                        <a v-on:click="logout" role="button">Logout</a>
+                    </li>
+                </ul>
 
-
+                <ul v-if="ruolo==1">
+                    <li>
+                        <a v-on:click="setHome" role="button">Home</a>
+                    </li>
+                    <li>
+                        <a v-on:click="setPaginaAmministratoreListaPrenotazioni" role="button">Lista Prenotazioni Utenti </a>
+                    </li>
+                    <li>
+                        <a v-on:click="setPaginaAmministratore" role="button">Pagina Amministratore</a>
+                    </li>
+                    <li>
+                        <a v-on:click="logout" >Logout</a>
+                    </li>
+                </ul>
+                <ul v-if="ruolo==2">
+                    <li>
+                        <a v-on:click="logout" role="button">Logout</a>
+                    </li>
+                </ul>
+            </nav>
         </div>
+    </div>
+    <!-- Sezione Nav -->
 
-        <!--Visualizza Prenotazioni prenotabili e prenota per amministratore -->
-        <div v-if="ruolo==1" >
+    <div v-if="varHome" class="prova" >
 
-            <h2>Elenco prenotazioni </h2>
-            <p>{{message1}}</p>
+        <div class="wrapper">
 
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm">
+            <!--Visualizza Prenotazioni prenotabili e prenota per utente -->
+            <div v-if="ruolo==0" >
 
-                        <div v-for="prenotazione in prenotazioni">
+                <h2>Elenco prenotazioni </h2>
+                <p>{{message1}}</p>
 
-                            <button type="button" class="btn-lg btn btn-outline-success " v-on:click="nome_corso=prenotazione.nome_corso; username_docente=prenotazione.username_docente; ora=prenotazione.ora; giorno=prenotazione.giorno; id_prenotazione=prenotazione.id_prenotazione;prenota();" disabled>
-                                Corso: {{prenotazione.nome_corso}}, Docente:{{prenotazione.username_docente}}, Giorno:{{prenotazione.giorno}}, Ora:{{prenotazione.ora}}
-                            </button>
+                <div v-for="prenotazione in prenotazioni">
+
+                    <button type="button" class="prenotationBtn" v-on:click="nome_corso=prenotazione.nome_corso; username_docente=prenotazione.username_docente; ora=prenotazione.ora; giorno=prenotazione.giorno; id_prenotazione=prenotazione.id_prenotazione;prenota();">
+                        Corso: {{prenotazione.nome_corso}}, Docente:{{prenotazione.username_docente}}, Giorno:{{prenotazione.giorno}}, Ora:{{prenotazione.ora}}
+                    </button>
 
 
-                        </div>
-                    </div>
                 </div>
+
+
+
             </div>
 
+            <!--Visualizza Prenotazioni prenotabili e prenota per amministratore -->
+            <div v-if="ruolo==1" >
 
+                <h2>Elenco prenotazioni </h2>
+                <p>{{message1}}</p>
 
-        </div>
+                <div v-for="prenotazione in prenotazioni">
 
-        <!--Visualizza Prenotazioni prenotabili e prenota per guest -->
-        <div v-if="ruolo==2" >
+                    <button type="button" class="prenotationBtn" v-on:click="nome_corso=prenotazione.nome_corso; username_docente=prenotazione.username_docente; ora=prenotazione.ora; giorno=prenotazione.giorno; id_prenotazione=prenotazione.id_prenotazione;prenota();" disabled>
+                        Corso: {{prenotazione.nome_corso}}, Docente:{{prenotazione.username_docente}}, Giorno:{{prenotazione.giorno}}, Ora:{{prenotazione.ora}}
+                    </button>
 
-            <h2>Elenco prenotazioni </h2>
-            <p>{{message1}}</p>
-
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm">
-
-                        <div v-for="prenotazione in prenotazioni">
-
-                            <button type="button" class="btn-lg btn btn-outline-success " disabled>
-                                Corso: {{prenotazione.nome_corso}}, Docente:{{prenotazione.username_docente}}, Giorno:{{prenotazione.giorno}}, Ora:{{prenotazione.ora}}
-                            </button>
-
-
-                        </div>
-                    </div>
                 </div>
+
+
+
             </div>
 
+            <!--Visualizza Prenotazioni prenotabili e prenota per guest -->
+            <div v-if="ruolo==2" >
 
+                <h2>Elenco prenotazioni </h2>
+                <p>{{message1}}</p>
+
+                <div v-for="prenotazione in prenotazioni">
+
+                    <button type="button" class="prenotationBtn" disabled>
+                        Corso: {{prenotazione.nome_corso}}, Docente:{{prenotazione.username_docente}}, Giorno:{{prenotazione.giorno}}, Ora:{{prenotazione.ora}}
+                    </button>
+
+
+                </div>
+            </div>
 
         </div>
 
@@ -149,8 +159,9 @@
         </div>
     </div>
 
+    <!-- Sezione Admin-->
     <div v-if="varPaginaAmministratore">
-        <!-- Sezione Admin-->
+
         <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
 
             <!-- Colonna Docente -->
@@ -266,6 +277,7 @@
         </div>
 
     </div>
+    <!-- Fine Sezione Admin-->
 
     <div v-if="varPaginaPersonale">
         <h2>Pagina personale</h2>
@@ -303,24 +315,48 @@
     </div>
 
 
-    <!--LOGIN -->
-    <div v-if="ruolo<0"  >
-        <h3 class="d-flex justify-content-center" > Login </h3>
+    <!-- Sezione Login -->
+    <div v-if="ruolo<0" class="header_container">
+        <div class="wrapper">
+            <header>
+                <div class="login_form">
+                    <h1 class="title">Bentornato</h1>
+                    <div class="login_field_form">
+                        <div>
+                            <label for="username_utente" class="sr-only">Username:</label>
+                        </div>
+                        <div>
+                            <input type="text" v-model="username_utente" id="username_utente" name="username_utente" placeholder="Username" required autofocus>
+                        </div>
+                        <div>
+                            <label for="password_utente" class="sr-only">Password:</label>
+                        </div>
+                        <div>
+                            <input type="text" v-model="password_utente" id="password_utente" name="password-utente" placeholder="Password" required autofocus>
+                        </div>
+                        <div class="signIn_text">
+                            <p>{{ message }}</p>
+                        </div>
+                        <div>
+                            <button v-on:click="autentica" name="SignInBtn" value="SignIn">Accedi</button>
+                        </div>
+                        <div>
+                            <a v-on:click="autenticaOspite" class="signIn_link" >Accedi come ospite</a>
+                        </div>
 
-        <input type="text" v-model="username_utente" id="username_utente" name="username_utente" class="form-control" placeholder="Username" required autofocus>
-        <input type="text" v-model="password_utente" id="password_utente" name="password-utente" class="form-control" placeholder="Password" required autofocus>
+                        <form action="SignUpServlet" method="get">
+                            <button class="signUpBtn" type="submit" name="action" value="Registrazione Utente">Registrati</button>
+                        </form>
+                    </div>
+                </div>
 
-        <button v-on:click="autentica" class="btn btn-lg btn-primary btn-block">LOGIN</button>
-        <br/>
-        <a v-on:click="autenticaOspite" class="link-primary" >Accedi come ospite</a>
-
-        <p>{{ message }}</p>
-
-
-        <form action="SignUpServlet" method="get"/>
-        <input class="btn btn-lg btn-secondary btn-block" type="submit" name="action" value="Registrazione Utente">
-        </form>
+                <div class="background_img" aria-label="background picture">
+                    <img src="signUp/assets/img_bg.svg" alt="Un professore che spiega a due studentesse, illustrazione vettoriale">
+                </div>
+            </header>
+        </div>
     </div>
+    <!-- Fine Sezione Login -->
 
 </div>
 
