@@ -367,10 +367,14 @@
         el: '#app',
         data: {
             adminOperation:'',
+            userOperation:'',
+            dispositivo:'browser',
+
             varHome:false,
             varPaginaAmministratore:false,
             varPaginaPersonale:false,
             varAmministratoreListaPrenotazioni:false,
+
             username_utente:  '',
             cusername_utente:  '',
             password_utente: '',
@@ -391,15 +395,9 @@
             giorno: '',
             username_docente: '',
             linkAutentica : 'LoginServlet',
-            linkPrenotazioniDisponibili :'Prenotazioni-Disponibili-Servlet',
-            linkPrenotazioni:'ListaPrenotazioniServlet',
             linkLogout: 'LogoutServlet',
-            linkPrenota: 'PrenotaServlet',
-            linkPrenotazioniUtente:'ListaPrenotazioniPersonaleServlet',
-            linkDelPrenotazione:'EliminaPrenotazioneServlet',
-            linkDelPrenotazioneAmm:'EliminaPrenotazioneAmmServlet',
-            linkPrenotaPrenotazione:'PrenotaPrenotazioneServlet',
             linkAdmin:'AdminServlet',
+            linkUser:'UtenteServlet',
 
             nomeDocente:"",
             cognomeDocente:  '',
@@ -423,10 +421,11 @@
             this.getCorsoDocente()
         },
         methods:{
+            /** Metodi autenticazione */
             autentica:function(){
                 var self = this;
 
-                $.post(this.linkAutentica,{username_utente: this.username_utente, password_utente: this.password_utente}, function (data) {
+                $.post(this.linkAutentica,{username_utente: this.username_utente, password_utente: this.password_utente,dispositivo: this.dispositivo}, function (data) {
                     if(data==0){
                         self.message="Benvenuto, hai effettuato l'accesso come UTENTE";
                         self.getListaPrenotazioniUtente();
@@ -450,7 +449,7 @@
             autenticaOspite:function(){
                 var self = this;
 
-                $.post(this.linkAutentica,{username_utente: "guest", password_utente: "guest"}, function (data) {
+                $.post(this.linkAutentica,{username_utente: "guest", password_utente: "guest",dispositivo: this.dispositivo}, function (data) {
                     self.message="Benvenuto, hai effettuato l'accesso come OSPITE";
                     self.ruolo=Number(data);
 
@@ -458,37 +457,10 @@
                 this.varHome=true;
 
             },
-            getPrenotazioniDisponibili:function(){
-                var self = this;
-
-                $.get(this. linkPrenotazioniDisponibili, function (data) {
-                    self.prenotazioni=data;
-
-                });
-
-            },
-            getListaPrenotazioni:function(){
-                var self = this;
-
-                $.get(this. linkPrenotazioni, function (data) {
-                    self.lprenotazioni=data;
-
-                });
-
-            },
-            getListaPrenotazioniUtente:function(){
-                var self = this;
-
-                $.get(this. linkPrenotazioniUtente,{username_utente: this.username_utente}, function (data) {
-                    self.uprenotazioni=data;
-
-                });
-
-            },
             logout:function(){
                 var self = this;
 
-                $.post(this.linkLogout, function (data) {
+                $.post(this.linkLogout,{dispositivo: this.dispositivo}, function (data) {
                     self.message="Logout effettuato con successo";
                     self.ruolo= -1;
                     self.username_utente= "";
@@ -500,10 +472,39 @@
                 this.varAmministratoreListaPrenotazioni=false;
 
             },
+
+            /** Metodi utente */
+            getPrenotazioniDisponibili:function(){
+                var self = this;
+
+                $.get(this.linkUser,{userOperation : "getPrenotazioniDisponibili",dispositivo: this.dispositivo}, function (data) {
+                    self.prenotazioni=data;
+
+                });
+
+            },
+            getListaPrenotazioni:function(){
+                var self = this;
+
+                $.get(this. linkUser,{userOperation : "getListaPrenotazioni",dispositivo: this.dispositivo}, function (data) {
+                    self.lprenotazioni=data;
+
+                });
+
+            },
+            getListaPrenotazioniUtente:function(){
+                var self = this;
+
+                $.get(this. linkUser,{username_utente: this.username_utente,userOperation : "getListaPrenotazioniUtente",dispositivo: this.dispositivo}, function (data) {
+                    self.uprenotazioni=data;
+
+                });
+
+            },
             prenota:function (){
                 var self = this;
 
-                $.post(this.linkPrenota,{nome_corso: this.nome_corso,username_utente: this.username_utente,username_docente: this.username_docente,giorno: this.giorno,ora: this.ora,id_prenotazione: this.id_prenotazione}, function (data) {
+                $.post(this.linkUser,{nome_corso: this.nome_corso,username_utente: this.username_utente,username_docente: this.username_docente,giorno: this.giorno,ora: this.ora,id_prenotazione: this.id_prenotazione,userOperation : "prenota",dispositivo: this.dispositivo}, function (data) {
                     self.message1=data;
                 });
                 this.getListaPrenotazioniUtente();
@@ -514,19 +515,8 @@
             delPrenotazione:function (){
                 var self = this;
 
-                $.post(this.linkDelPrenotazione,{nome_corso: this.nome_corso,username_utente: this.username_utente,username_docente: this.username_docente,giorno: this.giorno,ora: this.ora,id_prenotazione: this.id_prenotazione}, function (data) {
+                $.post(this.linkUser,{nome_corso: this.nome_corso,username_utente: this.username_utente,username_docente: this.username_docente,giorno: this.giorno,ora: this.ora,id_prenotazione: this.id_prenotazione,userOperation : "delPrenotazione",dispositivo: this.dispositivo}, function (data) {
                     self.message2=data;
-                });
-                this.getListaPrenotazioniUtente();
-                this.getPrenotazioniDisponibili();
-                this.getListaPrenotazioni();
-
-            },
-            delPrenotazioneAmm:function (){
-                var self = this;
-
-                $.post(this.linkDelPrenotazioneAmm,{nome_corso: this.nome_corso,cusername_utente: this.cusername_utente,username_docente: this.username_docente,giorno: this.giorno,ora: this.ora,id_prenotazione: this.id_prenotazione}, function (data) {
-                    self.message3=data;
                 });
                 this.getListaPrenotazioniUtente();
                 this.getPrenotazioniDisponibili();
@@ -536,7 +526,7 @@
             prenotaPrenotazione:function (){
                 var self = this;
 
-                $.post(this.linkPrenotaPrenotazione,{nome_corso: this.nome_corso,username_utente: this.username_utente,username_docente: this.username_docente,giorno: this.giorno,ora: this.ora,id_prenotazione: this.id_prenotazione}, function (data) {
+                $.post(this.linkUser,{nome_corso: this.nome_corso,username_utente: this.username_utente,username_docente: this.username_docente,giorno: this.giorno,ora: this.ora,id_prenotazione: this.id_prenotazione,userOperation : "prenotaPrenotazione",dispositivo: this.dispositivo}, function (data) {
                     self.message2=data;
                 });
                 this.getListaPrenotazioniUtente();
@@ -544,11 +534,18 @@
                 this.getListaPrenotazioni();
 
             },
+
+            /** Metodi visualizzazione pagine */
             setHome:function(){
                 this.varHome=true;
                 this.varPaginaAmministratore=false;
                 this.varPaginaPersonale=false;
                 this.varAmministratoreListaPrenotazioni=false;
+            },
+            setPaginaPersonale:function(){
+                this.varHome=false;
+                this.varPaginaAmministratore=false;
+                this.varPaginaPersonale=true;
             },
             setPaginaAmministratore:function(){
                 this.varHome=false;
@@ -562,15 +559,23 @@
                 this.varPaginaPersonale=false;
                 this.varAmministratoreListaPrenotazioni=true;
             },
-            setPaginaPersonale:function(){
-                this.varHome=false;
-                this.varPaginaAmministratore=false;
-                this.varPaginaPersonale=true;
+
+            /** Metodi amministratore */
+            delPrenotazioneAmm:function (){
+                var self = this;
+
+                $.post(this.linkAdmin,{nome_corso: this.nome_corso,cusername_utente: this.cusername_utente,username_docente: this.username_docente,giorno: this.giorno,ora: this.ora,id_prenotazione: this.id_prenotazione,adminOperation : "delPrenotazioneAmm",dispositivo: this.dispositivo}, function (data) {
+                    self.message3=data;
+                });
+                this.getListaPrenotazioniUtente();
+                this.getPrenotazioniDisponibili();
+                this.getListaPrenotazioni();
+
             },
             addDocente:function(){
                 var self = this;
 
-                $.post(this.linkAdmin, {nomeDocente: this.nomeDocente, cognomeDocente: this.cognomeDocente, usernameDocente: this.usernameDocente,adminOperation : "addDocente"}, function (data) {
+                $.post(this.linkAdmin, {nomeDocente: this.nomeDocente, cognomeDocente: this.cognomeDocente, usernameDocente: this.usernameDocente,adminOperation : "addDocente",dispositivo: this.dispositivo}, function (data) {
                     self.docOutput = data;
                     self.getDocente();
                 });
@@ -579,7 +584,7 @@
             delDocente:function(){
                 var self = this;
 
-                $.post(this.linkAdmin, {usernameDocente: this.usernameDocente,adminOperation : "delDocente"}, function (data) {
+                $.post(this.linkAdmin, {usernameDocente: this.usernameDocente,adminOperation : "delDocente",dispositivo: this.dispositivo}, function (data) {
                     self.docOutput = data;
                     self.getDocente();
                 });
@@ -588,14 +593,14 @@
             getDocente: function(){
                 var self = this;
 
-                $.get(this.linkAdmin,{adminOperation : "getDocente"}, function(data) {
+                $.get(this.linkAdmin,{adminOperation : "getDocente",dispositivo: this.dispositivo}, function(data) {
                     self.docente = data;
                 });
             },
             addCorso:function(){
                 var self = this;
 
-                $.post(this.linkAdmin, {nomeCorso: this.nomeCorso,adminOperation : "addCorso"}, function (data) {
+                $.post(this.linkAdmin, {nomeCorso: this.nomeCorso,adminOperation : "addCorso",dispositivo: this.dispositivo}, function (data) {
                     self.corOutput = data;
                     self.getCorso();
                 });
@@ -604,7 +609,7 @@
             delCorso:function(){
                 var self = this;
 
-                $.post(this.linkAdmin, {nomeCorso: this.nomeCorso,adminOperation : "delCorso"}, function (data) {
+                $.post(this.linkAdmin, {nomeCorso: this.nomeCorso,adminOperation : "delCorso",dispositivo: this.dispositivo}, function (data) {
                     self.corOutput = data;
                     self.getCorso();
                 });
@@ -613,14 +618,14 @@
             getCorso: function(){
                 var self = this;
 
-                $.get(this.linkAdmin,{adminOperation : "getCorso"},function(data) {
+                $.get(this.linkAdmin,{adminOperation : "getCorso",dispositivo: this.dispositivo},function(data) {
                     self.corso = data;
                 });
             },
             addCorsoDocente:function(){
                 var self = this;
 
-                $.post(this.linkAdmin, {usernameDocente1: this.usernameDocente1, nomeCorso1: this.nomeCorso1,adminOperation : "addCorsoDocente"}, function (data) {
+                $.post(this.linkAdmin, {usernameDocente1: this.usernameDocente1, nomeCorso1: this.nomeCorso1,adminOperation : "addCorsoDocente",dispositivo: this.dispositivo}, function (data) {
                     self.corDocOutput = data;
                     self.getCorsoDocente();
                     self.getPrenotazioniDisponibili();
@@ -630,7 +635,7 @@
             delCorsoDocente:function(){
                 var self = this;
 
-                $.post(this.linkAdmin, {usernameDocente1: this.usernameDocente1, nomeCorso1: this.nomeCorso1,adminOperation : "delCorsoDocente"}, function (data) {
+                $.post(this.linkAdmin, {usernameDocente1: this.usernameDocente1, nomeCorso1: this.nomeCorso1,adminOperation : "delCorsoDocente",dispositivo: this.dispositivo}, function (data) {
                     self.corDocOutput = data;
                     self.getCorsoDocente();
                     self.getPrenotazioniDisponibili();
@@ -640,7 +645,7 @@
             getCorsoDocente: function(){
                 var self = this;
 
-                $.get(this.linkAdmin,{adminOperation : "getCorsoDocente"},function(data) {
+                $.get(this.linkAdmin,{adminOperation : "getCorsoDocente",dispositivo: this.dispositivo},function(data) {
                     self.corsoDocente = data;
 
                 });
