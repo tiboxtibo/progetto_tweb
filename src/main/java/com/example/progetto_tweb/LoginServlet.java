@@ -21,7 +21,6 @@ public class LoginServlet extends HttpServlet {
 
     public void init(ServletConfig config) throws ServletException {
 
-
         super.init(config);
 
         ServletContext ctx = config.getServletContext();
@@ -32,7 +31,7 @@ public class LoginServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         String dispositivo = request.getParameter("dispositivo");
-        System.out.println(dispositivo);
+        //System.out.println("dispositivo");
 
         if(Objects.equals(dispositivo, "browser")){
             String message="";
@@ -148,7 +147,6 @@ public class LoginServlet extends HttpServlet {
                 out.close();
             }
         }
-
 
     }
 

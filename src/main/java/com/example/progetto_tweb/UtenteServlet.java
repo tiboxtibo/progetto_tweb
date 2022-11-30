@@ -250,7 +250,7 @@ public class UtenteServlet extends HttpServlet {
 
         if(Objects.equals(dispositivo, "flutter")){
             String userOperation = request.getParameter("userOperation");
-            System.out.println(userOperation);
+            //System.out.println(userOperation);
 
             if(Objects.equals(userOperation, "prenota")){
                 String message="";
