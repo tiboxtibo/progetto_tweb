@@ -279,7 +279,7 @@
     </div>
     <!-- Fine Sezione Admin-->
 
-    <div v-if="varPaginaPersonale">
+    <div v-if="varPaginaPersonale" class="prova">
         <h2>Pagina personale</h2>
         <p>{{message2}}</p>
 
@@ -345,6 +345,7 @@
                         </div>
 
                         <form action="SignUpServlet" method="get">
+
                             <button class="signUpBtn" type="submit" name="action" value="Registrazione Utente">Registrati</button>
                         </form>
                     </div>
