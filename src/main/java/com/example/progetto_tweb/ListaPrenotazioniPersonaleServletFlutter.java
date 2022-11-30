@@ -43,7 +43,7 @@ public class ListaPrenotazioniPersonaleServletFlutter extends HttpServlet {
 
         String ss = gson.toJson(prenotazioni);
         out.println(ss);
-        System.out.println("STRINGA JSON " + s);
+        //System.out.println("STRINGA JSON " + s);
 
     }
 

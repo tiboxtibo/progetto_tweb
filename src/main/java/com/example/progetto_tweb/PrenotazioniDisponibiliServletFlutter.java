@@ -27,8 +27,8 @@ public class PrenotazioniDisponibiliServletFlutter extends HttpServlet {
         dao = (DAO) ctx.getAttribute("dao");
     }
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         ArrayList<prenotazione> prenotazioni = dao.view_prenotazioni_prenotabili();
         response.setContentType("application/json");
 
@@ -42,6 +42,7 @@ public class PrenotazioniDisponibiliServletFlutter extends HttpServlet {
         //System.out.println("STRINGA JSON " + s);
 
     }
+
 
     public void destroy() {
     }
