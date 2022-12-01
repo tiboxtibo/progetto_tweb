@@ -22,10 +22,8 @@
     <div class="wrapper">
         <nav>
             <div class="logo" role="banner" aria-label="Logo Cliccabile per accedere alla pagina Login">
-                <a href="index.html" role="img" aria-label="Logo Cliccabile per accedere alla pagina Login">
-                    <p role="link" tabindex="0">
-                        <img src="signUp/assets/Logo.svg" alt="Logo of the Unito University " role="img">
-                    </p>
+                <a href="index.html" role="button" aria-label="Logo Cliccabile per accedere alla pagina Login">
+                    <img src="signUp/assets/Logo.svg" alt="Logo of the Unito University">
                 </a>
             </div>
         </nav>
@@ -37,11 +35,11 @@
 <div class="header_container" role="main" aria-label="main banner">
     <div class="wrapper">
         <header>
-            <div class="background_img" aria-label="background picture">
+            <div class="background_img">
                 <img src="signUp/assets/img_bg.svg" alt="Un professore che spiega a due studentesse, illustrazione vettoriale">
             </div>
 
-            <form action="SignUpServlet" method="post" class="login_form" role="form" aria-label="Sign Up form">
+            <form action="SignUpServlet" method="post" class="login_form" aria-label="Sign Up form">
                 <h1 class="title">Benvenuto</h1>
                 <div class="login_field_form">
                     <div>
@@ -54,23 +52,17 @@
                         <label for="password" class="sr-only">Password:</label>
                     </div>
                     <div>
-                        <input type="text" id="password" name="password" placeholder="Password" required autofocus>
+                        <input type="password" id="password" name="password" placeholder="Password">
                     </div>
                     <div>
-                        <a href="https://www.unito.it/">
-                            <button type="submit" name="SignUpBtn">Registrati</button>
-                        </a>
+                        <button type="submit" name="SignUpBtn">Registrati</button>
                     </div>
                     <div class="text_field">
                         <div class="text_element" role="article">
                             <a class="signIn_text" role="article">Sei gia un nostro utente?</a>
                         </div>
                         <div class="text_element" tabindex="-1">
-                            <a href="index.html" class="signIn_link">
-                                <p role="link" tabindex="0">
-                                    Accedi!
-                                </p>
-                            </a>
+                            <a href="index.html" class="signIn_link">Accedi!</a>
                         </div>
                     </div>
                 </div>

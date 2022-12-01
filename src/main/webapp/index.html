@@ -26,6 +26,7 @@
 
 <body>
 
+<!-- App vue -->
 <div id="app">
 
     <!-- Sezione Nav -->
@@ -77,49 +78,70 @@
     <!-- Sezione HomePage -->
     <div v-if="varHome" class="prova" >
 
-        <div class="wrapper">
+        <!--Visualizza Prenotazioni prenotabili e prenota per utente -->
+        <div v-if="ruolo==0" >
 
-            <!--Visualizza Prenotazioni prenotabili e prenota per utente -->
-            <div v-if="ruolo==0" >
+            <div class="filter_container">
+                <div class="filter_wrapper">
 
-                <h2>Elenco prenotazioni </h2>
-                <p>{{message1}}</p>
-                <button type="button" v-on:click="getPrenotazioniDisponibili();">
-                    Tutte le materie
-                </button>
+                    <nav>
+                        <h5>Elenco prenotazioni </h5>
+                        <p class="output1">{{message1}}</p>
 
-                <div class="dropdown">
-                    <button onclick="myFunction()" class="dropbtn">Dropdown</button>
-                    <div id="myDropdown" class="dropdown-content"  >
-                        <div  v-for="corso in corso">
-                            <a v-on:click="nome_corso=corso.nome_corso;getPrenotazioniDisponibiliCorso();">{{corso.nome_corso}}</a>
-                        </div>
+                        <ul>
+                            <li>
+                                <button class="filter_button" type="button" v-on:click="getPrenotazioniDisponibili();">
+                                    Tutte le materie
+                                </button>
+                            </li>
+                            <li>
+                                <div class="dropdown">
+                                    <button onclick="myFunction()" class="dropbtn">Seleziona Materia</button>
+                                    <div id="myDropdown" class="dropdown-content"  >
+                                        <div  v-for="corso in corso">
+                                            <a v-on:click="nome_corso=corso.nome_corso;getPrenotazioniDisponibiliCorso();">{{corso.nome_corso}}</a>
+                                        </div>
 
-                    </div>
+                                    </div>
+
+                                </div>
+                                <script language="JavaScript">
+                                    /* When the user clicks on the button,
+                                toggle between hiding and showing the dropdown content */
+                                    function myFunction() {
+                                        document.getElementById("myDropdown").classList.toggle("show");
+                                    }
+
+                                    // Close the dropdown menu if the user clicks outside of it
+                                    window.onclick = function(event) {
+                                        if (!event.target.matches('.dropbtn')) {
+                                            var dropdowns = document.getElementsByClassName("dropdown-content");
+                                            var i;
+                                            for (i = 0; i < dropdowns.length; i++) {
+                                                var openDropdown = dropdowns[i];
+                                                if (openDropdown.classList.contains('show')) {
+                                                    openDropdown.classList.remove('show');
+                                                }
+                                            }
+                                        }
+                                    }
+                                </script>
+                            </li>
+                        </ul>
+                    </nav>
+
+
+
+
+
+
+
 
                 </div>
-                <script language="JavaScript">
-                    /* When the user clicks on the button,
-                toggle between hiding and showing the dropdown content */
-                    function myFunction() {
-                        document.getElementById("myDropdown").classList.toggle("show");
-                    }
+            </div>
 
-                    // Close the dropdown menu if the user clicks outside of it
-                    window.onclick = function(event) {
-                        if (!event.target.matches('.dropbtn')) {
-                            var dropdowns = document.getElementsByClassName("dropdown-content");
-                            var i;
-                            for (i = 0; i < dropdowns.length; i++) {
-                                var openDropdown = dropdowns[i];
-                                if (openDropdown.classList.contains('show')) {
-                                    openDropdown.classList.remove('show');
-                                }
-                            }
-                        }
-                    }
-                </script>
 
+            <div class="wrapper">
                 <div v-for="prenotazione in prenotazioni">
 
                     <button class="prenotationBtn" type="button" v-on:click="nome_corso=prenotazione.nome_corso; username_docente=prenotazione.username_docente; ora=prenotazione.ora; giorno=prenotazione.giorno; id_prenotazione=prenotazione.id_prenotazione;prenota();">
@@ -130,17 +152,23 @@
 
 
                 </div>
-
-
-
             </div>
 
-            <!--Visualizza Prenotazioni prenotabili e prenota per amministratore -->
-            <div v-if="ruolo==1" >
 
-                <h2>Elenco prenotazioni </h2>
-                <p>{{message1}}</p>
 
+        </div>
+
+        <!--Visualizza Prenotazioni prenotabili e prenota per amministratore -->
+        <div v-if="ruolo==1" >
+
+            <div class="filter_container">
+                <div class="fiter_wrapper">
+                    <h2>Elenco prenotazioni </h2>
+                    <p class="output1">{{message1}}</p>
+                </div>
+            </div>
+
+            <div class="wrapper">
                 <div v-for="prenotazione in prenotazioni">
 
                     <button type="button" class="prenotationBtn" v-on:click="nome_corso=prenotazione.nome_corso; username_docente=prenotazione.username_docente; ora=prenotazione.ora; giorno=prenotazione.giorno; id_prenotazione=prenotazione.id_prenotazione;prenota();" disabled>
@@ -150,17 +178,23 @@
                     </button>
 
                 </div>
-
-
-
             </div>
 
-            <!--Visualizza Prenotazioni prenotabili e prenota per guest -->
-            <div v-if="ruolo==2" >
 
-                <h2>Elenco prenotazioni </h2>
-                <p>{{message1}}</p>
 
+        </div>
+
+        <!--Visualizza Prenotazioni prenotabili e prenota per guest -->
+        <div v-if="ruolo==2" >
+
+            <div class="filter_container">
+                <div class="filter_wrapper">
+                    <h2>Elenco prenotazioni </h2>
+
+                </div>
+            </div>
+
+            <div class="wrapper">
                 <div v-for="prenotazione in prenotazioni">
 
                     <button type="button" class="prenotationBtn" disabled>
@@ -172,13 +206,12 @@
 
                 </div>
             </div>
-
         </div>
 
     </div>
     <!-- Fine Sezione HomePage -->
 
-    <!-- Sezione resoconto -->
+    <!-- Sezione lista prenotazioni per amministratore -->
     <div v-if="varAmministratoreListaPrenotazioni" class="prova">
         <!--Visualizza Prenotazioni prenotate di tutti gli utenti per amministratore -->
         <div v-if="ruolo==1 " class="wrapper">
@@ -378,22 +411,23 @@
                             <label for="password_utente" class="sr-only">Password:</label>
                         </div>
                         <div>
-                            <input type="text" v-model="password_utente" id="password_utente" name="password-utente" placeholder="Password" required autofocus>
+                            <input type="password" v-model="password_utente" id="password_utente" name="password-utente" placeholder="Password" required autofocus>
                         </div>
-                        <div class="signIn_text">
+                        <div class="output1">
                             <p>{{ message }}</p>
                         </div>
-                        <div>
-                            <button v-on:click="autentica" name="SignInBtn" value="SignIn">Accedi</button>
-                        </div>
+                        <div class="singin_button_container">
+                            <div>
+                                <button v-on:click="autentica" name="SignUpBtn" value="SignIn">Accedi</button>
+                            </div>
 
-                        <form action="SignUpServlet" method="get">
+                            <form action="SignUpServlet" method="get">
+                                <button class="signUpBtn" type="submit" name="action" value="Registrazione Utente">Registrati</button>
+                            </form>
 
-                            <button class="signUpBtn" type="submit" name="action" value="Registrazione Utente">Registrati</button>
-                        </form>
-
-                        <div>
-                            <a v-on:click="autenticaOspite" class="signIn_link" >Accedi come ospite</a>
+                            <div>
+                                <a v-on:click="autenticaOspite" class="signIn_link" >Accedi come ospite</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -407,7 +441,6 @@
     <!-- Fine Sezione Login -->
 
 </div>
-
 
 <script>
 
@@ -463,6 +496,7 @@
 
         },
         mounted(){
+            /** Metodi richiamati all'avvio della pagina*/
             this.getPrenotazioniDisponibili()
             this.getListaPrenotazioni()
             this.getCorso()
@@ -524,7 +558,6 @@
             },
 
             /** Metodi utente */
-
             getPrenotazioniDisponibili:function(){
                 var self = this;
 
@@ -715,18 +748,6 @@
 
 
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
 
 </body>
 </html>

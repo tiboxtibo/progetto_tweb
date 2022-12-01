@@ -31,6 +31,7 @@ public class UtenteServlet extends HttpServlet {
         String dispositivo = request.getParameter("dispositivo");
         //System.out.println(dispositivo);
 
+        /** Verifico il dispositivo*/
         if(Objects.equals(dispositivo, "browser")){
             String userOperation = request.getParameter("userOperation");
             //System.out.println(userOperation);
@@ -133,6 +134,7 @@ public class UtenteServlet extends HttpServlet {
         String dispositivo = request.getParameter("dispositivo");
         //System.out.println(dispositivo);
 
+        /** Verifico il dispositivo*/
         if(Objects.equals(dispositivo, "browser")){
             String userOperation = request.getParameter("userOperation");
             //System.out.println(userOperation);
@@ -153,6 +155,7 @@ public class UtenteServlet extends HttpServlet {
                     out.close();
                 }
             }else{
+                /** Verifico l'azione da compiere*/
                 if(Objects.equals(userOperation, "prenota")){
                     String message="";
 
@@ -298,10 +301,12 @@ public class UtenteServlet extends HttpServlet {
 
         }
 
+        /** Verifico il dispositivo -> parte di flutter*/
         if(Objects.equals(dispositivo, "flutter")){
             String userOperation = request.getParameter("userOperation");
             //System.out.println(userOperation);
 
+            /** Verifico l'azione da compiere*/
             if(Objects.equals(userOperation, "prenota")){
                 String message="";
 

@@ -79,7 +79,35 @@ nav li a:hover:before {
     width: 70%;
 }
 
+.filter_container {
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    height: 100px;
+    margin-bottom: 4px;
+    background-color: var(--white-bg);
 
+    display: inline;
+
+    position: fixed;
+    top: 111px;
+    width: 100%;
+}
+
+.filter_wrapper {
+
+    width: 1000px;
+    margin: 0 auto;
+}
+
+.filter_button {
+    font-size: 20px;
+    color: #FFFFFF;
+    text-decoration: none;
+
+    background: var(--red);
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 40px;
+    padding: 12px 40px;
+}
 
 .wrapper {
     width: 1000px;
@@ -141,7 +169,7 @@ header button {
     margin: 5px 38px 0 38px;
 }
 
-.signUpBtn{
+.signInBtn{
     font-size: 20px;
     color: #FFFFFF;
     text-decoration: none;
@@ -150,7 +178,19 @@ header button {
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 40px;
     padding: 12px 85px;
-    margin: 25px 38px 50px 38px;
+    margin: 10px 38px 10px 38px;
+}
+
+.signUpBtn{
+    font-size: 20px;
+    color: var(--red);
+    text-decoration: none;
+
+    background: #FFCDD2FF;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 40px;
+    padding: 12px 85px;
+    margin: 10px 38px 10px 38px;
 }
 
 header input {
@@ -178,6 +218,11 @@ header label {
     line-height: 22px;
     color: #4F4F4F;
     margin: 38px;
+}
+
+.singin_button_container {
+    margin-top: 20px;
+    margin-bottom: 40px;
 }
 
 .signIn_text {
@@ -218,7 +263,7 @@ header label {
 }
 
 .prova {
-    margin-top: 130px;
+    margin-top: 240px;
 }
 
 .prenotationBtn {
@@ -485,17 +530,18 @@ header label {
 
 /* Dropdown Button */
 .dropbtn {
-    background-color: #3498DB;
+    background-color: var(--red);
     color: white;
     padding: 16px;
     font-size: 16px;
     border: none;
+    border-radius: 40px;
     cursor: pointer;
 }
 
 /* Dropdown button on hover & focus */
 .dropbtn:hover, .dropbtn:focus {
-    background-color: #2980B9;
+    background-color: var(--red);
 }
 
 /* The container <div> - needed to position the dropdown content */
@@ -506,8 +552,10 @@ header label {
 
 /* Dropdown Content (Hidden by Default) */
 .dropdown-content {
+    position: fixed;
+    top: 180px;
+
     display: none;
-    position: absolute;
     background-color: #f1f1f1;
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);

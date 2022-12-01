@@ -54,12 +54,15 @@ public class SignUpServlet extends HttpServlet {
         String password_utente = request.getParameter("password");
 
         if (username_utente != null && password_utente != null) {
+            //se i dati sono corretti allora riporta alla pagina di login
+            if(dao.add_utente(username_utente, password_utente)){
+                out.println("<html><head>");
+                out.println("<meta http-equiv = \"refresh\" content = \"0 ; url = index.html\"/>");
+                out.println("</head></html>");
+            }
 
-            dao.add_utente(username_utente, password_utente);
 
-            out.println("<html><head>");
-            out.println("<meta http-equiv = \"refresh\" content = \"0 ; url = index.html\"/>");
-            out.println("</head></html>");
+
 
         }
     }

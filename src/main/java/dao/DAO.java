@@ -27,7 +27,7 @@ public class DAO {
         }
     }
 
-    public void add_utente(String username_utente, String password_utente) {
+    public boolean add_utente(String username_utente, String password_utente) {
         Connection conn1 = null;
         ArrayList<docente> out = new ArrayList<>();
         try {
@@ -35,7 +35,7 @@ public class DAO {
             String ruolo = "0";
             Statement st = conn1.createStatement();
             st.executeUpdate("INSERT INTO `utente`(`username_utente`,`password`,`ruolo`) VALUES ('" + username_utente + "','" + password_utente + "','" + ruolo + "')");
-
+            return true;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         } finally {
@@ -48,6 +48,7 @@ public class DAO {
             }
         }
 
+        return false;
     }
 
     public boolean add_corso(String nome_corso) {

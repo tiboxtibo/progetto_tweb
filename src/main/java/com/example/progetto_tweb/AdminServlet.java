@@ -31,10 +31,12 @@ public class AdminServlet extends HttpServlet {
         String dispositivo = request.getParameter("dispositivo");
         //System.out.println(dispositivo);
 
+        /** Verifico il dispositivo*/
         if(Objects.equals(dispositivo, "browser")){
             String adminOperation = request.getParameter("adminOperation");
             //System.out.println(adminOperation);
 
+            /** Verifico l'azione da compiere*/
             if(Objects.equals(adminOperation, "getCorso")){
                 response.setContentType("application/json");
                 PrintWriter out = response.getWriter();
@@ -77,6 +79,7 @@ public class AdminServlet extends HttpServlet {
         String dispositivo = request.getParameter("dispositivo");
         //System.out.println(dispositivo);
 
+        /** Verifico il dispositivo*/
         if(Objects.equals(dispositivo, "browser")){
             String adminOperation = request.getParameter("adminOperation");
             //System.out.println(adminOperation);
