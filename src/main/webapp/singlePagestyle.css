@@ -29,8 +29,6 @@ nav h5 {
     color: var(--red);
 
     margin-top: 10px;
-
-
 }
 
 nav ul {
@@ -52,15 +50,6 @@ nav li a {
     padding: 14px 16px;
     margin-left: 5px;
     text-decoration: none;
-}
-
-nav li a {
-    letter-spacing: 0;
-}
-
-nav li a:hover,
-nav li a:active {
-    letter-spacing: 3px;
 }
 
 nav li a:after,
@@ -244,7 +233,7 @@ header label {
 }
 
 .prenotationBtn:hover {
-    background-color: #E06575;
+    background-color: var(--red);
 }
 
 .textBtn {
@@ -256,6 +245,233 @@ header label {
 .textBtn:hover{
     color: var(--grey);
     text-decoration: none;
+}
+
+
+.prenotationBtnWprapper {
+    display: inline;
+
+}
+
+.prenotationBtn1 {
+    width: 90%;
+    height: 80px;
+
+    background: #ABE9B1;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+
+    margin-bottom: 10px;
+}
+
+.prenotationBtn1:hover {
+    background-color: #F16F6F;
+}
+
+.textBtn1 {
+    font-family: "Open Sans", sans-serif;
+    font-size: 24px;
+    text-decoration: none;
+    color: var(--white);
+}
+.textBtn1:hover{
+    color: var(--white);
+    text-decoration: none;
+}
+
+.prenotationBtnConferma {
+    width: 8%;
+    height: 80px;
+
+    background: #7ECD86;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+
+    margin-bottom: 10px;
+}
+
+.prenotationBtnConferma:hover {
+    background-color: #49c953;
+}
+
+.material-symbols-outlined {
+    color: white;
+    font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 48
+}
+
+
+.prenotationBtn-1 {
+    width: 100%;
+    height: 80px;
+
+    background: #F16F6F;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+
+    margin-bottom: 10px;
+}
+
+.textBtn-1 {
+    font-family: "Open Sans", sans-serif;
+    font-size: 24px;
+    text-decoration: none;
+    color: var(--white);
+}
+.textBtn-1:hover{
+    color: var(--white);
+    text-decoration: none;
+}
+
+.prenotationBtn0 {
+    width: 100%;
+    height: 80px;
+
+    background: #AFAFAF;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+
+    margin-bottom: 10px;
+}
+
+.textBtn0 {
+    font-family: "Open Sans", sans-serif;
+    font-size: 24px;
+    text-decoration: none;
+    color: var(--white);
+}
+.textBtn0:hover{
+    color: var(--white);
+    text-decoration: none;
+}
+
+.prenotationBtn1Admin {
+    width: 100%;
+    height: 80px;
+
+    background: #ABE9B1;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+
+    margin-bottom: 10px;
+}
+
+.prenotationBtn1Admin:hover {
+    background-color: #F16F6F;
+}
+
+.admin_wrapper {
+    width: 1100px;
+    margin: 0 auto;
+}
+
+.scheduleDisp{
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.scheduleDisp h4 {
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 49px;
+    color: var(--red);
+    margin: 30px 0 20px 0;
+
+    text-align: center;
+}
+
+.admin_form {
+    background: var(--white);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+    position: center;
+    align-content: center;
+    margin: 0 20px 0 20px;
+}
+
+.inputForm {
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    color: var(--grey);
+
+    opacity: 0.8;
+    background: var(--white-bg);
+    border: 1px solid var(--grey);
+    border-radius: 40px;
+    padding: 12px 40px;
+    margin: 2px 40px 16px;
+
+    position: center;
+
+}
+
+.btnAlign {
+    display: inline;
+    margin: 20px 45px 40px 45px;
+}
+
+.btnleft {
+    font-size: 20px;
+    color: #FFFFFF;
+    text-decoration: none;
+
+    background: var(--red);
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    padding: 12px 15px;
+
+    border-color: var(--red);
+    border-radius: 40px 0 0 40px;
+
+    margin-bottom: 30px;
+}
+
+.btnright {
+    font-size: 20px;
+    color: #FFFFFF;
+    text-decoration: none;
+
+    background: var(--red);
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    padding: 12px 15px;
+
+    border-color: var(--red);
+    border-radius: 0 40px 40px 0;
+
+    margin-bottom: 30px;
+}
+
+.output1 {
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 19px;
+    color: var(--red);
+    align-items: center;
+
+    text-align: center;
+}
+
+.output {
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 19px;
+    color: var(--grey);
+    align-items: center;
+    margin-bottom: 5px;
+
+    text-align: center;
 }
 
 
@@ -271,8 +487,8 @@ header label {
 .dropbtn {
     background-color: #3498DB;
     color: white;
-      padding: 16px;
-      font-size: 16px;
+    padding: 16px;
+    font-size: 16px;
     border: none;
     cursor: pointer;
 }
@@ -311,10 +527,6 @@ header label {
 
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show {display:block;}
-
-
-
-
 
 
 
@@ -363,9 +575,5 @@ header label {
         border-radius: 50px 50px 0 0;
         filter: drop-shadow(0px -15px 17px rgba(0, 0, 0, 0.25));
     }
-
-
-
-
 
 }
