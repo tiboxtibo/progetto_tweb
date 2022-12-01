@@ -616,6 +616,145 @@ public class DAO {
         return out;
     }
 
+    public ArrayList<prenotazione> view_prenotazioni_prenotabili_corso(String nome_corso) {
+        Connection conn1 = null;
+        ArrayList<prenotazione> out = new ArrayList<>();
+
+        try {
+            conn1 = DriverManager.getConnection(url1, user, password);
+
+            Statement st = conn1.createStatement();
+
+            ResultSet cor = st.executeQuery("SELECT * FROM corso_docente WHERE nome_corso = ('" + nome_corso + "')");
+
+            while (cor.next()) {
+
+                String nome_corso1 = cor.getString("nome_corso");
+                String username_utente1 = "prova";
+                String username_docente1 = cor.getString("username_docente");
+                String giorno1 = "prova";
+                int ora1 = 0;
+                int stato_prenotazione1 = 0;//ovvero da prenotare
+                int id_prenotazione1 = 0;//default
+
+                conn1 = DriverManager.getConnection(url1, user, password);
+                st = conn1.createStatement();
+                ResultSet pren = st.executeQuery("SELECT * FROM prenotazione WHERE username_docente = ('" + username_docente1 + "') and stato_prenotazione = 1 ");
+
+                ArrayList<String> data3 = new ArrayList<>();
+
+                //metto in un array list i giorni e le ore in cui il docente è occupato
+                while (pren.next()) {
+                    String giorno2 = pren.getString("giorno");
+                    int ora2 = pren.getInt("ora");
+
+                    data d = new data(giorno2,ora2);
+
+                    String data00 = d.toString();
+
+                    data3.add(data00);
+
+                }
+
+                for (int i = 17; i <= 19; i++) {
+                    giorno1 = "lunedi";
+                    ora1 = i;
+
+                    data d = new data(giorno1,ora1);
+                    String data01 = d.toString();
+
+                    if(data3.contains(data01)){
+
+                    }
+                    else {
+                        prenotazione p = new prenotazione(nome_corso1, username_utente1, username_docente1, giorno1, ora1, stato_prenotazione1, id_prenotazione1);
+                        out.add(p);
+                    }
+
+                }
+                for (int i = 17; i <= 19; i++) {
+                    giorno1 = "martedi";
+                    ora1 = i;
+
+                    data d = new data(giorno1,ora1);
+                    String data01 = d.toString();
+
+                    if(data3.contains(data01)){
+
+                    }
+                    else {
+                        prenotazione p = new prenotazione(nome_corso1, username_utente1, username_docente1, giorno1, ora1, stato_prenotazione1, id_prenotazione1);
+                        out.add(p);
+                    }
+
+                }
+                for (int i = 17; i <= 19; i++) {
+                    giorno1 = "mecoledii";
+                    ora1 = i;
+
+                    data d = new data(giorno1,ora1);
+                    String data01 = d.toString();
+
+                    if(data3.contains(data01)){
+
+                    }
+                    else {
+                        prenotazione p = new prenotazione(nome_corso1, username_utente1, username_docente1, giorno1, ora1, stato_prenotazione1, id_prenotazione1);
+                        out.add(p);
+                    }
+
+                }
+                for (int i = 17; i <= 19 ; i++) {
+                    giorno1 = "giovedi";
+                    ora1 = i;
+
+                    data d = new data(giorno1,ora1);
+                    String data01 = d.toString();
+
+                    if(data3.contains(data01)){
+
+                    }
+                    else {
+                        prenotazione p = new prenotazione(nome_corso1, username_utente1, username_docente1, giorno1, ora1, stato_prenotazione1, id_prenotazione1);
+                        out.add(p);
+                    }
+
+                }
+                for (int i = 17; i <= 19 ; i++) {
+                    giorno1 = "venerdi";
+                    ora1 = i;
+
+                    data d = new data(giorno1,ora1);
+                    String data01 = d.toString();
+
+                    if(data3.contains(data01)){
+
+                    }
+                    else {
+                        prenotazione p = new prenotazione(nome_corso1, username_utente1, username_docente1, giorno1, ora1, stato_prenotazione1, id_prenotazione1);
+                        out.add(p);
+                    }
+
+                }
+                data3.clear();
+
+
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            if (conn1 != null) {
+                try {
+                    conn1.close();
+                } catch (SQLException e2) {
+                    System.out.println(e2.getMessage());
+                }
+            }
+        }
+        return out;
+    }
+
     public int login(String username_utente, String password_utente) {
         Connection conn1 = null;
         int r = -1;//non trovato

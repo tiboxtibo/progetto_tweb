@@ -80,6 +80,44 @@
 
                 <h2>Elenco prenotazioni </h2>
                 <p>{{message1}}</p>
+                <button type="button" v-on:click="getPrenotazioniDisponibili();">
+                    Tutte le materie
+                </button>
+
+                <div class="dropdown">
+                    <button onclick="myFunction()" class="dropbtn">Dropdown</button>
+                    <div id="myDropdown" class="dropdown-content"  >
+                        <div  v-for="corso in corso">
+                            <a v-on:click="nome_corso=corso.nome_corso;getPrenotazioniDisponibiliCorso();">{{corso.nome_corso}}</a>
+                        </div>
+
+                    </div>
+
+                </div>
+                <script language="JavaScript">
+                    /* When the user clicks on the button,
+                toggle between hiding and showing the dropdown content */
+                    function myFunction() {
+                        document.getElementById("myDropdown").classList.toggle("show");
+                    }
+
+                    // Close the dropdown menu if the user clicks outside of it
+                    window.onclick = function(event) {
+                        if (!event.target.matches('.dropbtn')) {
+                            var dropdowns = document.getElementsByClassName("dropdown-content");
+                            var i;
+                            for (i = 0; i < dropdowns.length; i++) {
+                                var openDropdown = dropdowns[i];
+                                if (openDropdown.classList.contains('show')) {
+                                    openDropdown.classList.remove('show');
+                                }
+                            }
+                        }
+                    }
+                </script>
+
+                </br>
+
 
                 <div v-for="prenotazione in prenotazioni">
 
@@ -88,7 +126,6 @@
                             Corso: {{prenotazione.nome_corso}}, Docente:{{prenotazione.username_docente}}, Giorno:{{prenotazione.giorno}}, Ora:{{prenotazione.ora}}
                         </a>
                     </button>
-
 
                 </div>
 
@@ -101,6 +138,7 @@
 
                 <h2>Elenco prenotazioni </h2>
                 <p>{{message1}}</p>
+
 
                 <div v-for="prenotazione in prenotazioni">
 
@@ -119,6 +157,7 @@
 
                 <h2>Elenco prenotazioni </h2>
                 <p>{{message1}}</p>
+
 
                 <div v-for="prenotazione in prenotazioni">
 
@@ -140,6 +179,7 @@
 
             <h2>Registro prenotazioni</h2>
             <p>{{message3}}</p>
+
 
             <div class="container">
                 <div v-for="lprenotazione in lprenotazioni">
@@ -347,7 +387,6 @@
                         </div>
 
                         <form action="SignUpServlet" method="get">
-
                             <button class="signUpBtn" type="submit" name="action" value="Registrazione Utente">Registrati</button>
                         </form>
                     </div>
@@ -387,6 +426,7 @@
             message2:'',
             message3:'',
             ruolo:-1,
+            corsi:[],
             prenotazioni: [],
             prenotazione: [],
             lprenotazioni: [],
@@ -422,6 +462,7 @@
             this.getCorso()
             this.getDocente()
             this.getCorsoDocente()
+
         },
         methods:{
             /** Metodi autenticazione */
@@ -477,11 +518,21 @@
             },
 
             /** Metodi utente */
+
             getPrenotazioniDisponibili:function(){
                 var self = this;
 
                 $.get(this.linkUser,{userOperation : "getPrenotazioniDisponibili",dispositivo: this.dispositivo}, function (data) {
                     self.prenotazioni=data;
+
+                });
+
+            },
+            getPrenotazioniDisponibiliCorso:function(){
+                var self = this;
+
+                $.get(this.linkUser,{nome_corso: this.nome_corso,userOperation : "getPrenotazioniDisponibiliCorso",dispositivo: this.dispositivo}, function (data) {
+                    self.prenotazioni = data;
 
                 });
 
@@ -658,15 +709,6 @@
 
 
     </script>
-
-
-
-
-
-
-
-
-
 
 
 

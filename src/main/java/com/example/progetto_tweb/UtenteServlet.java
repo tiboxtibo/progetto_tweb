@@ -52,6 +52,40 @@ public class UtenteServlet extends HttpServlet {
                 out.println(s);
                 //System.out.println("STRINGA JSON " + s);
             }
+            if(Objects.equals(userOperation, "getPrenotazioniDisponibiliCorso")){
+
+                String nome_corso = request.getParameter("nome_corso");
+
+                //System.out.println(nome_corso);
+
+                ArrayList<prenotazione> prenotazioni = dao.view_prenotazioni_prenotabili_corso(nome_corso);
+
+                if(prenotazioni==null){
+                    String message = "Materia non ancora associata a nessun Docente";
+
+                    PrintWriter out = response.getWriter();
+
+                    Gson gson = new Gson();
+
+                    String s = gson.toJson(message);
+                    out.println(s);
+
+                }else{
+                    //System.out.println(prenotazioni);
+                    response.setContentType("application/json");
+
+
+                    PrintWriter out = response.getWriter();
+
+                    Gson gson = new Gson();
+
+                    String s = gson.toJson(prenotazioni);
+                    out.println(s);
+                    //System.out.println("STRINGA JSON " + s);
+                }
+
+
+            }
             if(Objects.equals(userOperation, "getListaPrenotazioni")){
 
                 ArrayList<prenotazione> prenotazioni = dao.view_prenotazioni();
