@@ -42,17 +42,53 @@
             <form action="SignUpServlet" method="post" class="login_form" aria-label="Sign Up form">
                 <h1 class="title">Benvenuto</h1>
                 <div class="login_field_form">
+                    <div class="inline_form">
+                        <div>
+                            <div>
+                                <label for="nome" class="sr-only">Nome:</label>
+                            </div>
+                            <div>
+                                <input class="mezzo" type="text" id="nome" name="nome" placeholder="Nome">
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <label for="cognome" class="sr-only">Cognome:</label>
+                            </div>
+                            <div>
+                                <input class="mezzo" type="text" id="cognome" name="cognome" placeholder="Cognome">
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="email" class="sr-only">Email:</label>
+                    </div>
+                    <div>
+                        <input type="email" id="email" name="email" placeholder="Email">
+                    </div>
                     <div>
                         <label for="username" class="sr-only">Username:</label>
                     </div>
                     <div>
                         <input type="text" id="username" name="username" placeholder="Username" required autofocus>
                     </div>
-                    <div>
-                        <label for="password" class="sr-only">Password:</label>
-                    </div>
-                    <div>
-                        <input type="password" id="password" name="password" placeholder="Password">
+                    <div class="inline_form">
+                        <div>
+                            <div>
+                                <label for="password" class="sr-only">Password:</label>
+                            </div>
+                            <div>
+                                <input class="mezzo" type="password" id="password" name="password" placeholder="Password">
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <label for="Conferma Password" class="sr-only">Conferma Password:</label>
+                            </div>
+                            <div>
+                                <input class="mezzo" type="password" id="Conferma Password" name="Conferma Password" placeholder="Password">
+                            </div>
+                        </div>
                     </div>
                     <div>
                         <button type="submit" name="SignUpBtn">Registrati</button>

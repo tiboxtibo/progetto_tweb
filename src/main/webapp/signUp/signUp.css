@@ -60,7 +60,7 @@ header h1 {
     font-size: 36px;
     line-height: 49px;
     color: var(--red);
-    margin: 30px 90px 20px 90px;
+    margin: 30px 160px 20px 160px;
 }
 
 header button {
@@ -71,7 +71,7 @@ header button {
     background: var(--red);
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 40px;
-    padding: 12px 97px;
+    padding: 12px 180px;
     margin: 25px 38px 0 38px;
 }
 
@@ -87,8 +87,8 @@ header input {
     background: var(--white-bg);
     border: 1px solid var(--grey);
     border-radius: 40px;
-    padding: 12px 60px;
-    margin: 2px 38px 16px;
+    padding: 12px 270px 12px 20px;
+    margin: 2px 38px 10px;
 }
 
 header label {
@@ -141,6 +141,26 @@ header label {
     background: var(--white);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
     border-radius: 50px;
+}
+
+.inline_form {
+    display: flex;
+}
+
+.mezzo {
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    color: var(--grey);
+
+    opacity: 0.8;
+    background: var(--white-bg);
+    border: 1px solid var(--grey);
+    border-radius: 40px;
+    padding: 12px;
+    margin: 2px 38px 10px;
 }
 
 :root {
