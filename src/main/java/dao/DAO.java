@@ -208,9 +208,23 @@ public class DAO {
         try {
             conn1 = DriverManager.getConnection(url1, user, password);
 
-            Statement st = conn1.createStatement();
-            st.executeUpdate("INSERT INTO `corso_docente`(`username_docente`,`nome_corso`) VALUES ('" + username_docente + "','" + nome_corso + "')");
-            return true;
+            Statement st1 = conn1.createStatement();
+            ResultSet rs1 = st1.executeQuery("SELECT * FROM corso WHERE  nome_corso = ('" + nome_corso + "') ");
+
+            Statement st2 = conn1.createStatement();
+            ResultSet rs2 = st2.executeQuery("SELECT * FROM docente WHERE  username_docente = ('" + username_docente + "') ");
+
+            if(rs1.next() && rs2.next()){
+                Statement st = conn1.createStatement();
+                st.executeUpdate("INSERT INTO `corso_docente`(`username_docente`,`nome_corso`) VALUES ('" + username_docente + "','" + nome_corso + "')");
+                return true;
+            }
+            else{
+                return false;
+            }
+
+
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         } finally {
@@ -345,7 +359,7 @@ public class DAO {
             }
             data dd = new data(giorno,ora);
             String data01 = dd.toString();
-            System.out.println(data3);
+            //System.out.println(data3);
 
             //se l'utente è gia occupato in quell'ora
             if(data3.contains(data01)){

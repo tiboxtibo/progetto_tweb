@@ -180,7 +180,7 @@ public class UtenteServlet extends HttpServlet {
                             message="Sessione Scaduta! Effettuare nuovamente il login";
                         }
                         else{
-                            System.out.println(nome_corso + username_docente + username_utente + giorno + ora);
+                            //System.out.println(nome_corso + username_docente + username_utente + giorno + ora);
 
                             if(dao.add_prenotazione(nome_corso,username_utente,username_docente, giorno, ora)){
                                 message="Lezione Correttamente prenotata";

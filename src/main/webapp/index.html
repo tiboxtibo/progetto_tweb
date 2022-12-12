@@ -105,6 +105,7 @@
                                     </div>
 
                                 </div>
+                                <!--Script per far funzionare il pulsante dropdown-->
                                 <script language="JavaScript">
                                     /* When the user clicks on the button,
                                 toggle between hiding and showing the dropdown content */
@@ -130,17 +131,11 @@
                         </ul>
                     </nav>
 
-
-
-
-
-
-
-
                 </div>
             </div>
 
 
+            <!--Per visualizzare l'elenco delle prenotazioni disponibili -->
             <div class="wrapper">
                 <div v-for="prenotazione in prenotazioni">
 
@@ -168,6 +163,7 @@
                 </div>
             </div>
 
+            <!--Visualizzo le prenotazioni per l'amministratore, con pulsanti disabilitati -->
             <div class="wrapper">
                 <div v-for="prenotazione in prenotazioni">
 
@@ -240,6 +236,7 @@
         </div>
     </div>
     <!-- Fine Sezione resoconto -->
+
 
     <!-- Sezione Admin -->
     <div v-if="varPaginaAmministratore" class="prova">
@@ -549,7 +546,11 @@
                     self.ruolo= -1;
                     self.username_utente= "";
 
+
                 });
+                this.message1=" ";
+                this.message2=" ";
+                this.message3=" ";
                 this.varHome=false;
                 this.varPaginaAmministratore=false;
                 this.varPaginaPersonale=false;

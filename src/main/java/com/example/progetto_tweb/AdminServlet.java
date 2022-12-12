@@ -117,7 +117,7 @@ public class AdminServlet extends HttpServlet {
                                 username_docente != null && !username_docente.equals("")) {
 
                             if (dao.add_docente(nome_docente, cognome_docente, username_docente)) {
-                                System.out.println();
+
                                 message = "Valori Inseriti Correttamente";
                             } else
                                 message = "Valori Non Inseriti";
@@ -146,7 +146,7 @@ public class AdminServlet extends HttpServlet {
                         if (username_docente != null && !username_docente.equals("")) {
 
                             if (dao.del_docente(username_docente)) {
-                                System.out.println();
+
                                 message = ("Il docente: " + username_docente + " è stato eliminato");
                             } else
                                 message = ("Il docente: " + username_docente + " non è stato eliminato");
@@ -178,7 +178,7 @@ public class AdminServlet extends HttpServlet {
                                 username_docente != null && !username_docente.equals("")) {
 
                             if (dao.add_corso_docente(username_docente, nome_corso)) {
-                                System.out.println();
+
                                 message = "Valori Inseriti Correttamente";
                             } else
                                 message = "Valori Non Inseriti";
@@ -209,7 +209,7 @@ public class AdminServlet extends HttpServlet {
                                 username_docente != null && !username_docente.equals("")) {
 
                             if (dao.del_corso_docente(username_docente, nome_corso)) {
-                                System.out.println();
+
                                 message = ("Il docente: " + username_docente + " è stato eliminato");
                             } else
                                 message = ("Il docente: " + username_docente + " non è stato eliminato");
@@ -238,7 +238,7 @@ public class AdminServlet extends HttpServlet {
                         if (nome_corso != null && !nome_corso.equals("")) {
 
                             if (dao.add_corso(nome_corso)) {
-                                System.out.println();
+
                                 message = "Valori Inseriti Correttamente";
                             } else
                                 message = "Valori Non Inseriti";
@@ -267,7 +267,7 @@ public class AdminServlet extends HttpServlet {
                         if (nome_corso != null && !nome_corso.equals("")) {
 
                             if (dao.del_corso(nome_corso)) {
-                                System.out.println();
+
                                 message = ("La materia: " + nome_corso + " è stata eliminata");
                             } else
                                 message = ("La materia: " + nome_corso + " non è stata eliminata");
