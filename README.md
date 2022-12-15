@@ -1,4 +1,5 @@
-Progetto IUM-tweb(12 CFU) -- Parte di tweb
+Progetto IUM-tweb(12 CFU) - Parte di tweb
+    Il progetto è costituito anche di un'applicazione Flutter: https://github.com/tiboxtibo/progetto_flutter
 
 # Autori
 Matteo Tiboldo 
